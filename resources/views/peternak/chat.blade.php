@@ -47,7 +47,7 @@
                                         <!-- name -->
                                         <span class="friends-name">{{ $friend->nama_pengguna }}</span>
                                         <!-- last message -->
-                                        <span class="friends-message friend-status"></span>
+                                        <span class="friends-message friend-status">Offline</span>
                                     </div>
                                 </div>
                             @endforeach

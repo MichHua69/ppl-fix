@@ -1,5 +1,7 @@
 // import axios from "axios";
 
+// import e = require("cors");
+
 // import axios from "axios";
 
 document.addEventListener("DOMContentLoaded", function (e) {
@@ -133,6 +135,16 @@ function createRoom(friendId, avatar) {
                 .joining((user) => {
                     // Panggilan kembali saat pengguna baru bergabung dengan saluran
                     console.log(user.nama_pengguna + " telah bergabung");
+                    document
+                        .querySelectorAll(".friends")
+                        .forEach(function (el) {
+                            if (el.getAttribute("data-id") == user.id) {
+                                el.querySelector(
+                                    ".friends-credent > .friend-status"
+                                ).innerHTML =
+                                    "<p class='color:green'>Online</p>";
+                            }
+                        });
                 })
                 .leaving((user) => {
                     // Panggilan kembali saat pengguna meninggalkan saluran
@@ -151,36 +163,46 @@ function createRoom(friendId, avatar) {
 }
 
 function loadMessage(roomId, friendId, avatar) {
+    var chatBody = document.querySelector("#chat-area");
+    chatBody.innerHTML = ""; // Membersihkan isi chatBody
+
     let url = document.getElementById("load-chat-url").value;
     url = url.replace(":roomId", roomId);
 
-    axios.get(url).then(function (res) {
-        let data = res.data.data;
+    axios
+        .get(url)
+        .then(function (res) {
+            let data = res.data.data;
 
-        if (data.length > 0) {
-            data.forEach(function (value) {
-                var chatBody = document.querySelector("#chat-area");
-                if (value.id_pengguna == friendId) {
-                    handelLeftMessage(value.pesan, avatar);
-                } else {
-                    let html =
-                        ' <div id="your-chat" class="your-chat">\n' +
-                        '                <p class="your-chat-balloon">' +
-                        value.pesan +
-                        "</p>\n" +
-                        "            </div>";
-                    var chatBody = document.querySelector("#chat-area");
-                    chatBody.insertAdjacentHTML("beforeend", html);
-                    chatBody.scrollTo({
-                        left: 0,
-                        top: chatBody.scrollHeight,
-                        behavior: "smooth",
-                    });
-                }
-            });
-        } else {
-            document.querySelector(".chat-area").innerHTML =
-                "<p style='text-align:center;'>Tidak Memiliki Pesan</p>";
-        }
-    });
+            if (data.length > 0) {
+                data.forEach(function (value) {
+                    if (value.id_pengguna == friendId) {
+                        // Pesan dari teman
+                        handelLeftMessage(value.pesan, avatar);
+                    } else {
+                        // Pesan dari pengguna
+                        let html =
+                            '<div id="your-chat" class="your-chat">\n' +
+                            '    <p class="your-chat-balloon">' +
+                            value.pesan +
+                            "</p>\n" +
+                            "</div>";
+
+                        chatBody.insertAdjacentHTML("beforeend", html);
+                        chatBody.scrollTo({
+                            left: 0,
+                            top: chatBody.scrollHeight,
+                            behavior: "smooth",
+                        });
+                    }
+                });
+            } else {
+                // Tidak ada pesan
+                chatBody.innerHTML =
+                    "<p style='text-align:center;'>Tidak Memiliki Pesan</p>";
+            }
+        })
+        .catch(function (error) {
+            console.error("Gagal memuat pesan:", error);
+        });
 }
