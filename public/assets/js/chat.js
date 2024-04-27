@@ -1,5 +1,7 @@
 // import axios from "axios";
 
+// import axios from "axios";
+
 document.addEventListener("DOMContentLoaded", function (e) {
     // handel click friend
     document.querySelectorAll(".friends").forEach(function (el) {
@@ -106,6 +108,7 @@ function createRoom(friendId, avatar) {
                 .here((users) => {
                     // Panggilan kembali saat pengguna bergabung dengan saluran
                     console.log("Pengguna yang ada di dalam ruang:");
+                    loadMessage(roomId, friendId, avatar);
                     users.forEach((user) => {
                         console.log(user.nama_pengguna + " telah bergabung");
                     });
@@ -147,4 +150,37 @@ function createRoom(friendId, avatar) {
         });
 }
 
+function loadMessage(roomId, friendId, avatar) {
+    let url = document.getElementById("load-chat-url").value;
+    url = url.replace(":roomId", roomId);
 
+    axios.get(url).then(function (res) {
+        let data = res.data.data;
+
+        if (data.length > 0) {
+            data.forEach(function (value) {
+                var chatBody = document.querySelector("#chat-area");
+                if (value.id_pengguna == friendId) {
+                    handelLeftMessage(value.pesan, avatar);
+                } else {
+                    let html =
+                        ' <div id="your-chat" class="your-chat">\n' +
+                        '                <p class="your-chat-balloon">' +
+                        value.pesan +
+                        "</p>\n" +
+                        "            </div>";
+                    var chatBody = document.querySelector("#chat-area");
+                    chatBody.insertAdjacentHTML("beforeend", html);
+                    chatBody.scrollTo({
+                        left: 0,
+                        top: chatBody.scrollHeight,
+                        behavior: "smooth",
+                    });
+                }
+            });
+        } else {
+            document.querySelector(".chat-area").innerHTML =
+                "<p style='text-align:center;'>Tidak Memiliki Pesan</p>";
+        }
+    });
+}

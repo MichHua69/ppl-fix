@@ -51,7 +51,7 @@ Route::middleware(['role:3'])->group(function () {
     Route::get('/peternak/profil', [PeternakController::class, 'profil'])->name('peternak.profil');
     Route::get('/peternak/konsultasi', [PeternakController::class, 'konsultasi'])->name('peternak.konsultasi');
     Route::post('/peternak/konsultasi', [ChatController::class,'saveMessage'])->name('chat.save');
-    Route::get('/peternak/konsultasi/load', [ChatController::class, 'loadMessage'])->name('peternak.konsultasi.load');
+    Route::get('/peternak/konsultasi/load/{roomId}', [ChatController::class, 'loadMessage'])->name('chat.load');
     Route::post('/peternak/konsultasi/room', [RoomController::class,'create'])->name('room.create');
 
 });

@@ -104,6 +104,8 @@
         </div>
     <input type="hidden" name="" id="room-url" value="{{route('room.create')}}">
     <input type="hidden" name="" id="messsage-url" value="{{route('chat.save')}}">
+    <input type="hidden" name="" id="load-chat-url" value="{{route('chat.load',["roomId" => ":roomId"])}}">
+
 
     @vite('resources/js/bootstrap.js')
     @vite('resources/js/app.js')
