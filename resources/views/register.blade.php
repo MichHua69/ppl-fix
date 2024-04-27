@@ -72,26 +72,33 @@
                                         <div
                                             class="flex flex-row items-center mb-4 w-full justify-between">
                                             <label class="basis-3/12" for="kecamatan"></label>
-                                            <div class="basis-9/12 flex justify-center gap-x-3">
-                                                <select class="peer block w-full px-1 py-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('kecamatan') border-red-500 @enderror" name="kecamatan" id="kecamatan">
+                                            <div
+                                                class="basis-9/12 flex justify-center gap-x-3">
+                                                <select
+                                                    class="peer block w-full px-1 py-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('kecamatan') border-red-500 @enderror"
+                                                    name="kecamatan" id="kecamatan">
                                                     <option selected disabled hidden>Kecamatan</option>
                                                     @foreach ($kecamatan as $item)
-                                                    <option value="{{ $item->id_kecamatan }}">{{ $item->kecamatan }}</option>
+                                                    <option value="{{ $item->id }}">{{ $item->kecamatan }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('kecamatan')
                                                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
                                                 @enderror
 
-                                                <select class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('desa') border-red-500 @enderror" name="desa" id="desa">
+                                                <select
+                                                    class="peer block w-full px-1 py-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('desa') border-red-500 @enderror"
+                                                    name="desa" id="desa">
                                                     <option selected disabled hidden>Desa</option>
                                                     @foreach ($desa as $item)
-                                                        <option value="{{ $item->id_desa }}">{{ $item->desa }}</option>
+                                                        <option value="{{ $item->id }}">{{ $item->desa }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('desa')
                                                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                                                 @enderror
+
+
 
                                             </div>
                                         </div>
@@ -200,6 +207,7 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        
                                         <div>
                                           <div class="flex items-center justify-between">
                                                 <div
