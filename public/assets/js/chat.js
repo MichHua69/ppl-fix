@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
                 ".header-img"
             ).innerHTML = `<img src="${avatar}" />`;
 
-            createRoom(id);
+            createRoom(id, avatar);
             console.log(id);
         });
     });
@@ -29,7 +29,7 @@ function sendMessage(message, roomId) {
     formData.append("message", message);
 
     axios.post(url, formData).then(function (res) {
-        console.log(res);
+        // console.log(res);
         let html =
             ' <div id="your-chat" class="your-chat">\n' +
             '                <p class="your-chat-balloon">' +
@@ -87,7 +87,7 @@ function showHideChatBox(show) {
     }
 }
 
-function createRoom(friendId) {
+function createRoom(friendId, avatar) {
     let url = document.getElementById("room-url").value;
     let formData = new FormData();
     formData.append("friend_id", friendId);
@@ -99,7 +99,7 @@ function createRoom(friendId) {
             // Tanggapan berhasil
             let room = res.data.data;
             let roomId = room.id;
-            console.log(room);
+            // console.log(room);
 
             // Bergabung ke saluran siaran chat.{roomId}
             Echo.join(`chat.${roomId}`)
@@ -122,6 +122,11 @@ function createRoom(friendId) {
                             }
                         });
                 })
+                .listen("SendMessage", (e) => {
+                    if (e.userId == friendId) {
+                        handelLeftMessage(e.message, avatar);
+                    }
+                })
                 .joining((user) => {
                     // Panggilan kembali saat pengguna baru bergabung dengan saluran
                     console.log(user.nama_pengguna + " telah bergabung");
@@ -141,3 +146,5 @@ function createRoom(friendId) {
             console.error("Gagal membuat ruang:", error);
         });
 }
+
+
