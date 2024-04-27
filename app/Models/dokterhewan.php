@@ -22,6 +22,11 @@ class dokterhewan extends Model
         return $this->belongsTo(puskeswan::class, 'id_puskeswan', 'id');
     }
 
+    public function alamat()
+    {
+        return $this->belongsTo(alamat::class, 'id_alamat', 'id');
+    }
+
     public function pengguna()
     {
         return $this->belongsTo(pengguna::class, 'id_pengguna', 'id');

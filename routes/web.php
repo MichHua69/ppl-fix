@@ -43,6 +43,10 @@ Route::middleware(['role:1'])->group(function () {
 
 Route::middleware(['role:2'])->group(function () {
     Route::get('/dokter/dashboard', [DokterController::class, 'index'])->name('dokter.dashboard');
+    Route::get('/dokter/konsultasi', [DokterController::class, 'konsultasi'])->name('dokter.konsultasi');
+    Route::post('/dokter/konsultasi', [ChatController::class,'saveMessage'])->name('dokter.chat.save');
+    Route::get('/dokter/konsultasi/load/{roomId}', [ChatController::class, 'loadMessage'])->name('dokter.chat.load');
+    Route::post('/dokter/konsultasi/room', [RoomController::class,'create'])->name('dokter.room.create');
 });
 
 Route::middleware(['role:3'])->group(function () {

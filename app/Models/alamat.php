@@ -31,4 +31,9 @@ class alamat extends Model
     {
         return $this->hasOne(peternak::class, 'id_alamat', 'id');
     }
+
+    public function dokterhewan()
+    {
+        return $this->hasOne(dokterhewan::class, 'id_alamat', 'id');
+    }
 }

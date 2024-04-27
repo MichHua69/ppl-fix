@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset("assets/css/chat.css") }}">
 </head>
     <header class="">
-      @include ('peternak.navbar')
+      @include ('dokter.navbar')
     </header>
     <body>
         <div class="relative h-full">
@@ -36,18 +36,18 @@
                                     $avatar = '/images/defaultprofile.png';
                                 }
                             @endphp
-                                <div class="friends" data-id="{{ $friend->id_pengguna }}" data-name="{{ $friend->nama_pengguna }}" data-avatar=
-                                    "{{ asset("/images"."/".$avatar) }}">
+                                <div class="friends" data-id="{{ $friend->id }}" data-name="{{ $friend->nama_pengguna }}" data-avatar=
+                                    "{{asset($avatar)}}">
                                     <!-- photo -->
-                                    <div class="profile friends-photo">
-                                        <img src="{{ asset("/images"."/".$avatar) }}" alt="">
+                                    <div class="profile friends-photo border-2 border-white">
+                                        <img src="{{ asset($avatar) }}" alt="" >
                                     </div>
 
                                     <div class="friends-credent">
                                         <!-- name -->
                                         <span class="friends-name">{{ $friend->nama_pengguna }}</span>
                                         <!-- last message -->
-                                        <span class="friends-message friend-status"></span>
+                                        <span class="friends-message friend-status">Offline</span>
                                     </div>
                                 </div>
                             @endforeach
@@ -62,18 +62,16 @@
                             <p style="text-align: center; font-size: 30px">Mitra resmi dari Dinas Ketahanan Pangan dan Peternakan Kabupaten Jember</p>
                         </div>
                         <div class="flex">
-                            {{-- @foreach($data['friends'] as $friend)
-                            <div>
-                                <a href="#" class="flex items-center gap-5 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                                    <img class="w-24 h-24 rounded-full" src="{{ asset("/images"."/".$avatar) }}" alt="">
 
+                            <div>
+                                <a href="#" class="flex items-center gap-5 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 ">
+                                    <img class="w-24 h-24 rounded-full " src="{{asset($photo)}}" alt="">
                                     <div>
-                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$friend->nama_pengguna}}</h5>
+                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$aktor->nama}}</h5>
                                         <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
                             </div>
-                            @endforeach --}}
                         </div>
                     </section>
                     <section id="main-right" class="main-right hidden">
@@ -81,7 +79,7 @@
                         <div id="header-right" class="header-right ">
                             <!-- profile pict -->
                             <div id="header-img" class="profile header-img">
-                                <img src="{{ asset("assets/images/ava2.jpg") }}" alt="">
+                                {{-- <img src="{{ asset("assets/images/ava2.jpg") }}" alt=""> --}}
                             </div>
 
                             <!-- name -->
@@ -104,8 +102,14 @@
 
             </div>
         </div>
-    <input type="hidden" name="" id="room-url" value="{{route('room.create')}}">
+    <input type="hidden" name="" id="room-url" value="{{route('dokter.room.create')}}">
+    <input type="hidden" name="" id="messsage-url" value="{{route('dokter.chat.save')}}">
+    <input type="hidden" name="" id="load-chat-url" value="{{route('dokter.chat.load',["roomId" => ":roomId"])}}">
+
+
+    @vite('resources/js/bootstrap.js')
+    @vite('resources/js/app.js')
+
     <script src="{{ asset("assets/js/chat.js") }}"></script>
     </body>
-@vite('/recources/js/app.js')
 </html>

@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
             createRoom(id, avatar);
             console.log(id);
+            console.log(avatar);
         });
     });
 });
@@ -93,6 +94,7 @@ function showHideChatBox(show) {
 
 function createRoom(friendId, avatar) {
     let url = document.getElementById("room-url").value;
+    console.log(url);
     let formData = new FormData();
     formData.append("friend_id", friendId);
 
@@ -100,10 +102,11 @@ function createRoom(friendId, avatar) {
     axios
         .post(url, formData)
         .then((res) => {
+            console.log(res);
             // Tanggapan berhasil
             let room = res.data.data;
-            let roomId = room.id;
             // console.log(room);
+            let roomId = room.id;
 
             // Bergabung ke saluran siaran chat.{roomId}
             Echo.join(`chat.${roomId}`)
