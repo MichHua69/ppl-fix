@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
     handel send message function
  */
 function sendMessage(message, roomId) {
+    var chatBody = document.querySelector("#chat-area");
+    chatBody.innerHTML = "";
     let url = document.getElementById("messsage-url").value;
     let formData = new FormData();
     formData.append("roomId", roomId);
