@@ -7,6 +7,8 @@ use App\Models\wilayah;
 use App\Models\kecamatan;
 use Illuminate\Http\Request;
 use App\Models\dinaspeternakan;
+use App\Models\dokterhewan;
+use App\Models\puskeswan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,7 +46,7 @@ class DinasController extends Controller
     public function saveprofil(Request $request) {
         $user = Auth::user();
         
-        $aktor = dinaspeternakan::with('pengguna', 'alamat.wilayah.kecamatan', 'alamat.wilayah.desa')->where('id_pengguna', $user->id)->first();
+        $aktor = dinaspeternakan::with('pengguna')->where('id_pengguna', $user->id)->first();
         
         $request->validate([
             'alamat' => 'required|string|max:255',
@@ -101,6 +103,8 @@ class DinasController extends Controller
             return view('dinas.buatakun', compact('user','photo'));
         } 
         $photo = '/images/defaultprofile.png';
+
+
         return view ('dinas.buatakun', compact('user', 'photo') );
     }
 
@@ -112,7 +116,17 @@ class DinasController extends Controller
             return view('dinas.akundokter', compact('user','photo'));
         } 
         $photo = '/images/defaultprofile.png';
-        return view ('dinas.akundokter', compact('user', 'photo') );
+        
+        $aktor = dokterhewan::with('pengguna','puskeswan')->get();
+        // dd($aktor);
+        $puskeswan = puskeswan::all();
+
+        return view ('dinas.akundokter', compact('user', 'photo','aktor','puskeswan') );
+    }
+
+    public function buatakunstore(Request $request) {
+        dd($request);
+        return view('dinas.buatakun');
     }
     
     public function akunpeternak() {

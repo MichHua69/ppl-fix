@@ -47,6 +47,8 @@ Route::middleware(['role:1'])->group(function () {
 
     //akun
     Route::get('/dinas/buatakun', [DinasController::class, 'buatakun'])->name('dinas.buatakun');
+    Route::post('/dinas/buatakun/store', [DinasController::class, 'buatakunstore'])->name('dinas.buatakun.store');
+
     Route::get('/dinas/akundokter', [DinasController::class, 'akundokter'])->name('dinas.akundokter');
     Route::get('/dinas/akunpeternak', [DinasController::class, 'akunpeternak'])->name('dinas.akunpeternak');
 });
