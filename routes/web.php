@@ -40,6 +40,9 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 Route::middleware(['role:1'])->group(function () {
     Route::get('/dinas/dashboard', [DinasController::class, 'index'])->name('dinas.dashboard');
+    Route::get('/dinas/buatakun', [DinasController::class, 'buatakun'])->name('dinas.buatakun');
+    Route::get('/dinas/akundokter', [DinasController::class, 'akundokter'])->name('dinas.akundokter');
+    Route::get('/dinas/akunpeternak', [DinasController::class, 'akunpeternak'])->name('dinas.akunpeternak');
 });
 
 Route::middleware(['role:2'])->group(function () {
