@@ -10,10 +10,10 @@
 
     <body>
     <header class="absolute inset-x-0 top-0 z-50">
-        @include ('dokter.navbar')
+        @include ('dinas.navbar')
     </header>
     <section class="h-screen bg-primary pt-24" >
-        <form action="{{route('dokter.profil.save')}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('dinas.profil.save')}}" method="post" enctype="multipart/form-data">
             @csrf       
             <div class="container px-6 py-10 mx-auto">
                 <div class="container grid grid grid-cols-3 bg-white rounded-lg shadow-lg overflow-hidden h-[80vh] relative">
@@ -130,47 +130,29 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="flex gap-5">
+                            <button type="button"
+                            class=" hidden inline-block w-full rounded rounded-full px-6 py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-danger hover:bg-primary-light"
+                            type="button"
+                            id="cancel-profile-button"
+                            data-twe-ripple-init
+                            data-twe-ripple-color="light">
+                            Batal
+                        </button> 
+                            <button type="submit"
+                            class=" hidden inline-block w-full rounded rounded-full px-6 py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-primary hover:bg-primary-light"
+                            type="submit"
+                            id="save-profile-button"
+                            data-twe-ripple-init
+                            data-twe-ripple-color="light">
+                            Simpan
+                        </button> 
+                        </div>
+                                
                         </div>
     
                         <div class="flex flex-col px-7 py-5 basis-1/2">
-                            <div
-                                class="flex flex-col mb-8 w-full justify-between">
-                                <label class="basis-3/12 font-semibold" for="nama">
-                                    PUSKESWAN
-                                </label>
-                                <p class="peer block w-full py-3 rounded-md" id="nama-p">{{$aktor->puskeswan->puskeswan}}</p>
-                                <div class="relative basis-9/12"
-                                    data-twe-input-wrapper-init>
-                                    <input type="text" name="nama" id="nama"
-                                        placeholder="Masukkan Nama"
-                                        class="hidden peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('nama') border-red-500 @enderror"
-                                        value="{{$aktor->puskeswan->puskeswan}}"
-                                        autocomplete="name" autofocus/>
-    
-                                    @error('nama')
-                                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="flex gap-5">
-                                <button type="button"
-                                    class=" hidden inline-block w-full rounded rounded-full px-6 py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-danger hover:bg-primary-light"
-                                    type="button"
-                                    id="cancel-profile-button"
-                                    data-twe-ripple-init
-                                    data-twe-ripple-color="light">
-                                    Batal
-                                </button> 
-                                    <button type="submit"
-                                    class=" hidden inline-block w-full rounded rounded-full px-6 py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-primary hover:bg-primary-light"
-                                    type="submit"
-                                    id="save-profile-button"
-                                    data-twe-ripple-init
-                                    data-twe-ripple-color="light">
-                                    Simpan
-                                </button> 
-                            </div>
-
+            
                         </div>
                     </div>
                     </form>

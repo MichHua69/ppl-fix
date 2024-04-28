@@ -40,13 +40,26 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 Route::middleware(['role:1'])->group(function () {
     Route::get('/dinas/dashboard', [DinasController::class, 'index'])->name('dinas.dashboard');
+
+    //profil
+    Route::get('/dinas/profil', [DinasController::class, 'profil'])->name('dinas.profil');
+    Route::post('/dinas/profil/save', [DinasController::class, 'saveprofil'])->name('dinas.profil.save');
+
+    //akun
     Route::get('/dinas/buatakun', [DinasController::class, 'buatakun'])->name('dinas.buatakun');
     Route::get('/dinas/akundokter', [DinasController::class, 'akundokter'])->name('dinas.akundokter');
     Route::get('/dinas/akunpeternak', [DinasController::class, 'akunpeternak'])->name('dinas.akunpeternak');
 });
 
 Route::middleware(['role:2'])->group(function () {
+    //dashboard
     Route::get('/dokter/dashboard', [DokterController::class, 'index'])->name('dokter.dashboard');
+
+    //profil
+    Route::get('/dokter/profil', [DokterController::class, 'profil'])->name('dokter.profil');
+    Route::post('/dokter/profil/save', [DokterController::class, 'saveprofil'])->name('dokter.profil.save');
+
+    //konsultasi
     Route::get('/dokter/konsultasi', [DokterController::class, 'konsultasi'])->name('dokter.konsultasi');
     Route::post('/dokter/konsultasi', [ChatController::class,'saveMessage'])->name('dokter.chat.save');
     Route::get('/dokter/konsultasi/load/{roomId}', [ChatController::class, 'loadMessage'])->name('dokter.chat.load');
