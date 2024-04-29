@@ -108,7 +108,7 @@
             <h3 class="text-lg mb-4 font-bold text-center">Edit Data</h3>
             <form id="formTambah" action="{{route('dinas.editakundokter')}}" method="POST">
               @csrf
-                <input type="hidden" name="id_pengguna" value="update">
+                <input type="text" class="" name="id_pengguna" value="">
                 <div class="mb-4">
                     <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
                     <input type="text" id="nama" name="nama"
@@ -144,12 +144,31 @@
             </form>
         </div>
     </div>
+    <div id="modalremove" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded shadow-lg w-1/3">
+            <h3 class="text-lg mb-4 font-bold text-center">Reset Password</h3>
+            <form id="formreset" action="{{route('dinas.hapusakundokter')}}" method="POST">
+                @csrf
+                <input type="text" class="" name="id_pengguna" value="">
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="text" id="password" name="password" placeholder="Masukkan Kata Sandi Baru" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
+                </div>
+                <div class="flex items-center justify-end">
+                    <button type="button"
+                        class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4"
+                        onclick="closeModal()">Batal</button>
+                    <button type="submit" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div id="modalresetpassword" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 hidden">
         <div class="bg-white p-8 rounded shadow-lg w-1/3">
             <h3 class="text-lg mb-4 font-bold text-center">Reset Password</h3>
             <form id="formreset" action="{{route('dinas.resetpasswordakundokter')}}" method="POST">
                 @csrf
-                <input type="hidden" name="id_pengguna" value="{{$item->id_pengguna}}">
+                <input type="text" class="" name="id_pengguna" value="">
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="text" id="password" name="password" placeholder="Masukkan Kata Sandi Baru" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
@@ -178,6 +197,8 @@
               const email = row.querySelector('.email-column').innerText;
               const puskeswan = row.querySelector('.puskeswan-column').innerText;
               const idpuskeswan = row.querySelector('.idpuskeswan-column').innerText;
+              const idpengguna = row.querySelector('.id-column').innerText;
+
               // Simpan nilai-nilai dalam window.selectedData
               window.selectedData = {
                   id,
@@ -192,7 +213,14 @@
               document.getElementById('nama_pengguna').value = namapengguna;
               document.getElementById('email').value = email;
 
+              const idPengguna = item.closest('tr').querySelector('.id-column').innerText;
+
+              // Simpan nilai id_pengguna dalam input tersembunyi pada formulir modal
+              document.querySelector('#formTambah input[name="id_pengguna"]').value = idPengguna;
+
+              
               // Setelah membersihkan semua opsi, tambahkan opsi "Pilih Puskeswan"
+              
               const selectPuskeswan = document.getElementById('selectPuskeswan');
               selectPuskeswan.innerHTML = ''; // Bersihkan opsi sebelum menambahkan yang baru
 
@@ -225,14 +253,11 @@
               // Tampilkan modal reset password dengan JavaScript
               const modalResetPassword = document.getElementById('modalresetpassword');
               modalResetPassword.classList.remove('hidden');
+              
+              const idPengguna = item.closest('tr').querySelector('.id-column').innerText;
+              document.querySelector('#formreset input[name="id_pengguna"]').value = idPengguna;
           });
       });
-      // Dapatkan nilai id pengguna dari elemen dengan id "id-pengguna"
-      const idPenggunaReset = document.querySelector('.id-column').innerText;
-      const idPenggunaEdit = document.querySelector('.id-column').innerText;
-
-      document.querySelector('#formreset input[name="id_pengguna"]').value = idPenggunaReset;
-      document.querySelector('#formTambah input[name="id_pengguna"]').value = idPenggunaEdit;
 
       // Fungsi untuk menutup modal
       function closeModal() {
@@ -241,6 +266,8 @@
           modal.classList.add('hidden');
           modalreset.classList.add('hidden');
       }
+      
+      
       const closeButton = document.getElementById('close-button');
 
       closeButton.addEventListener('click', function() {

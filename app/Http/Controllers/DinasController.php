@@ -155,7 +155,7 @@ class DinasController extends Controller
         // dd($aktor);
         $puskeswan = puskeswan::all();
 
-        return view ('dinas.akundokter', compact('user', 'photo','aktor','puskeswan'))->with('succes','Data Berhasil Ditambahkan');
+        return redirect()-> route('dinas.akundokter', compact('user', 'photo','aktor','puskeswan'))->with('success','Data Berhasil Ditambahkan');
     }
     
     public function akunpeternak() {
@@ -187,11 +187,30 @@ class DinasController extends Controller
     }
 
     public function editakundokter(Request $request){
-        dd($request);
-        return view('dinas.akundokter');
-    }
+        // Temukan pengguna berdasarkan id_pengguna dari request
+        $pengguna = pengguna::findOrFail($request->id_pengguna);
+
+        
+        // Temukan dokter hewan berdasarkan id_pengguna dari request
+        $dokter = dokterhewan::where('id_pengguna', $request->id_pengguna)->firstOrFail();
+        
+        // Perbarui atribut pengguna dengan nilai baru dari request
+        $pengguna->update([
+            'nama_pengguna' => $request->nama_pengguna,
+            'email' => $request->email,
+        ]);
+        // Perbarui atribut dokter hewan dengan nilai baru dari request
+        $dokter->update([
+            'nama' => $request->nama,
+            'puskeswan' => $request->puskeswan,
+        ]);
+
+        // Redirect atau tampilkan pesan sukses atau lakukan tindakan lain yang sesuai
+        return redirect()->back()->with('success', 'Data pengguna berhasil diperbarui.');
+        }
     public function resetpasswordakundokter(Request $request){
         $dokter = pengguna::findOrFail($request->id_pengguna);
+        dd($request,$dokter);
         $dokter->update([
             'password' => Hash::make($request->password)
         ]);
