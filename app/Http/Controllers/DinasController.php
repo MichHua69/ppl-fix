@@ -6,11 +6,14 @@ use App\Models\desa;
 use App\Models\wilayah;
 use App\Models\kecamatan;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\dinaspeternakan;
 use App\Models\dokterhewan;
+use App\Models\pengguna;
 use App\Models\puskeswan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 
 class DinasController extends Controller
 {
@@ -37,10 +40,10 @@ class DinasController extends Controller
         $photo = $user->avatar;
         if ($photo != null) {
             $photo = 'storage/'.$user->avatar;
-            return view('dokter.profil',compact('user','photo','kecamatan','desa'));
+            return view('dinas.profil',compact('user','photo','kecamatan','desa'));
         } 
             $photo = '/images/defaultprofile.png';
-        return view('dokter.profil',compact('user','aktor','photo','kecamatan','desa'));
+        return view('dinas.profil',compact('user','aktor','photo','kecamatan','desa'));
     }
 
     public function saveprofil(Request $request) {
@@ -98,16 +101,75 @@ class DinasController extends Controller
     public function buatakun() {
         $user = Auth::user();
         $photo= $user->avatar;
+        $puskeswan = puskeswan::all();
+
         if ($photo != null) {
             $photo = 'storage/'.$user->avatar;
-            return view('dinas.buatakun', compact('user','photo'));
+            return view('dinas.buatakun', compact('user','photo','puskeswan'));
         } 
         $photo = '/images/defaultprofile.png';
 
 
-        return view ('dinas.buatakun', compact('user', 'photo') );
+        return view ('dinas.buatakun', compact('user', 'photo','puskeswan') );
+    }
+    public function buatakunstore(Request $request) {
+        
+        $request->validate([
+            'puskeswan' => 'required',
+            'nama'=>'required|string',
+            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna',
+            'email' => 'required|string|max:255|unique:pengguna,email',
+            'password' => 'required|string|min:5',
+            ],
+            
+            [
+                
+                'puskeswan' => [ 'required' => 'Puskeswan wajib diisi.' ], 
+                'nama' => [ 'required' => 'Nama wajib diisi.', 'string' => 'Nama harus berupa string.' ], 
+                'nama_pengguna' => [ 'required' => 'Nama Pengguna wajib diisi.', 'string' => 'Nama Pengguna harus berupa string.', 'max' => 'Nama Pengguna maksimal : 255 karakter.', 'unique' => 'Nama Pengguna sudah terdaftar.', ], 
+                'email' => [ 'required' => 'Email wajib diisi.', 'string' => 'Email harus berupa string.', 'max' => 'Email maksimal : 255 karakter.', 'unique' => 'Email sudah terdaftar.', ], 
+                'password' => [ 'required' => 'Kata Sandi wajib diisi.', 'string' => 'Kata Sandi harus berupa string.', 'min' => 'Kata Sandi minimal 5 karakter.', 'confirmed' => 'Konfirmasi Kata Sandi tidak sesuai.'],
+            ]);
+
+        $pengguna = pengguna::create([
+            'nama_pengguna' => $request->nama_pengguna,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'id_role'=> 2,
+        ]);
+        $dokter = dokterhewan::create([
+            'nama' => $request->nama,
+            'id_puskeswan' => intval($request->puskeswan),
+            'id_pengguna' => $pengguna->id,
+        ]);
+
+        $user = Auth::user();
+        $photo= $user->avatar;
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+            return view('dinas.akundokter', compact('user','photo'));
+        } 
+        $photo = '/images/defaultprofile.png';
+        
+        $aktor = dokterhewan::with('pengguna','puskeswan')->get();
+        // dd($aktor);
+        $puskeswan = puskeswan::all();
+
+        return view ('dinas.akundokter', compact('user', 'photo','aktor','puskeswan'))->with('succes','Data Berhasil Ditambahkan');
+    }
+    
+    public function akunpeternak() {
+        $user = Auth::user();
+        $photo= $user->avatar;
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+            return view('dinas.akunpeternak', compact('user','photo'));
+        } 
+        $photo = '/images/defaultprofile.png';
+        return view ('dinas.akunpeternak', compact('user', 'photo') );
     }
 
+    
     public function akundokter() {
         $user = Auth::user();
         $photo= $user->avatar;
@@ -124,19 +186,21 @@ class DinasController extends Controller
         return view ('dinas.akundokter', compact('user', 'photo','aktor','puskeswan') );
     }
 
-    public function buatakunstore(Request $request) {
+    public function editakundokter(Request $request){
         dd($request);
-        return view('dinas.buatakun');
+        return view('dinas.akundokter');
     }
-    
-    public function akunpeternak() {
-        $user = Auth::user();
-        $photo= $user->avatar;
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dinas.akunpeternak', compact('user','photo'));
-        } 
-        $photo = '/images/defaultprofile.png';
-        return view ('dinas.akunpeternak', compact('user', 'photo') );
+    public function resetpasswordakundokter(Request $request){
+        $dokter = pengguna::findOrFail($request->id_pengguna);
+        $dokter->update([
+            'password' => Hash::make($request->password)
+        ]);
+        return redirect()->back()->with('success', 'Password berhasil diganti.');
     }
+    public function removeakundokter(Request $request){
+        dd($request);
+        return view('dinas.akundokter');
+    }
+
+
 }
