@@ -13,6 +13,7 @@ use App\Models\pengguna;
 use App\Models\puskeswan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 
 class DinasController extends Controller
@@ -189,8 +190,29 @@ class DinasController extends Controller
     public function editakundokter(Request $request){
         // Temukan pengguna berdasarkan id_pengguna dari request
         $pengguna = pengguna::findOrFail($request->id_pengguna);
-
-        
+        // dd($pengguna);
+        $validator = Validator::make($request->all(), [
+            'nama_pengguna' => 'required',
+            'email' => 'required',
+            'nama' => 'required',
+            'puskeswan' => 'required',
+        ],
+        [    
+            'puskeswan' => [ 'required' => 'Puskeswan wajib diisi.' ], 
+            'nama' => [ 'required' => 'Nama wajib diisi.', 'string' => 'Nama harus berupa string.' ], 
+            'nama_pengguna' => [ 'required' => 'Nama Pengguna wajib diisi.', 'string' => 'Nama Pengguna harus berupa string.', 'max' => 'Nama Pengguna maksimal : 255 karakter.', 'unique' => 'Nama Pengguna sudah terdaftar.', ], 
+            'email' => [ 'required' => 'Email wajib diisi.', 'string' => 'Email harus berupa string.', 'max' => 'Email maksimal : 255 karakter.', 'unique' => 'Email sudah terdaftar.', ], 
+            'password' => [ 'required' => 'Kata Sandi wajib diisi.', 'string' => 'Kata Sandi harus berupa string.', 'min' => 'Kata Sandi minimal 5 karakter.', 'confirmed' => 'Konfirmasi Kata Sandi tidak sesuai.'],
+        ]);
+    
+        // Jika validasi gagal, kembalikan respons redirect dengan kesalahan yang diberikan oleh validator
+        if ($validator->fails()) {
+            session()->flash('error_modal', 'modaleditdata');
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+    
         // Temukan dokter hewan berdasarkan id_pengguna dari request
         $dokter = dokterhewan::where('id_pengguna', $request->id_pengguna)->firstOrFail();
         
@@ -204,13 +226,13 @@ class DinasController extends Controller
             'nama' => $request->nama,
             'puskeswan' => $request->puskeswan,
         ]);
-
+    
         // Redirect atau tampilkan pesan sukses atau lakukan tindakan lain yang sesuai
         return redirect()->back()->with('success', 'Data pengguna berhasil diperbarui.');
-        }
+    }
+
     public function resetpasswordakundokter(Request $request){
         $dokter = pengguna::findOrFail($request->id_pengguna);
-        dd($request,$dokter);
         $dokter->update([
             'password' => Hash::make($request->password)
         ]);
