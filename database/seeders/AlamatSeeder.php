@@ -19,6 +19,13 @@ class AlamatSeeder extends Seeder
             ['Jalan Raya', 'Jelbuk', 'Jelbuk', 'Mojo'],
             ['Jalan Merdeka', 'Sumberjambe', 'Sumberjambe', 'Sidomulyo'],
             ['Jalan Kartini', 'Patrang', 'Patrang', 'Pohkemuning'],
+            ['Jalan Mangga', 'Bangsalsari', 'Badean', 'Dusun Mangga'],
+            ['Jalan Anggrek', 'Jelbuk', 'Sukojember', 'Dusun Anggrek'],
+            ['Jalan Mawar', 'Ambulu', 'Sumberejo', 'Dusun Mawar'],
+            ['Jalan Melati', 'Sukowono', 'Sukorejo', 'Dusun Melati'],
+            ['Jalan Kamboja', 'Puger', 'Puger Kulon', 'Dusun Kamboja'],
+            ['Jalan Dahlia', 'Jenggawah', 'Sruni', 'Dusun Dahlia'],
+            ['Jalan Sakura', 'Ajung', 'Mangaran', 'Dusun Sakura'],
         ];
 
         foreach ($data as $row) {

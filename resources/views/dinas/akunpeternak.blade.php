@@ -34,124 +34,35 @@
                       </button>
                   </div>
               </div>
-              <div class=" mt-8">
-                  <div class="-my-2">
-                      <div class="px-4">
-                          <div class="overflow-y-scroll border-gray-200 dark:border-gray-700 md:rounded-lg max-h-[55vh] grid grid-cols-2 justify-center gap-4 flex-wrap">
-                              <div class="flex gap-8 items-center justify-center">
-                                  <div class="p-4 bg-white shadow-xl rounded-lg">
-                                      <img class="w-28" src="{{asset($photo)}}" alt="">
-                                  </div>
-                                  <div
-                                      class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl">
-                                      <span>Peternak</span>
-                                      <span>peternak</span>
-                                      <span>3509212603040005</span>
-                                      <span>Jl. Muktisari, Kemuninganyar, Kaliwates, Kaliwates</span>
-                                  </div>
-                              </div>
-                              <!-- Tambahkan div baru di sini -->
-                              <div class="flex gap-8 items-center justify-center">
-                                  <div class="p-4 bg-white shadow-xl rounded-lg">
-                                      <img class="w-28" src="{{asset($photo)}}" alt="">
-                                  </div>
-                                  <div
-                                      class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl">
-                                      <span>Peternak</span>
-                                      <span>peternak</span>
-                                      <span>3509212603040005</span>
-                                      <span>Jl. Muktisari, Kemuninganyar, Kaliwates, Kaliwates</span>
-                                  </div>
-                              </div>
-                              <div class="flex gap-8 items-center justify-center">
-                                  <div class="p-4 bg-white shadow-xl rounded-lg">
-                                      <img class="w-28" src="{{asset($photo)}}" alt="">
-                                  </div>
-                                  <div
-                                      class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl">
-                                      <span>Peternak</span>
-                                      <span>peternak</span>
-                                      <span>3509212603040005</span>
-                                      <span>Jl. Muktisari, Kemuninganyar, Kaliwates, Kaliwates</span>
-                                  </div>
-                              </div>
-                              <div class="flex gap-8 items-center justify-center">
-                                  <div class="p-4 bg-white shadow-xl rounded-lg">
-                                      <img class="w-28" src="{{asset($photo)}}" alt="">
-                                  </div>
-                                  <div
-                                      class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl">
-                                      <span>Peternak</span>
-                                      <span>peternak</span>
-                                      <span>3509212603040005</span>
-                                      <span>Jl. Muktisari, Kemuninganyar, Kaliwates, Kaliwates</span>
-                                  </div>
-                              </div>
-                              <div class="flex gap-8 items-center justify-center">
-                                  <div class="p-4 bg-white shadow-xl rounded-lg">
-                                      <img class="w-28" src="{{asset($photo)}}" alt="">
-                                  </div>
-                                  <div
-                                      class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl">
-                                      <span>Peternak</span>
-                                      <span>peternak</span>
-                                      <span>3509212603040005</span>
-                                      <span>Jl. Muktisari, Kemuninganyar, Kaliwates, Kaliwates</span>
-                                  </div>
-                              </div>
-                              <div class="flex gap-8 items-center justify-center">
-                                  <div class="p-4 bg-white shadow-xl rounded-lg">
-                                      <img class="w-28" src="{{asset($photo)}}" alt="">
-                                  </div>
-                                  <div
-                                      class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl">
-                                      <span>Peternak</span>
-                                      <span>peternak</span>
-                                      <span>3509212603040005</span>
-                                      <span>Jl. Muktisari, Kemuninganyar, Kaliwates, Kaliwates</span>
-                                  </div>
-                              </div>
-                              <div class="flex gap-8 items-center justify-center">
-                                  <div class="p-4 bg-white shadow-xl rounded-lg">
-                                      <img class="w-28" src="{{asset($photo)}}" alt="">
-                                  </div>
-                                  <div
-                                      class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl">
-                                      <span>Peternak</span>
-                                      <span>peternak</span>
-                                      <span>3509212603040005</span>
-                                      <span>Jl. Muktisari, Kemuninganyar, Kaliwates, Kaliwates</span>
-                                  </div>
-                              </div>
-                              <div class="flex gap-8 items-center justify-center">
-                                  <div class="p-4 bg-white shadow-xl rounded-lg">
-                                      <img class="w-28" src="{{asset($photo)}}" alt="">
-                                  </div>
-                                  <div
-                                      class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl">
-                                      <span>Peternak</span>
-                                      <span>peternak</span>
-                                      <span>3509212603040005</span>
-                                      <span>Jl. Muktisari, Kemuninganyar, Kaliwates, Kaliwates</span>
-                                  </div>
-                              </div>
-                              <div class="flex gap-8 items-center justify-center">
-                                  <div class="p-4 bg-white shadow-xl rounded-lg">
-                                      <img class="w-28" src="{{asset($photo)}}" alt="">
-                                  </div>
-                                  <div
-                                      class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl">
-                                      <span>Peternak</span>
-                                      <span>peternak</span>
-                                      <span>3509212603040005</span>
-                                      <span>Jl. Muktisari, Kemuninganyar, Kaliwates, Kaliwates</span>
-                                  </div>
-                              </div>
-                              <!-- Akhir div baru -->
-                          </div>
-                      </div>
-                  </div>
-              </div>
+              <div class="mt-8">
+                <div class="-my-2">
+                    <div class="px-4">
+                        <div class="overflow-y-scroll border-gray-200 dark:border-gray-700 md:rounded-lg max-h-[55vh] grid grid-cols-2 justify-center gap-4 flex-wrap">
+                                @foreach($peternak as $ptn)
+                                <div class="flex gap-8 items-center justify-center">
+                                    <div class="p-4 bg-white shadow-xl rounded-lg">
+                                        @php
+                                            $photos = $ptn->pengguna->avatar;
+                                            if ($photos != null) {
+                                                $photo = 'storage/'.$photos;
+                                            } 
+                                            $photos = '/images/defaultprofile.png';
+                                        @endphp
+                                        <img class="w-28" src="{{$photos}}" alt="">
+                                    </div>
+                                    <div class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary text-md shadow-2xl min-w-96 max-w-96">
+                                        <span>Nama : {{ $ptn->nama }}</span>
+                                        <span>Nama Pengguna : {{ $ptn->pengguna->nama_pengguna}}</span>
+                                        <span>NIK : {{ $ptn->nik }}</span>
+                                        <span>Alamat : {{ $ptn->alamat->jalan }}, {{$ptn->alamat->dusun }}, {{$ptn->alamat->wilayah->kecamatan->kecamatan}}, {{$ptn->alamat->wilayah->desa->desa}} </span>
+                                    </div>
+                                </div>
+                                @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             </div>
           </div>
         </div>

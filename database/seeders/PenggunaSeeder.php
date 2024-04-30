@@ -24,6 +24,13 @@ class PenggunaSeeder extends Seeder
             ['StevenKurniawan', 'stevenkurniawan@gmail.com', 'dokter123', 2],
             ['KevinMahendra', 'kevinmahendra@gmail.com', 'dokter123', 2],
             ['UyeeWashington', 'uyeewashington@gmail.com', 'dokter123', 2],
+            ['JokoSusilo', 'jokosusilo@gmail.com', 'peternak123', 3],
+            ['BudiSantoso', 'budisantoso@gmail.com', 'peternak123', 3],
+            ['SitiRahayu', 'sitirahayu@gmail.com', 'peternak123', 3],
+            ['RinaWulandari', 'rinawulandari@gmail.com', 'peternak123', 3],
+            ['DewiLestari', 'dewilestari@gmail.com', 'peternak123', 3],
+            ['EkoPrasetyo', 'ekoprasetyo@gmail.com', 'peternak123', 3],
+            ['AniRahayu', 'anirahayu@gmail.com', 'peternak123', 3],
         ];
 
         foreach ($penggunaData as $data) {

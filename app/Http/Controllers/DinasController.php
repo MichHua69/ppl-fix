@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\desa;
 use App\Models\wilayah;
-use App\Models\kecamatan;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Models\dinaspeternakan;
-use App\Models\dokterhewan;
 use App\Models\pengguna;
+use App\Models\peternak;
+use App\Models\kecamatan;
 use App\Models\puskeswan;
+use App\Models\dokterhewan;
+use Illuminate\Http\Request;
+use App\Models\dinaspeternakan;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -162,12 +163,15 @@ class DinasController extends Controller
     public function akunpeternak() {
         $user = Auth::user();
         $photo= $user->avatar;
+
+        $peternak = peternak::with('pengguna')->get();
+        // dd($peternak);
         if ($photo != null) {
             $photo = 'storage/'.$user->avatar;
-            return view('dinas.akunpeternak', compact('user','photo'));
+            return view('dinas.akunpeternak', compact('user','photo','peternak'));
         } 
         $photo = '/images/defaultprofile.png';
-        return view ('dinas.akunpeternak', compact('user', 'photo') );
+        return view ('dinas.akunpeternak', compact('user', 'photo','peternak') );
     }
 
     
