@@ -192,8 +192,8 @@ class DinasController extends Controller
         $pengguna = pengguna::findOrFail($request->id_pengguna);
         // dd($pengguna);
         $validator = Validator::make($request->all(), [
-            'nama_pengguna' => 'required',
-            'email' => 'required',
+            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$pengguna->id,
+            'email' => 'required|string|max:255|unique:pengguna,email,'.$pengguna->id,
             'nama' => 'required',
             'puskeswan' => 'required',
         ],
@@ -233,14 +233,38 @@ class DinasController extends Controller
 
     public function resetpasswordakundokter(Request $request){
         $dokter = pengguna::findOrFail($request->id_pengguna);
+
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:5',
+        ],
+        [    
+            'password' => [ 'required' => 'Kata Sandi wajib diisi.', 'string' => 'Kata Sandi harus berupa string.', 'min' => 'Kata Sandi minimal 5 karakter.', 'confirmed' => 'Konfirmasi Kata Sandi tidak sesuai.'],
+        ]);
+    
+        // Jika validasi gagal, kembalikan respons redirect dengan kesalahan yang diberikan oleh validator
+        if ($validator->fails()) {
+            session()->flash('error_modal', 'modalresetpassword');
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
         $dokter->update([
             'password' => Hash::make($request->password)
         ]);
         return redirect()->back()->with('success', 'Password berhasil diganti.');
     }
     public function removeakundokter(Request $request){
-        dd($request);
-        return view('dinas.akundokter');
+        // dd($request);
+        // Menghapus dokter hewan yang memiliki id_pengguna yang sama dengan $request->id_pengguna
+        DokterHewan::where('id_pengguna', $request->id_pengguna)->delete();
+        
+        $pengguna = Pengguna::findOrFail($request->id_pengguna);
+
+        // Menghapus pengguna
+        $pengguna->delete();
+        
+
+        return redirect()->back()->with('success', 'Akun Berhasil Dihapus');
     }
 
 

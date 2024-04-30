@@ -114,31 +114,40 @@
                       <input type="text" id="nama" name="nama"
                           class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm @error('nama') border-red-500 @enderror" value="{{old('nama')}}">
                       @error('nama')
-                      <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                      <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
                       @enderror
                   </div>
                   <div class="mb-4">
                       <label for="nama_pengguna" class="block text-sm font-medium text-gray-700">Nama Pengguna</label>
-                      <input type="text" id="nama_pengguna" name="nama_pengguna" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm" value="{{old('nama_pengguna')}}">
+                      <input type="text" id="nama_pengguna" name="nama_pengguna" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm @error('nama_pengguna') border-red-500 @enderror" value="{{old('nama_pengguna')}}">
+                      @error('nama_pengguna')
+                      <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
+                      @enderror
                   </div>
                   <div class="mb-4">
                       <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                      <input type="email" id="email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm" value="{{old('email')}}">
+                      <input type="email" id="email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm error-message @error('email') border-red-500 @enderror" value="{{old('email')}}">
+                      @error('email')
+                      <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
+                      @enderror
                   </div>
                   <div class="mb-4">
                       <label for="puskeswan" class="block text-sm font-medium text-gray-700">Puskeswan</label>
                       <select id="selectPuskeswan" name="puskeswan"
-                          class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
+                          class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm @error('puskeswan') border-red-500 @enderror">
                           <option class="selectOption" selected hidden value="">Pilih Puskeswan</option>
                           @foreach($puskeswan as $item)
                           <option value="{{ $item->id }}">{{ $item->puskeswan }}</option>
                           @endforeach
                       </select>
+                      @error('puskeswan')
+                      <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
+                      @enderror
                   </div>
 
                   <div class="flex items-center justify-end">
                       <button type="button"
-                          class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4"
+                          class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4 " id="batalEditData"
                           onclick="closeModal()">Batal</button>
                       <button type="submit" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light">Simpan</button>
                   </div>
@@ -154,7 +163,7 @@
                   <p class="m-4">Apa anda yakin menghapus akun?</p>
                   <div class="flex items-center justify-center">
                       <button type="button"
-                          class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4"
+                          class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4" id="batalRemove"
                           onclick="closeModal()">Batal</button>
                       <button type="submit" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light">Simpan</button>
                   </div>
@@ -169,18 +178,21 @@
                   <input type="text" class="hidden" name="id_pengguna" value="">
                   <div class="mb-4">
                       <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi Baru</label>
-                      <input type="text" id="password" name="password" placeholder="Masukkan Kata Sandi Baru" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
+                      <input type="text" id="password" name="password" placeholder="Masukkan Kata Sandi Baru" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm @error('password') border-red-500 @enderror">
+                      @error('password')
+                      <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
+                      @enderror
                   </div>
                   <div class="flex items-center justify-end">
                       <button type="button"
-                          class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4"
+                          class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4" id="batalResetPassword"
                           onclick="closeModal()">Batal</button>
                       <button type="submit" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light">Simpan</button>
                   </div>
               </form>
           </div>
       </div>
-      
+
       @if ($errors->any() && session('error_modal') === 'modaleditdata')
           <script>
               // Tampilkan modal edit data jika terjadi kesalahan validasi pada modal edit data
@@ -291,15 +303,48 @@
 
             });
         });
+        document.getElementById('batalEditData').addEventListener('click', function() {
+            closeModal();
+        });
+
+        document.getElementById('batalRemove').addEventListener('click', function() {
+            closeModal();
+        });
+
+        document.getElementById('batalResetPassword').addEventListener('click', function() {
+            closeModal();
+        });
 
         // Fungsi untuk menutup modal
         function closeModal() {
-            const modal = document.getElementById('modaleditdata');
-            const modalreset = document.getElementById('modalresetpassword');
-            const modalremove = document.getElementById('modalremove');
-            modal.classList.add('hidden');
-            modalreset.classList.add('hidden');
-            modalremove.classList.add('hidden');
+          const modalEditData = document.getElementById('modaleditdata');
+          const modalRemove = document.getElementById('modalremove');
+          const modalResetPassword = document.getElementById('modalresetpassword');
+
+          modalEditData.classList.add('hidden');
+          modalRemove.classList.add('hidden');
+          modalResetPassword.classList.add('hidden');
+
+          const errorMessageElements = document.querySelectorAll('.error-message');
+          errorMessageElements.forEach(element => {
+              element.innerHTML = '';
+          });
+
+          var inputNama = document.getElementById('nama');
+          inputNama.classList.remove('border-red-500');
+
+          var inputNamaPengguna = document.getElementById('nama_pengguna');
+          inputNamaPengguna.classList.remove('border-red-500');
+
+          var inputEmail = document.getElementById('email');
+          inputEmail.classList.remove('border-red-500');
+
+          var inputPuskeswan = document.getElementById('selectPuskeswan');
+          inputPuskeswan.classList.remove('border-red-500');
+
+          var inputPassword = document.getElementById('password');
+          inputPassword.classList.remove('border-red-500');
+          
         }
         
         
