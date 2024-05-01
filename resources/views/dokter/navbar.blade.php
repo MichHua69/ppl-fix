@@ -17,7 +17,7 @@
       <a href="/dokter/dashboard" class="text-md font-semibold leading-6 text-gray-900">Dashboard</a>
       <a href="/dokter/konsultasi" class="text-md font-semibold leading-6 text-gray-900">Konsultasi</a>
       <a href="/dokter/laporan" class="text-md font-semibold leading-6 text-gray-900">Laporan</a>
-      <a href="/dokter/informasidanprogram" class="text-md font-semibold leading-6 text-gray-900">Informasi dan Program</a>
+      <a href="/dokter/informasiprogram" class="text-md font-semibold leading-6 text-gray-900">Informasi Program</a>
     </div>
     <div class="lg:flex lg:flex-1 lg:justify-end">
         

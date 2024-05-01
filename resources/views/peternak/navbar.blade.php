@@ -18,7 +18,7 @@
       <a href="/peternak/konsultasi" class="text-md font-semibold leading-6 text-gray-900">Konsultasi</a>
       <a href="/peternak/layanan" class="text-md font-semibold leading-6 text-gray-900">Layanan</a>
       <a href="/peternak/laporan" class="text-md font-semibold leading-6 text-gray-900">Laporan</a>
-      <a href="/peternak/informasidanprogram" class="text-md font-semibold leading-6 text-gray-900">Informasi dan Program</a>
+      <a href="/peternak/informasiprogram" class="text-md font-semibold leading-6 text-gray-900">Informasi Program</a>
     </div>
     <div class="lg:flex lg:flex-1 lg:justify-end">
         

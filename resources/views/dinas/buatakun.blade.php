@@ -92,7 +92,7 @@
                   <div class="relative basis-9/12 mt-2"
                       data-twe-input-wrapper-init>
                       <input type="password" name="password" id="password"
-                          placeholder="Masukkan Nama"
+                          placeholder="Masukkan Kata Sandi"
                           class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('password') border-red-500 @enderror"
                           value="" autocomplete="password" />
                       @error('password')

@@ -17,7 +17,7 @@
     <a href="/dinas/dashboard" class="text-md font-semibold leading-6 text-gray-900">Dashboard</a>
     <a href="/dinas/layanan" class="text-md font-semibold leading-6 text-gray-900">Layanan</a>
     <a href="/dinas/laporan" class="text-md font-semibold leading-6 text-gray-900">Laporan</a>
-    <a href="/dinas/informasidanprogram" class="text-md font-semibold leading-6 text-gray-900">Informasi dan Program</a>
+    <a href="/dinas/informasiprogram" class="text-md font-semibold leading-6 text-gray-900">Informasi Program</a>
     <a href="/dinas/notifikasi" class="text-md font-semibold leading-6 text-gray-900">Notifikasi</a>
   </div>
   <div class="lg:flex lg:flex-1 lg:justify-end gap-2 items-center"> 

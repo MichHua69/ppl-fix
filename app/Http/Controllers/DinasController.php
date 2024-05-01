@@ -271,5 +271,27 @@ class DinasController extends Controller
         return redirect()->back()->with('success', 'Akun Berhasil Dihapus');
     }
 
+    public function informasiprogram(){
+        $user = Auth::user();
+        $photo= $user->avatar;
 
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+            return view('dinas.informasiprogram', compact('user','photo'));
+        } 
+        $photo = '/images/defaultprofile.png';
+        return view('dinas.informasiprogram' , compact('user','photo'));
+    }
+
+    public function tambahartikel() {
+        $user = Auth::user();
+        $photo= $user->avatar;
+
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+            return view('dinas.tambahartikel', compact('user','photo'));
+        } 
+        $photo = '/images/defaultprofile.png';
+        return view('dinas.tambahartikel' , compact('user','photo'));
+    }
 }
