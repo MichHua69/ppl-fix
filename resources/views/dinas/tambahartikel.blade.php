@@ -5,8 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
-    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+    <style>
+      #body .ck-editor__editable {
+          min-height: 300px; /* Atur tinggi minimum */
+          /* Atau gunakan max-height atau height sesuai kebutuhan */
+      }
+    </style>
+      <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+      <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <title>Konsultasi</title>    
 </head>
 
@@ -20,7 +27,7 @@
         <div class="container bg-white rounded-lg shadow-lg h-full min-h-[75vh] relative p-12 mb-16">
           <div class="block">
             <h2 class="text-5xl font-bold mb-4 grid grid-row-15 row-span-1">Tambah Artikel</h2>
-            <form action="{{route('dinas.buatakun.store')}}" method="post">
+            <form action="{{route('dinas.storetambahartikel')}}" method="post">
               @csrf
               <div class="">
                 <div class="flex flex-col mb-4 w-full justify-between ">
@@ -59,8 +66,17 @@
                   </div>
                 </div>
                 <div class="flex flex-col mb-4 w-full justify-between">
-                  <input id="x" type="hidden" name="content">
-                  <trix-editor class="" input="x"></trix-editor>
+                  <label class="basis-3/12 font-semibold text-xl" for="body">
+                    Isi
+                  </label>
+                  <textarea class="" name="body" id="body" style="height: 200px;" placeholder="Masukkan Isi Artikel"></textarea>
+                </div>
+                <div class="flex flex-col mb-4 w-full justify-between">
+                  <label class="basis-3/12 font-semibold text-xl" for="bodys">
+                    Isi
+                  </label>
+                  <input id="bodys" type="hidden" name="content">
+                  <trix-editor input="bodys" class="min-h-96"></trix-editor>
                 </div>
                 
                 <div class="flex justify-end mt-8">
@@ -91,6 +107,34 @@
 
     
   </section>
+  <script>
+    ClassicEditor
+        .create( document.querySelector( '#body' ), {
+            toolbar: {
+                items: [
+                    'heading',
+                    '|',
+                    'bold',
+                    'italic',
+                    'link',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    '|',
+                    'indent',
+                    'outdent',
+                    '|',
+                    'undo',
+                    'redo'
+                ]
+            },
+            language: 'en',
+            // atur konfigurasi lain di sini
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+  </script>
 
   <script>
     const fileInput = document.getElementById('file_input');

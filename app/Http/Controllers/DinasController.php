@@ -294,4 +294,8 @@ class DinasController extends Controller
         $photo = '/images/defaultprofile.png';
         return view('dinas.tambahartikel' , compact('user','photo'));
     }
+
+    public function storetambahartikel(Request $request) {
+        dd($request);
+    }
 }

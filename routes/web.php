@@ -59,6 +59,7 @@ Route::middleware(['role:1'])->group(function () {
     Route::get('/dinas/informasiprogram', [DinasController::class, 'informasiprogram'])->name('dinas.informasiprogram');
     Route::get('/dinas/informasiprogram/lihatartikel',[DinasController::class, 'lihatartikel'])->name('dinas.lihatartikel');
     Route::get('/dinas/informasiprogram/tambahartikel',[DinasController::class, 'tambahartikel'])->name('dinas.tambahartikel');
+    Route::post('/dinas/informasiprogram/storetambahartikel',[DinasController::class, 'storetambahartikel'])->name('dinas.storetambahartikel');
 
 });
 
