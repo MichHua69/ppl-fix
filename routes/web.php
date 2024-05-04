@@ -79,6 +79,16 @@ Route::middleware(['role:2'])->group(function () {
     Route::post('/dokter/konsultasi', [ChatController::class,'saveMessage'])->name('dokter.chat.save');
     Route::get('/dokter/konsultasi/load/{roomId}', [ChatController::class, 'loadMessage'])->name('dokter.chat.load');
     Route::post('/dokter/konsultasi/room', [RoomController::class,'create'])->name('dokter.room.create');
+
+    //informasiprogram
+    Route::get('/dokter/informasiprogram', [DokterController::class, 'informasiprogram'])->name('dokter.informasiprogram');
+    Route::get('/dokter/informasiprogram/artikel',[DokterController::class, 'artikel'])->name('dokter.artikel');
+    Route::get('/dokter/informasiprogram/lihatartikel',[DokterController::class, 'lihatartikel'])->name('dokter.lihatartikel');
+    Route::get('/dokter/informasiprogram/tambahartikel',[DokterController::class, 'tambahartikel'])->name('dokter.tambahartikel');
+    Route::get('/dokter/informasiprogram/editartikel',[DokterController::class, 'editartikel'])->name('dokter.editartikel');
+    Route::get('/dokter/informasiprogram/tambahartikel',[DokterController::class, 'tambahartikel'])->name('dokter.tambahartikel');
+    Route::post('/dokter/informasiprogram/storetambahartikel',[DokterController::class, 'storetambahartikel'])->name('dokter.storetambahartikel');
+    Route::post('/dokter/informasiprogram/storeeditartikel',[DokterController::class, 'storeeditartikel'])->name('dokter.storeeditartikel');
 });
 
 Route::middleware(['role:3'])->group(function () {
@@ -86,9 +96,15 @@ Route::middleware(['role:3'])->group(function () {
     Route::get('/peternak/dashboard', [PeternakController::class, 'index'])->name('peternak.dashboard');
     Route::get('/peternak/profil', [PeternakController::class, 'profil'])->name('peternak.profil');
     Route::post('/peternak/profil/save', [PeternakController::class, 'saveprofil'])->name('peternak.profil.save');
+    
     Route::get('/peternak/konsultasi', [PeternakController::class, 'konsultasi'])->name('peternak.konsultasi');
     Route::post('/peternak/konsultasi', [ChatController::class,'saveMessage'])->name('chat.save');
     Route::get('/peternak/konsultasi/load/{roomId}', [ChatController::class, 'loadMessage'])->name('chat.load');
     Route::post('/peternak/konsultasi/room', [RoomController::class,'create'])->name('room.create');
+
+    Route::get('/peternak/informasiprogram', [PeternakController::class, 'informasiprogram'])->name('peternak.informasiprogram');
+    Route::get('/peternak/informasiprogram/artikel',[PeternakController::class, 'artikel'])->name('peternak.artikel');
+    Route::get('/peternak/informasiprogram/lihatartikel',[PeternakController::class, 'lihatartikel'])->name('peternak.lihatartikel');
+
 
 });

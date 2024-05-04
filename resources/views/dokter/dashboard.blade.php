@@ -31,12 +31,12 @@
               alt="" />
           <p class="text-2xl">Laporan</p>
         </button>
-        <button onclick="location.href='/dokter/infromasidanprogram'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
+        <button onclick="location.href='{{route('dokter.informasiprogram')}}'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
           <img
               class="h-36"
               src="/images/informasi.png"
               alt="" />
-          <p class="text-md">Informasi dan Program</p>
+          <p class="text-md">Informasi Program</p>
         </button>
       </div>
         <img class="absolute h-full right-0" src="/images/vector.png" alt="">

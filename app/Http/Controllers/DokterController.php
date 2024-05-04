@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\desa;
+use App\Models\artikel;
 use App\Models\wilayah;
 use App\Models\Pengguna;
 use App\Models\kecamatan;
 use App\Models\dokterhewan;
 use Illuminate\Http\Request;
+use App\Models\dinaspeternakan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -112,5 +114,171 @@ class DokterController extends Controller
         }
         $photo = '/images/defaultprofile.png';
         return view('dokter.konsultasi',compact('user','data','aktor','photo') );
+    }
+
+    public function informasiprogram(){
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+    
+        // Mengambil 4 artikel terbaru dari model Artikel
+        $latestArticles = Artikel::latest()->take(4)->get();
+    
+        return view('dokter.informasiprogram', compact('user', 'photo', 'latestArticles'));
+    }
+    
+
+    public function tambahartikel() {
+        $user = Auth::user();
+        $photo= $user->avatar;
+
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+            return view('dokter.tambahartikel', compact('user','photo'));
+        } 
+        $photo = '/images/defaultprofile.png';
+        return view('dokter.tambahartikel' , compact('user','photo'));
+    }
+
+    public function storetambahartikel(Request $request) {
+        
+        $request->validate([
+            'judul' => 'required',
+            'gambar' => 'image', // Hapus validasi mimes untuk memperbolehkan semua jenis gambar
+            'isi' => 'required'
+        ], [
+            'judul.required' => 'Judul Artikel wajib diisi',
+            'gambar.image' => 'File harus berupa gambar',
+            'isi.required' => 'Isi Artikel wajib diisi'
+        ]);
+    
+        // Proses menyimpan artikel
+        $artikel = artikel::create([
+            'judul_artikel' => $request->judul,
+            'isi_artikel' => $request->isi,
+            'id_pengguna' => $request->id_pengguna
+        ]);
+    
+        // Proses menyimpan gambar
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $fileName = time().'    .'.$file->getClientOriginalExtension(); // Menggunakan waktu unik sebagai nama file
+            $file->move(public_path('artikel'), $fileName); // Menyimpan file ke direktori artikel dengan nama yang sesuai
+    
+            // Simpan nama file gambar ke dalam database
+            $artikel->gambar = $fileName;
+            $artikel->save();
+        }
+    
+        // Redirect atau respons sukses
+        return redirect(route('dokter.informasiprogram'))->with('success', 'Artikel berhasil dibuat');
+    }
+
+    public function artikel() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+    
+        // Mengambil data artikel dari model, diurutkan berdasarkan created_at
+        $artikel = Artikel::latest()->get();
+    
+        // Pisahkan artikel terbaru untuk dijadikan hero card
+        $latestArticle = $artikel->shift();
+    
+        return view('dokter.artikel', compact('user', 'photo', 'artikel','latestArticle'));
+    }
+    public function lihatartikel() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        $id_artikel = request()->query('id');
+
+        if (!$id_artikel) { 
+            return redirect()->route('dokter.artikel');
+        }
+
+        $artikel = Artikel::findOrFail($id_artikel);
+        $penulis = dinaspeternakan::where('id_pengguna',$artikel->id_pengguna)->first();
+        // dd($penulis);
+        if (!$penulis) {
+                $penulis = dokterhewan::where('id_pengguna',$artikel->id_pengguna)->first();
+            
+        }
+
+        return view('dokter.lihatartikel', compact('user', 'photo','artikel','penulis'));
+    }
+
+    public function editartikel() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+    
+        $id_artikel = request()->query('id');
+        $artikel = Artikel::findOrFail($id_artikel);
+    
+        return view('dokter.editartikel', compact('user', 'photo', 'artikel'));
+    }
+
+    public function storeeditartikel(Request $request) {
+        $id = request()->query('id');
+    
+        // Validasi input
+        $request->validate([
+            'judul' => 'required',
+            'gambar' => 'image', // Hapus validasi mimes untuk memperbolehkan semua jenis gambar
+            'isi' => 'required'
+        ], [
+            'judul.required' => 'Judul Artikel wajib diisi',
+            'gambar.image' => 'File harus berupa gambar',
+            'isi.required' => 'Isi Artikel wajib diisi'
+        ]);
+        
+        // Cari artikel yang akan diedit berdasarkan ID
+        $artikel = artikel::findOrFail($id);
+        
+        // Perbarui data artikel
+        $artikel->judul_artikel = $request->judul;
+        $artikel->isi_artikel = $request->isi;
+        
+        // Proses menyimpan gambar baru jika ada
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $fileName = time() . '.' . $file->getClientOriginalExtension(); // Menggunakan waktu unik sebagai nama file
+            $file->move(public_path('artikel'), $fileName); // Menyimpan file ke direktori artikel dengan nama yang sesuai
+        
+            // Hapus gambar lama jika ada
+            if ($artikel->gambar) {
+                unlink(public_path('artikel/' . $artikel->gambar));
+            }
+        
+            // Simpan nama file gambar baru ke dalam database
+            $artikel->gambar = $fileName;
+        }
+        
+        // Simpan perubahan pada artikel
+        $artikel->save();
+        
+        // Redirect atau respons sukses
+        return redirect(route('dokter.lihatartikel',['id'=> $id]))->with('success', 'Artikel berhasil diperbarui');
     }
 }

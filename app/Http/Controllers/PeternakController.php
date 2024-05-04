@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\desa;
 use App\Models\dusun;
 use App\Models\pesan;
+use App\Models\artikel;
 use App\Models\wilayah;
 use App\Models\Pengguna;
 use App\Models\peternak;
 use App\Models\kecamatan;
+use App\Models\dokterhewan;
 use Illuminate\Http\Request;
+use App\Models\dinaspeternakan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -121,51 +124,63 @@ class PeternakController extends Controller
         return view('peternak.konsultasi',compact('user','data','aktor','photo') );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function informasiprogram(){
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+    
+        // Mengambil 4 artikel terbaru dari model Artikel
+        $latestArticles = artikel::latest()->take(4)->get();
+    
+        return view('peternak.informasiprogram', compact('user', 'photo', 'latestArticles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function artikel() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+    
+        // Mengambil data artikel dari model, diurutkan berdasarkan created_at
+        $artikel = Artikel::latest()->get();
+    
+        // Pisahkan artikel terbaru untuk dijadikan hero card
+        $latestArticle = $artikel->shift();
+    
+        return view('peternak.artikel', compact('user', 'photo', 'artikel','latestArticle'));
     }
+    public function lihatartikel() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        $id_artikel = request()->query('id');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        if (!$id_artikel) { 
+            return redirect()->route('peternak.artikel');
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $artikel = Artikel::findOrFail($id_artikel);
+        $penulis = dinaspeternakan::where('id_pengguna',$artikel->id_pengguna)->first();
+        // dd($penulis);
+        if (!$penulis) {
+                $penulis = dokterhewan::where('id_pengguna',$artikel->id_pengguna)->first();
+            
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('peternak.lihatartikel', compact('user', 'photo','artikel','penulis'));
     }
 }
