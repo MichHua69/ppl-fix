@@ -32,7 +32,7 @@
               alt="" />
           <p class="text-2xl">Laporan</p>
         </button>
-        <button onclick="location.href='/dinas/infromasidanprogram'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
+        <button onclick="location.href='/dinas/infromasiprogram'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
           <img
               class="h-36"
               src="/images/informasi.png"

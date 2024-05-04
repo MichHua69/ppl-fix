@@ -50,51 +50,26 @@
 
             </div>
             <div class="py-4 font-semibold text-3xl">Artikel</div>
-              <div class="flex gap-4 justify-between">
-                <div class="relative flex flex-col w-1/5 gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl">
-                  <img class="h-36 object-cover rounded-lg" src="/images/logo2-image.png" alt="">
-                  <div class="font-semibold text-lg h-8 overflow-hidden">
-                    Strategi Pencegahan Penyakit Pada Sapi: Peran Vaksinasi dan Manajemen Lingkungan
-                  </div>                            
-                  <div class="text-sm h-20 overflow-hidden">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non voluptates provident quis repellendus quam ullam rem soluta. Voluptate libero molestiae provident sapiente animi deserunt eum cupiditate aliquam, voluptatem velit similique. 
+            <div class="grid grid-cols-4 gap-4">
+                @foreach($latestArticles as $article)
+                    @if($article->gambar)
+                      <div class="relative flex flex-col gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl">
+                        <img class="h-36 object-cover rounded-lg" src="/artikel/{{$article->gambar}}" alt="">
+                        <div class="font-semibold text-lg h-8 overflow-hidden">{{$article->judul_artikel}}</div>
+                        <div class="text-sm h-20 overflow-hidden">{!! $article->isi_artikel !!}</div>
+                        <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md" href="{{ route('dinas.lihatartikel', ['id' => $article->id]) }}">Lihat</a>
+                    </div>
+                    @else
+                    <div class="relative flex flex-col gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl">
+                      <div class="font-semibold text-lg h-16 overflow-hidden">{{$article->judul_artikel}}</div>
+                      <div class="text-sm h-48 overflow-hidden">{!! $article->isi_artikel !!}</div>
+                      <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md" href="{{ route('dinas.lihatartikel', ['id' => $article->id]) }}">Lihat</a>
                   </div>
-                  <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md font-semibold" href="">Lihat</a>
-                </div>
-                <div class="relative flex flex-col w-1/5 gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl">
-                  <img class="h-36 object-cover rounded-lg" src="/images/logo2-image.png" alt="">
-                  <div class="font-semibold text-lg h-8 overflow-hidden">
-                    Strategi Pencegahan Penyakit Pada Sapi: Peran Vaksinasi dan Manajemen Lingkungan
-                  </div>                            
-                  <div class="text-sm h-20 overflow-hidden">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non voluptates provident quis repellendus quam ullam rem soluta. Voluptate libero molestiae provident sapiente animi deserunt eum cupiditate aliquam, voluptatem velit similique. 
-                  </div>
-                  <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md" href="">Lihat</a>
-                </div>
-                <div class="relative flex flex-col w-1/5 gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl">
-                  <img class="h-36 object-cover rounded-lg" src="/images/logo2-image.png" alt="">
-                  <div class="font-semibold text-lg h-8 overflow-hidden">
-                    Strategi Pencegahan Penyakit Pada Sapi: Peran Vaksinasi dan Manajemen Lingkungan
-                  </div>                            
-                  <div class="text-sm h-20 overflow-hidden">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non voluptates provident quis repellendus quam ullam rem soluta. Voluptate libero molestiae provident sapiente animi deserunt eum cupiditate aliquam, voluptatem velit similique. 
-                  </div>
-                  <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md" href="">Lihat</a>
-                </div>
-                <div class="relative flex flex-col w-1/5 gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl">
-                  <img class="h-36 object-cover rounded-lg" src="/images/logo2-image.png" alt="">
-                  <div class="font-semibold text-lg h-8 overflow-hidden">
-                    Strategi Pencegahan Penyakit Pada Sapi: Peran Vaksinasi dan Manajemen Lingkungan
-                  </div>                            
-                  <div class="text-sm h-20 overflow-hidden">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non voluptates provident quis repellendus quam ullam rem soluta. Voluptate libero molestiae provident sapiente animi deserunt eum cupiditate aliquam, voluptatem velit similique. 
-                  </div>
-                  <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md" href="">Lihat</a>
-                </div>
-            </div>
+                  @endif
+                @endforeach
+            </div>            
             <div class="mt-6 flex justify-end">
-              <button class="shadow-md p-4 rounded-full font-medium hover:text-secondary hover:bg-primary">Lihat Selengkapnya >
-              </button>
+              <button class="shadow-md p-4 rounded-full font-medium hover:text-secondary hover:bg-primary" onclick="window.location.href='{{ route('dinas.artikel') }}'">Lihat Selengkapnya ></button>
             </div>
             <div class="py-4 font-semibold text-3xl">Program</div>
             <div class="flex gap-8 justify-center">

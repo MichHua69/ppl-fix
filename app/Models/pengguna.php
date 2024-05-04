@@ -79,4 +79,8 @@ class pengguna extends Authenticatable
     {
         return $this->hasOne(dinaspeternakan::class, 'id_pengguna', 'id');
     }
+    public function artikel()
+    {
+        return $this->hasOne(dinaspeternakan::class, 'id_pengguna', 'id');
+    }
 }

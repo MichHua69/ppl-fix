@@ -48,18 +48,21 @@ Route::middleware(['role:1'])->group(function () {
     //akun
     Route::get('/dinas/buatakun', [DinasController::class, 'buatakun'])->name('dinas.buatakun');
     Route::post('/dinas/buatakun/store', [DinasController::class, 'buatakunstore'])->name('dinas.buatakun.store');
-
     Route::get('/dinas/akundokter', [DinasController::class, 'akundokter'])->name('dinas.akundokter');
     Route::post('/dinas/akundokter/edit', [DinasController::class, 'editakundokter'])->name('dinas.editakundokter');
     Route::post('/dinas/akundokter/resetpassword', [DinasController::class, 'resetpasswordakundokter'])->name('dinas.resetpasswordakundokter');
     Route::post('/dinas/akundokter/remove', [DinasController::class, 'removeakundokter'])->name('dinas.removeakundokter');
-
     Route::get('/dinas/akunpeternak', [DinasController::class, 'akunpeternak'])->name('dinas.akunpeternak');
     
+    //informasiprogram
     Route::get('/dinas/informasiprogram', [DinasController::class, 'informasiprogram'])->name('dinas.informasiprogram');
+    Route::get('/dinas/informasiprogram/artikel',[DinasController::class, 'artikel'])->name('dinas.artikel');
     Route::get('/dinas/informasiprogram/lihatartikel',[DinasController::class, 'lihatartikel'])->name('dinas.lihatartikel');
     Route::get('/dinas/informasiprogram/tambahartikel',[DinasController::class, 'tambahartikel'])->name('dinas.tambahartikel');
+    Route::get('/dinas/informasiprogram/editartikel',[DinasController::class, 'editartikel'])->name('dinas.editartikel');
+    Route::get('/dinas/informasiprogram/tambahartikel',[DinasController::class, 'tambahartikel'])->name('dinas.tambahartikel');
     Route::post('/dinas/informasiprogram/storetambahartikel',[DinasController::class, 'storetambahartikel'])->name('dinas.storetambahartikel');
+    Route::post('/dinas/informasiprogram/storeeditartikel',[DinasController::class, 'storeeditartikel'])->name('dinas.storeeditartikel');
 
 });
 

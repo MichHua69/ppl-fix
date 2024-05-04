@@ -10,11 +10,16 @@ class artikel extends Model
     use HasFactory;
 
 
-    public $timestamps  = false;
+    // public $timestamps  = false;
 
     protected $guarded  = [
         'id'
     ];
 
     protected $table = 'artikel';
+
+    public function pengguna()
+    {
+        return $this->belongsTo(pengguna::class, 'id_pengguna', 'id');
+    }
 }
