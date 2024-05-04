@@ -8,6 +8,7 @@ use App\Models\wilayah;
 use App\Models\kecamatan;
 use Illuminate\Database\Seeder;
 use Database\Seeders\WilayahSeeder;
+use Database\Seeders\ArtikelSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,8 +33,8 @@ class DatabaseSeeder extends Seeder
             PenggunaSeeder::class,
             dinasPeternakanSeeder::class,
             DokterSeeder::class,
-            PeternakSeeder::class
-
+            PeternakSeeder::class,
+            ArtikelSeeder::class
         ]);
     }
 }
