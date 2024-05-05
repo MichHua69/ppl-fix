@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             dinasPeternakanSeeder::class,
             DokterSeeder::class,
             PeternakSeeder::class,
-            ArtikelSeeder::class
+            ArtikelSeeder::class,
+            ProgramSeeder::class
         ]);
     }
 }

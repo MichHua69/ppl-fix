@@ -42,14 +42,16 @@
                         </a>
                     </div>
                     <div class="py-2 first:pt-0 last:pb-0">
-                        <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700" href="{{route('dinas.akundokter')}}">Program</a>
+                        <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700" href="{{route('dinas.tambahprogram')}}">Program</a>
                     </div>
                   </div>
                 </div>
               </div>
 
             </div>
-            <div class="py-4 font-semibold text-3xl">Artikel</div>
+            <div class="py-4 font-semibold text-3xl">
+                Artikel
+            </div>
             <div class="grid grid-cols-4 gap-4">
                 @foreach($latestArticles as $article)
                     @if($article->gambar)
@@ -71,17 +73,20 @@
             <div class="mt-6 flex justify-end">
               <button class="shadow-md p-4 rounded-full font-medium hover:text-secondary hover:bg-primary" onclick="window.location.href='{{ route('dinas.artikel') }}'">Lihat Selengkapnya ></button>
             </div>
-            <div class="py-4 font-semibold text-3xl">Program</div>
+            <div class="py-4 font-semibold text-3xl">
+              Program
+            </div>
             <div class="flex gap-8 justify-center">
-              <div class="flex flex-col w-1/5 gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h">
-                  <img class="h-36 object-cover" src="/images/divo.png" alt="">
-                  <span class="font-semibold text-xl">Vaksin Gratis 2024</span>
-                  <div class="text-sm h-20 overflow-hidden">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non voluptates provident quis repellendus quam ullam rem soluta. Voluptate libero molestiae provident sapiente animi deserunt eum cupiditate aliquam, voluptatem velit similique.
+              @foreach($latestProgram as $program)
+                    <div class="relative flex flex-col gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl">
+                      <div class="font-semibold text-lg h-16 overflow-hidden">{{$program->nama_program}}</div>
+                      <div class="text-sm h-48 overflow-hidden">{!! $program->deskripsi !!}</div>
+                      <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md" href="{{ route('dinas.lihatprogram', ['id' => $program->id]) }}">Lihat</a>
                   </div>
-              </div>
-
-              </div>
+                @endforeach
+            </div>
+            <div class="mt-6 flex justify-end">
+              <button class="shadow-md p-4 rounded-full font-medium hover:text-secondary hover:bg-primary" onclick="window.location.href='{{ route('dinas.program') }}'">Lihat Selengkapnya ></button>
             </div>
           </div>
         </div>

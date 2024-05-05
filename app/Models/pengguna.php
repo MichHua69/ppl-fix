@@ -81,6 +81,6 @@ class pengguna extends Authenticatable
     }
     public function artikel()
     {
-        return $this->hasOne(dinaspeternakan::class, 'id_pengguna', 'id');
+        return $this->hasMany(artikel::class, 'id_pengguna', 'id');
     }
 }

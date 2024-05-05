@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\artikel;
 use App\Models\desa;
+use App\Models\artikel;
+use App\Models\program;
 use App\Models\wilayah;
 use App\Models\pengguna;
 use App\Models\peternak;
@@ -12,9 +13,11 @@ use App\Models\puskeswan;
 use App\Models\dokterhewan;
 use Illuminate\Http\Request;
 use App\Models\dinaspeternakan;
+use App\Models\jadwalprogram;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -283,9 +286,10 @@ class DinasController extends Controller
         }
     
         // Mengambil 4 artikel terbaru dari model Artikel
-        $latestArticles = Artikel::latest()->take(4)->get();
+        $latestArticles = artikel::latest()->take(4)->get();
+        $latestProgram = program::latest()->take(4)->get();
     
-        return view('dinas.informasiprogram', compact('user', 'photo', 'latestArticles'));
+        return view('dinas.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram'));
     }
     
 
@@ -353,6 +357,7 @@ class DinasController extends Controller
     
         return view('dinas.artikel', compact('user', 'photo', 'artikel','latestArticle'));
     }
+
     public function lihatartikel() {
         $user = Auth::user();
         $photo = $user->avatar;
@@ -438,4 +443,202 @@ class DinasController extends Controller
         return redirect(route('dinas.lihatartikel',['id'=> $id]))->with('success', 'Artikel berhasil diperbarui');
     }
 
+    public function tambahprogram() {
+        $user = Auth::user();
+        $photo= $user->avatar;
+
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        $puskeswan = puskeswan::all();
+        $numTbodies = Session::get('numTbodies', 0);
+        return view('dinas.tambahprogram' , compact('user','photo','puskeswan','numTbodies'));
+    }
+    
+    public function storetambahprogram(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'sesi.*' => 'required|string|max:255',
+            'tanggal.*' => 'required|date',
+            'waktu_mulai.*' => 'required|date_format:H:i',
+            'waktu_selesai.*' => 'required|date_format:H:i',
+            'puskeswan.*' => 'required|exists:puskeswan,id',
+        ], [
+            'nama.required' => 'Kolom Nama Program wajib diisi.',
+            'nama.string' => 'Kolom Nama Program harus berupa teks.',
+            'nama.max' => 'Kolom Nama Program tidak boleh lebih dari :max karakter.',
+            'deskripsi.required' => 'Kolom Deskripsi wajib diisi.',
+            'deskripsi.string' => 'Kolom Deskripsi harus berupa teks.',
+            'sesi.*.required' => 'Kolom Sesi wajib diisi.',
+            'sesi.*.string' => 'Kolom Sesi harus berupa teks.',
+            'sesi.*.max' => 'Kolom Sesi tidak boleh lebih dari :max karakter.',
+            'tanggal.*.required' => 'Kolom Tanggal wajib diisi.',
+            'tanggal.*.date' => 'Kolom Tanggal harus berupa format tanggal yang valid.',
+            'waktu_mulai.*.required' => 'Kolom Waktu Mulai wajib diisi.',
+            'waktu_mulai.*.date_format' => 'Kolom Waktu Mulai harus berupa format waktu yang valid (HH:mm).',
+            'waktu_selesai.*.required' => 'Kolom Waktu Selesai wajib diisi.',
+            'waktu_selesai.*.date_format' => 'Kolom Waktu Selesai harus berupa format waktu yang valid (HH:mm).',
+            'puskeswan.*.required' => 'Kolom Puskeswan wajib diisi.',
+            'puskeswan.*.exists' => 'Puskeswan yang dipilih tidak valid.',
+        ]);
+
+        if ($validator->fails()) {
+            $numTbodies = count($request->input('sesi'));
+            session()->flash('numTbodies', $numTbodies);
+            return redirect()->back()
+                            ->withErrors($validator)
+                            ->withInput();
+        }
+
+        // Simpan program
+        $program = new Program();
+        $program->nama_program = $request->nama;
+        $program->deskripsi = $request->deskripsi;
+        $program->save();
+
+        // Simpan jadwal
+        foreach ($request->sesi as $key => $sesi) {
+            $jadwal = new jadwalprogram();
+            $jadwal->sesi = $sesi;
+            $jadwal->tanggal = $request->tanggal[$key];
+            $jadwal->waktu_mulai = $request->waktu_mulai[$key];
+            $jadwal->waktu_selesai = $request->waktu_selesai[$key];
+            $jadwal->id_puskeswan = $request->puskeswan[$key];
+            $jadwal->id_program = $program->id; // Tautkan jadwal dengan program
+            $jadwal->save();
+        }
+
+
+        return redirect()->route('dinas.informasiprogram')->with('success', 'Program berhasil disimpan.');
+    }
+
+    public function program() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        $program = program::latest()->get();
+    
+        $latestProgram = $program->shift();
+        return view('dinas.program', compact('user', 'photo','latestProgram','program'));
+    }
+
+    public function lihatprogram() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        $id_artikel = request()->query('id');
+
+        if (!$id_artikel) { 
+            return redirect()->route('dinas.artikel');
+        }
+
+        $program = program::findOrFail($id_artikel);
+        $jadwalprogram = jadwalprogram::where('id_program',$program->id)->get();
+
+        // dd($jadwalprogram);
+
+        return view('dinas.lihatprogram', compact('user', 'photo','program','jadwalprogram'));
+    }
+
+    public function editprogram() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        
+        $puskeswan = puskeswan::all();
+        $id_program = request()->query('id');
+        $program = program::findOrFail($id_program);
+        $jadwalprogram = jadwalprogram::where('id_program',$program->id)->get();
+        // dd($jadwalprogram);
+
+        $numTbodies = jadwalprogram::where('id_program',$id_program)->count();
+        session()->flash('numTbodies', $numTbodies);
+        $numTbodies = Session::get('numTbodies', 0);
+        
+        return view('dinas.editprogram', compact('user', 'photo', 'program','puskeswan','jadwalprogram'));
+    }
+
+    public function storeeditprogram(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'sesi.*' => 'required|string|max:255',
+            'tanggal.*' => 'required|date',
+            'waktu_mulai.*' => 'required|date_format:H:i',
+            'waktu_selesai.*' => 'required|date_format:H:i',
+            'puskeswan.*' => 'required|exists:puskeswan,id',
+            'jadwal_id.*' => 'nullable|exists:jadwalprogram,id', // Validasi untuk jadwal_id
+        ], [
+            'nama.required' => 'Kolom Nama Program wajib diisi.',
+            'nama.string' => 'Kolom Nama Program harus berupa teks.',
+            'nama.max' => 'Kolom Nama Program tidak boleh lebih dari :max karakter.',
+            'deskripsi.required' => 'Kolom Deskripsi wajib diisi.',
+            'deskripsi.string' => 'Kolom Deskripsi harus berupa teks.',
+            'sesi.*.required' => 'Kolom Sesi wajib diisi.',
+            'sesi.*.string' => 'Kolom Sesi harus berupa teks.',
+            'sesi.*.max' => 'Kolom Sesi tidak boleh lebih dari :max karakter.',
+            'tanggal.*.required' => 'Kolom Tanggal wajib diisi.',
+            'tanggal.*.date' => 'Kolom Tanggal harus berupa format tanggal yang valid.',
+            'waktu_mulai.*.required' => 'Kolom Waktu Mulai wajib diisi.',
+            'waktu_mulai.*.date_format' => 'Kolom Waktu Mulai harus berupa format waktu yang valid (HH:mm).',
+            'waktu_selesai.*.required' => 'Kolom Waktu Selesai wajib diisi.',
+            'waktu_selesai.*.date_format' => 'Kolom Waktu Selesai harus berupa format waktu yang valid (HH:mm).',
+            'puskeswan.*.required' => 'Kolom Puskeswan wajib diisi.',
+            'puskeswan.*.exists' => 'Puskeswan yang dipilih tidak valid.',
+            'jadwal_id.*.required' => 'Kolom Jadwal ID wajib diisi.', // Pesan untuk validasi jadwal_id
+            'jadwal_id.*.exists' => 'Jadwal yang dipilih tidak valid.', // Pesan untuk validasi jadwal_id
+        ]);
+        
+        if ($validator->fails()) {
+            $numTbodies = count($request->input('sesi'));
+            session()->flash('numTbodies', $numTbodies);
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+    
+        $id_program = $request->query('id');
+    
+        // Hapus semua data jadwal yang terkait dengan ID program yang sama
+    jadwalprogram::where('id_program', $id_program)->delete();
+
+    // Update program
+    $program = program::findOrFail($id_program);
+    $program->nama_program = $request->nama;
+    $program->deskripsi = $request->deskripsi;
+    $program->save();
+
+    // Tambahkan data jadwal baru
+    for ($i = 0; $i < count($request->sesi); $i++) {
+        $jadwal = new jadwalprogram();
+        $jadwal->id_program = $program->id;
+        $jadwal->sesi = $request->sesi[$i];
+        $jadwal->tanggal = $request->tanggal[$i];
+        $jadwal->waktu_mulai = $request->waktu_mulai[$i];
+        $jadwal->waktu_selesai = $request->waktu_selesai[$i];
+        $jadwal->id_puskeswan = $request->puskeswan[$i];
+        $jadwal->save();
+    }
+    
+        return redirect()->route('dinas.informasiprogram')->with('success', 'Program berhasil diperbarui.');
+    }
+    
 }

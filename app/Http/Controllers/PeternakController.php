@@ -6,12 +6,14 @@ use App\Models\desa;
 use App\Models\dusun;
 use App\Models\pesan;
 use App\Models\artikel;
+use App\Models\program;
 use App\Models\wilayah;
 use App\Models\Pengguna;
 use App\Models\peternak;
 use App\Models\kecamatan;
 use App\Models\dokterhewan;
 use Illuminate\Http\Request;
+use App\Models\jadwalprogram;
 use App\Models\dinaspeternakan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -136,8 +138,9 @@ class PeternakController extends Controller
     
         // Mengambil 4 artikel terbaru dari model Artikel
         $latestArticles = artikel::latest()->take(4)->get();
+        $latestProgram = program::latest()->take(4)->get();
     
-        return view('peternak.informasiprogram', compact('user', 'photo', 'latestArticles'));
+        return view('peternak.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram'));
     }
 
     public function artikel() {
@@ -182,5 +185,43 @@ class PeternakController extends Controller
         }
 
         return view('peternak.lihatartikel', compact('user', 'photo','artikel','penulis'));
+    }
+
+    public function program() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        $program = program::latest()->get();
+    
+        $latestProgram = $program->shift();
+        return view('peternak.program', compact('user', 'photo','latestProgram','program'));
+    }
+
+    public function lihatprogram() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        $id_artikel = request()->query('id');
+
+        if (!$id_artikel) { 
+            return redirect()->route('peternak.artikel');
+        }
+
+        $program = program::findOrFail($id_artikel);
+        $jadwalprogram = jadwalprogram::where('id_program',$program->id)->get();
+
+        // dd($jadwalprogram);
+
+        return view('peternak.lihatprogram', compact('user', 'photo','program','jadwalprogram'));
     }
 }

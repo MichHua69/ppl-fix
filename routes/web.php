@@ -56,6 +56,8 @@ Route::middleware(['role:1'])->group(function () {
     
     //informasiprogram
     Route::get('/dinas/informasiprogram', [DinasController::class, 'informasiprogram'])->name('dinas.informasiprogram');
+    
+    //informasiprogram-artikel
     Route::get('/dinas/informasiprogram/artikel',[DinasController::class, 'artikel'])->name('dinas.artikel');
     Route::get('/dinas/informasiprogram/lihatartikel',[DinasController::class, 'lihatartikel'])->name('dinas.lihatartikel');
     Route::get('/dinas/informasiprogram/tambahartikel',[DinasController::class, 'tambahartikel'])->name('dinas.tambahartikel');
@@ -63,7 +65,19 @@ Route::middleware(['role:1'])->group(function () {
     Route::get('/dinas/informasiprogram/tambahartikel',[DinasController::class, 'tambahartikel'])->name('dinas.tambahartikel');
     Route::post('/dinas/informasiprogram/storetambahartikel',[DinasController::class, 'storetambahartikel'])->name('dinas.storetambahartikel');
     Route::post('/dinas/informasiprogram/storeeditartikel',[DinasController::class, 'storeeditartikel'])->name('dinas.storeeditartikel');
+    
+    //informasiprogram-program
+    Route::get('/dinas/informasiprogram/program',[DinasController::class, 'program'])->name('dinas.program');
+    Route::get('/dinas/informasiprogram/lihatprogram',[DinasController::class, 'lihatprogram'])->name('dinas.lihatprogram');
+    Route::get('/dinas/informasiprogram/tambahprogram',[DinasController::class, 'tambahprogram'])->name('dinas.tambahprogram');
+    Route::get('/dinas/informasiprogram/editprogram',[DinasController::class, 'editprogram'])->name('dinas.editprogram');
+    Route::post('/dinas/informasiprogram/storetambahprogram',[DinasController::class, 'storetambahprogram'])->name('dinas.storetambahprogram');
+    Route::post('/dinas/informasiprogram/storeeditprogram',[DinasController::class, 'storeeditprogram'])->name('dinas.storeeditprogram');
 
+
+
+    
+    
 });
 
 Route::middleware(['role:2'])->group(function () {
@@ -82,6 +96,8 @@ Route::middleware(['role:2'])->group(function () {
 
     //informasiprogram
     Route::get('/dokter/informasiprogram', [DokterController::class, 'informasiprogram'])->name('dokter.informasiprogram');
+    
+    //informasiprogram-artikel
     Route::get('/dokter/informasiprogram/artikel',[DokterController::class, 'artikel'])->name('dokter.artikel');
     Route::get('/dokter/informasiprogram/lihatartikel',[DokterController::class, 'lihatartikel'])->name('dokter.lihatartikel');
     Route::get('/dokter/informasiprogram/tambahartikel',[DokterController::class, 'tambahartikel'])->name('dokter.tambahartikel');
@@ -89,6 +105,10 @@ Route::middleware(['role:2'])->group(function () {
     Route::get('/dokter/informasiprogram/tambahartikel',[DokterController::class, 'tambahartikel'])->name('dokter.tambahartikel');
     Route::post('/dokter/informasiprogram/storetambahartikel',[DokterController::class, 'storetambahartikel'])->name('dokter.storetambahartikel');
     Route::post('/dokter/informasiprogram/storeeditartikel',[DokterController::class, 'storeeditartikel'])->name('dokter.storeeditartikel');
+
+    //informasiprogram-program
+    Route::get('/dokter/informasiprogram/program',[DokterController::class, 'program'])->name('dokter.program');
+    Route::get('/dokter/informasiprogram/lihatprogram',[DokterController::class, 'lihatprogram'])->name('dokter.lihatprogram');
 });
 
 Route::middleware(['role:3'])->group(function () {
@@ -102,9 +122,16 @@ Route::middleware(['role:3'])->group(function () {
     Route::get('/peternak/konsultasi/load/{roomId}', [ChatController::class, 'loadMessage'])->name('chat.load');
     Route::post('/peternak/konsultasi/room', [RoomController::class,'create'])->name('room.create');
 
+    //informasiprogram
     Route::get('/peternak/informasiprogram', [PeternakController::class, 'informasiprogram'])->name('peternak.informasiprogram');
+    
+    //informasiprogram-artikel
     Route::get('/peternak/informasiprogram/artikel',[PeternakController::class, 'artikel'])->name('peternak.artikel');
     Route::get('/peternak/informasiprogram/lihatartikel',[PeternakController::class, 'lihatartikel'])->name('peternak.lihatartikel');
+
+    //informasiprogram-program
+    Route::get('/peternak/informasiprogram/program',[PeternakController::class, 'program'])->name('peternak.program');
+    Route::get('/peternak/informasiprogram/lihatprogram',[PeternakController::class, 'lihatprogram'])->name('peternak.lihatprogram');
 
 
 });

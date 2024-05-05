@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\desa;
 use App\Models\artikel;
+use App\Models\program;
 use App\Models\wilayah;
 use App\Models\Pengguna;
 use App\Models\kecamatan;
+use App\Models\puskeswan;
 use App\Models\dokterhewan;
 use Illuminate\Http\Request;
+use App\Models\jadwalprogram;
 use App\Models\dinaspeternakan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class DokterController extends Controller
 {
@@ -128,8 +133,10 @@ class DokterController extends Controller
     
         // Mengambil 4 artikel terbaru dari model Artikel
         $latestArticles = Artikel::latest()->take(4)->get();
+        $latestProgram = program::latest()->take(4)->get();
+
     
-        return view('dokter.informasiprogram', compact('user', 'photo', 'latestArticles'));
+        return view('dokter.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram'));
     }
     
 
@@ -281,4 +288,43 @@ class DokterController extends Controller
         // Redirect atau respons sukses
         return redirect(route('dokter.lihatartikel',['id'=> $id]))->with('success', 'Artikel berhasil diperbarui');
     }
+
+    public function program() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        $program = program::latest()->get();
+    
+        $latestProgram = $program->shift();
+        return view('dokter.program', compact('user', 'photo','latestProgram','program'));
+    }
+
+    public function lihatprogram() {
+        $user = Auth::user();
+        $photo = $user->avatar;
+    
+        if ($photo != null) {
+            $photo = 'storage/' . $user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        $id_artikel = request()->query('id');
+
+        if (!$id_artikel) { 
+            return redirect()->route('dokter.artikel');
+        }
+
+        $program = program::findOrFail($id_artikel);
+        $jadwalprogram = jadwalprogram::where('id_program',$program->id)->get();
+
+        // dd($jadwalprogram);
+
+        return view('dokter.lihatprogram', compact('user', 'photo','program','jadwalprogram'));
+    }
+
 }

@@ -26,4 +26,9 @@ class puskeswan extends Model
     {
         return $this->hasMany(dokterhewan::class, 'id_puskeswan', 'id');
     }
+
+    public function jadwalprogram()
+    {
+        return $this->hasMany(jadwalprogram::class, 'id_program', 'id');
+    }
 }

@@ -20,7 +20,6 @@
               <div class="flex items-center">
                 <span class="px-2 py-4 bg-primary rounded-lg mx-auto text-3xl text-secondary font-semibold">Informasi dan Program Dinas Ketahanan Pangan dan Peternakan Kabupaten Jember</span>
               </div>
-
             </div>
             <div class="py-4 font-semibold text-3xl">Artikel</div>
             <div class="grid grid-cols-4 gap-4">
@@ -45,15 +44,17 @@
               <button class="shadow-md p-4 rounded-full font-medium hover:text-secondary hover:bg-primary" onclick="window.location.href='{{ route('peternak.artikel') }}'">Lihat Selengkapnya ></button>
             </div>
             <div class="py-4 font-semibold text-3xl">Program</div>
-            <div class="flex gap-8 justify-center">
-              <div class="flex flex-col w-1/5 gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h">
-                  <img class="h-36 object-cover" src="/images/divo.png" alt="">
-                  <span class="font-semibold text-xl">Vaksin Gratis 2024</span>
-                  <div class="text-sm h-20 overflow-hidden">
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non voluptates provident quis repellendus quam ullam rem soluta. Voluptate libero molestiae provident sapiente animi deserunt eum cupiditate aliquam, voluptatem velit similique.
-                  </div>
+              <div class="flex gap-8 justify-center">
+                @foreach($latestProgram as $program)
+                      <div class="relative flex flex-col gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl">
+                        <div class="font-semibold text-lg h-16 overflow-hidden">{{$program->nama_program}}</div>
+                        <div class="text-sm h-48 overflow-hidden">{!! $program->deskripsi !!}</div>
+                        <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md" href="{{ route('peternak.lihatprogram', ['id' => $program->id]) }}">Lihat</a>
+                    </div>
+                  @endforeach
               </div>
-
+              <div class="mt-6 flex justify-end">
+                <button class="shadow-md p-4 rounded-full font-medium hover:text-secondary hover:bg-primary" onclick="window.location.href='{{ route('peternak.program') }}'">Lihat Selengkapnya ></button>
               </div>
             </div>
           </div>
