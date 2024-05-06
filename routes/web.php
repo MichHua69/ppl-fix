@@ -74,6 +74,9 @@ Route::middleware(['role:1'])->group(function () {
     Route::post('/dinas/informasiprogram/storetambahprogram',[DinasController::class, 'storetambahprogram'])->name('dinas.storetambahprogram');
     Route::post('/dinas/informasiprogram/storeeditprogram',[DinasController::class, 'storeeditprogram'])->name('dinas.storeeditprogram');
 
+    //layanan
+    Route::get('/dinas/layanan', [DinasController::class, 'layanan'])->name('dinas.layanan');
+    Route::get('/dinas/tambahlayanan', [DinasController::class, 'tambahlayanan'])->name('dinas.tambahlayanan');
 
 
     
@@ -109,6 +112,8 @@ Route::middleware(['role:2'])->group(function () {
     //informasiprogram-program
     Route::get('/dokter/informasiprogram/program',[DokterController::class, 'program'])->name('dokter.program');
     Route::get('/dokter/informasiprogram/lihatprogram',[DokterController::class, 'lihatprogram'])->name('dokter.lihatprogram');
+
+    
 });
 
 Route::middleware(['role:3'])->group(function () {

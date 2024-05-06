@@ -640,5 +640,33 @@ class DinasController extends Controller
     
         return redirect()->route('dinas.informasiprogram')->with('success', 'Program berhasil diperbarui.');
     }
+
+    public function layanan() {
+        $user = Auth::user();
+        $photo= $user->avatar;
+
+        $puskeswan = puskeswan::all();
+        // dd($puskeswan);
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        return view ('dinas.layanan', compact('user', 'photo','puskeswan') );
+    }
+
+    public function tambahlayanan() {
+        $user = Auth::user();
+        $photo= $user->avatar;
+        $puskeswan = puskeswan::all();
+
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+
+        return view ('dinas.tambahlayanan', compact('user', 'photo','puskeswan') );
+    }
     
 }
