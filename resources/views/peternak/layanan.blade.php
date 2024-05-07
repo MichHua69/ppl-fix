@@ -10,7 +10,7 @@
 
 <body>
     <header class="absolute inset-x-0 top-0 z-50">
-        @include ('dinas.navbar')
+        @include ('peternak.navbar')
     </header>
     <section class="h-full">
       <div class="bg-primary pt-20 mt-6 h-full pb-1">
