@@ -645,15 +645,20 @@ class DinasController extends Controller
     public function layanan() {
         $user = Auth::user();
         $photo= $user->avatar;
-
-        $puskeswan = puskeswan::all();
-        // dd($puskeswan);
         if ($photo != null) {
             $photo = 'storage/'.$user->avatar;
         } else {
             $photo = '/images/defaultprofile.png';
         }
-        return view ('dinas.layanan', compact('user', 'photo','puskeswan') );
+        
+        // $aktor = dokterhewan::with('pengguna','puskeswan')->get();
+        // // dd($aktor);
+        $puskeswan = puskeswan::all();
+        $kecamatan = kecamatan::all();
+        $desa = desa::all();
+        
+
+        return view ('dinas.layanan', compact('user', 'photo','puskeswan','kecamatan','desa') );
     }
 
     public function tambahlayanan() {

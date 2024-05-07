@@ -140,8 +140,8 @@ Route::middleware(['role:3'])->group(function () {
     Route::get('/peternak/informasiprogram/lihatprogram',[PeternakController::class, 'lihatprogram'])->name('peternak.lihatprogram');
 
     //layanan
-    Route::get('/peternak/layanan', [PeternakController::class, 'layanan'])->name('dinas.layanan');
-    Route::get('/peternak/tambahlayanan', [PeternakController::class, 'tambahlayanan'])->name('dinas.tambahlayanan');
+    Route::get('/peternak/layanan', [PeternakController::class, 'layanan'])->name('peternak.layanan');
+    Route::get('/peternak/tambahlayanan', [PeternakController::class, 'tambahlayanan'])->name('peternak.tambahlayanan');
 
 
 

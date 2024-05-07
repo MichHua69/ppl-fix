@@ -29,7 +29,7 @@ class PeternakSeeder extends Seeder
             peternak::create([
                 'nama' => $data[0],
                 'nik' => $data[1],
-                'telepon' => bcrypt($data[2]),
+                'telepon' => $data[2],
                 'id_pengguna' => $data[3],
                 'id_alamat' => $data[4],
             ]);

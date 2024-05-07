@@ -65,18 +65,6 @@
                                 Nama
                             </label>
                             <p class="peer block w-full py-3 rounded-md" id="nama-p">{{$aktor->nama}}</p>
-                            <div class="relative basis-9/12"
-                                data-twe-input-wrapper-init>
-                                <input type="text" name="nama" id="nama"
-                                    placeholder="Masukkan Nama"
-                                    class="hidden peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('nama') border-red-500 @enderror"
-                                    value="{{$aktor->nama}}"
-                                    autocomplete="name" autofocus/>
-
-                                @error('nama')
-                                <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                                @enderror
-                            </div>
                         </div>
 
                         <div
@@ -273,21 +261,15 @@
     const namaP = document.getElementById('nama-p');
     const emailP = document.getElementById('email-p');
     const alamatP = document.getElementById('alamat-p');
-    // const kecamatanP = document.getElementById('kecamatan-p');
-    // const desaP = document.getElementById('desa-p');
-    // const dusunP = document.getElementById('dusun-p');
     const kecamatansP = document.getElementById('kecamatans-p');
     const desasP = document.getElementById('desas-p');
-    // const dusunsP = document.getElementById('dusuns-p');
     const kecamatanInput = document.getElementById('kecamatan');
     const desaInput = document.getElementById('desa');
-    // const dusunInput = document.getElementById('dusun');
     const nikP = document.getElementById('nik-p');
     const dusunP = document.getElementById('dusun-p');
     const teleponP = document.getElementById('telepon-p');
     const namaPenggunaP = document.getElementById('nama_pengguna-p');
     const passwordP = document.getElementById('password-p');
-    const namaInput = document.getElementById('nama');
     const emailInput = document.getElementById('email');
     const alamatInput = document.getElementById('alamat');
     const nikInput = document.getElementById('nik');
@@ -300,23 +282,14 @@
         editImage.classList.remove('hidden');
         saveProfileButton.classList.remove('hidden');
         cancelProfileButton.classList.remove('hidden');
-        //   namaP.classList.add('hidden'); 
-        //   namaInput.classList.remove('hidden');
-        //   emailP.classList.add('hidden');
-        //   emailInput.classList.remove('hidden');
         alamatP.classList.add('hidden');
         alamatInput.classList.remove('hidden');
-        // kecamatanP.classList.add('hidden');
         kecamatansP.classList.add('hidden');
         kecamatanInput.classList.remove('hidden');
-        // desaP.classList.add('hidden');
         desasP.classList.add('hidden');
         desaInput.classList.remove('hidden');
         dusunP.classList.add('hidden');
         dusunInput.classList.remove('hidden');
-        // dusunsP.classList.add('hidden');
-        //   nikP.classList.add('hidden');
-        //   nikInput.classList.remove('hidden');
         teleponP.classList.add('hidden');
         teleponInput.classList.remove('hidden');
         namaPenggunaP.classList.add('hidden');
@@ -330,18 +303,14 @@
         saveProfileButton.classList.add('hidden');
         cancelProfileButton.classList.add('hidden');
         namaP.classList.remove('hidden');
-        namaInput.classList.add('hidden');
         emailP.classList.remove('hidden');
         emailInput.classList.add('hidden');
         alamatP.classList.remove('hidden');
         alamatInput.classList.add('hidden');
-        // kecamatanP.classList.remove('hidden');
         kecamatansP.classList.remove('hidden');
         kecamatanInput.classList.add('hidden');
-        // desaP.classList.remove('hidden');
         desasP.classList.remove('hidden');
         desaInput.classList.add('hidden');
-        // dusunP.classList.remove('hidden');
         dusunP.classList.remove('hidden');
         dusunInput.classList.add('hidden');
         nikP.classList.remove('hidden');
@@ -361,23 +330,14 @@
         editImage.classList.remove('hidden');
         saveProfileButton.classList.remove('hidden');
         cancelProfileButton.classList.remove('hidden');
-        //   namaP.classList.add('hidden'); 
-        //   namaInput.classList.remove('hidden');
-        //   emailP.classList.add('hidden');
-        //   emailInput.classList.remove('hidden');
         alamatP.classList.add('hidden');
         alamatInput.classList.remove('hidden');
-        // kecamatanP.classList.add('hidden');
         kecamatansP.classList.add('hidden');
         kecamatanInput.classList.remove('hidden');
-        // desaP.classList.add('hidden');
         desasP.classList.add('hidden');
         desaInput.classList.remove('hidden');
         dusunP.classList.add('hidden');
         dusunInput.classList.remove('hidden');
-        // dusunsP.classList.add('hidden');
-        //   nikP.classList.add('hidden');
-        //   nikInput.classList.remove('hidden');
         teleponP.classList.add('hidden');
         teleponInput.classList.remove('hidden');
         namaPenggunaP.classList.add('hidden');

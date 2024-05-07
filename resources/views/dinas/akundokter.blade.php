@@ -160,12 +160,12 @@
               <form id="formremove" action="{{route('dinas.removeakundokter')}}" method="POST">
                   @csrf
                   <input type="text" class="hidden" name="id_pengguna" value="">
-                  <p class="m-4">Apa anda yakin menghapus akun?</p>
+                  <p class="m-4 text-center">Apa anda yakin menghapus akun?</p>
                   <div class="flex items-center justify-center">
                       <button type="button"
-                          class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4" id="batalRemove"
+                          class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700 mr-4" id="batalRemove"
                           onclick="closeModal()">Batal</button>
-                      <button type="submit" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light">Simpan</button>
+                      <button type="submit" class="bg-danger text-white py-2 px-4 rounded hover:bg-red-700">Hapus</button>
                   </div>
               </form>
           </div>
