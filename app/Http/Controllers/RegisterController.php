@@ -72,7 +72,6 @@ class RegisterController extends Controller
         $wilayah = wilayah::where('id_kecamatan', intval($id_kecamatan))
                         ->orWhere('id_desa', intval($id_desa))
                         ->first();
-        
 
         $alamat = alamat::create([
             'jalan' => $request->alamat,

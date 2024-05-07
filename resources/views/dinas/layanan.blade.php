@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="flex flex-col gap-2 bg-primary p-4 rounded-lg text-secondary font-semibold text-md shadow-lg min-w-96 max-w-96">
                                         <span>Puskeswan : {{$puskeswan->puskeswan}}</span>
-                                        <span>Alamat : {{$puskeswan->alamat->dusun}}, {{$puskeswan->alamat->wilayah->desa->desa}}, {{$puskeswan->alamat->wilayah->kecamatan->kecamatan}}</span>
+                                        <span>Alamat : {{$puskeswan->alamat->jalan}}, {{$puskeswan->alamat->dusun}}, {{$puskeswan->alamat->wilayah->desa->desa}}, Kec. {{$puskeswan->alamat->wilayah->kecamatan->kecamatan}}</span>
                                         <span>Telepon : {{$puskeswan->telepon}}</span>
                                     </div>
                                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\desa;
+use App\Models\alamat;
 use App\Models\artikel;
 use App\Models\program;
 use App\Models\wilayah;
@@ -12,8 +13,8 @@ use App\Models\kecamatan;
 use App\Models\puskeswan;
 use App\Models\dokterhewan;
 use Illuminate\Http\Request;
-use App\Models\dinaspeternakan;
 use App\Models\jadwalprogram;
+use App\Models\dinaspeternakan;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -659,6 +660,8 @@ class DinasController extends Controller
         $user = Auth::user();
         $photo= $user->avatar;
         $puskeswan = puskeswan::all();
+        $kecamatan = kecamatan::all();
+        $desa = desa::all();
 
         if ($photo != null) {
             $photo = 'storage/'.$user->avatar;
@@ -666,7 +669,54 @@ class DinasController extends Controller
             $photo = '/images/defaultprofile.png';
         }
 
-        return view ('dinas.tambahlayanan', compact('user', 'photo','puskeswan') );
+        return view ('dinas.tambahlayanan', compact('user', 'photo','puskeswan','kecamatan','desa') );
+    }
+
+    public function storetambahlayanan(Request $request) {
+        $validatedData = $request->validate([
+            'nama' => 'required|string|max:255',
+            'Jalan' => 'required|string',
+            'kecamatan' => 'required|exists:kecamatan,id',
+            'desa' => 'required|exists:desa,id',
+            'dusun' => 'required|string',
+            'telepon' => 'required|max:20',
+        ], [
+            'nama.required' => 'Kolom Nama wajib diisi.',
+            'nama.string' => 'Kolom Nama harus berupa teks.',
+            'nama.max' => 'Kolom Nama tidak boleh lebih dari :max karakter.',
+            'Jalan.required' => 'Kolom Jalan wajib diisi.',
+            'Jalan.string' => 'Kolom Jalan harus berupa teks.',
+            'kecamatan.required' => 'Kolom Kecamatan wajib dipilih.',
+            'kecamatan.exists' => 'Kecamatan yang dipilih tidak valid.',
+            'desa.required' => 'Kolom Desa wajib dipilih.',
+            'desa.exists' => 'Desa yang dipilih tidak valid.',
+            'dusun.required' => 'Kolom Dusun wajib diisi.',
+            'dusun.string' => 'Kolom Dusun harus berupa teks.',
+            'telepon.required' => 'Kolom Telepon wajib diisi.',
+            'telepon.max' => 'No. Telepon maksimal 20 angka.',
+        ]);
+
+        $id_kecamatan = $request->input('kecamatan');
+        $id_desa = $request->input('desa');
+
+        // Cari data wilayah berdasarkan id_kecamatan dan id_desa dari request
+        $wilayah = wilayah::where('id_kecamatan', intval($id_kecamatan))
+                        ->orWhere('id_desa', intval($id_desa))
+                        ->first();
+        // dd($wilayah);
+        $alamat = alamat::create([
+            'jalan' => $request->Jalan,
+            'id_wilayah' => $wilayah->id,
+            'dusun' => $request->dusun,
+        ]);
+        $puskeswan = puskeswan::create([
+            'puskeswan' => $request->nama,
+            'id_alamat' => $alamat->id,
+            'telepon' => $request->telepon,
+        ]);
+        
+        // Redirect ke halaman lain atau tampilkan pesan sukses
+        return redirect()->route('dinas.layanan')->with('success', 'Puskeswan berhasil ditambahkan.');
     }
     
 }

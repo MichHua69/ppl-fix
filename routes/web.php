@@ -77,6 +77,7 @@ Route::middleware(['role:1'])->group(function () {
     //layanan
     Route::get('/dinas/layanan', [DinasController::class, 'layanan'])->name('dinas.layanan');
     Route::get('/dinas/tambahlayanan', [DinasController::class, 'tambahlayanan'])->name('dinas.tambahlayanan');
+    Route::post('/dinas/storetambahlayanan', [DinasController::class, 'storetambahlayanan'])->name('dinas.storetambahlayanan');
 
 
     
@@ -137,6 +138,11 @@ Route::middleware(['role:3'])->group(function () {
     //informasiprogram-program
     Route::get('/peternak/informasiprogram/program',[PeternakController::class, 'program'])->name('peternak.program');
     Route::get('/peternak/informasiprogram/lihatprogram',[PeternakController::class, 'lihatprogram'])->name('peternak.lihatprogram');
+
+    //layanan
+    Route::get('/peternak/layanan', [PeternakController::class, 'layanan'])->name('dinas.layanan');
+    Route::get('/peternak/tambahlayanan', [PeternakController::class, 'tambahlayanan'])->name('dinas.tambahlayanan');
+
 
 
 });

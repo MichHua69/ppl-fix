@@ -11,6 +11,7 @@ use App\Models\wilayah;
 use App\Models\Pengguna;
 use App\Models\peternak;
 use App\Models\kecamatan;
+use App\Models\puskeswan;
 use App\Models\dokterhewan;
 use Illuminate\Http\Request;
 use App\Models\jadwalprogram;
@@ -223,5 +224,19 @@ class PeternakController extends Controller
         // dd($jadwalprogram);
 
         return view('peternak.lihatprogram', compact('user', 'photo','program','jadwalprogram'));
+    }
+    
+    public function layanan() {
+        $user = Auth::user();
+        $photo= $user->avatar;
+
+        $puskeswan = puskeswan::all();
+        // dd($puskeswan);
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+        return view ('dinas.layanan', compact('user', 'photo','puskeswan') );
     }
 }
