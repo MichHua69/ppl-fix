@@ -237,6 +237,6 @@ class PeternakController extends Controller
         } else {
             $photo = '/images/defaultprofile.png';
         }
-        return view ('dinas.layanan', compact('user', 'photo','puskeswan') );
+        return view ('peternak.layanan', compact('user', 'photo','puskeswan') );
     }
 }
