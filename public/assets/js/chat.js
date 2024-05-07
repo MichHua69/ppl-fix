@@ -64,7 +64,7 @@ function handelLeftMessage(message, avatar) {
         '" alt="">\n' +
         "                </div>\n" +
         '                <div class="friends-chat-content">\n' +
-        '                    <p class="friends-chat-name">' +
+        '                    <p class="friends-chat-name friends-chat-balloon">' +
         message +
         "</p>\n" +
         "                </div>\n" +

@@ -61,7 +61,7 @@
                         <div>
                             <p style="text-align: center; font-size: 30px">Mitra resmi dari Dinas Ketahanan Pangan dan Peternakan Kabupaten Jember</p>
                         </div>
-                        <div class="flex">
+                        {{-- <div class="flex">
 
                             <div>
                                 <a href="#" class="flex items-center gap-5 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 ">
@@ -72,7 +72,7 @@
                                     </div>
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
                     </section>
                     <section id="main-right" class="main-right hidden">
                         <!-- header -->
