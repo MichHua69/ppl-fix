@@ -77,6 +77,8 @@ Route::middleware(['role:1'])->group(function () {
     //layanan
     Route::get('/dinas/layanan', [DinasController::class, 'layanan'])->name('dinas.layanan');
     Route::get('/dinas/tambahlayanan', [DinasController::class, 'tambahlayanan'])->name('dinas.tambahlayanan');
+    Route::post('/dinas/editlayanan', [DinasController::class, 'editlayanan'])->name('dinas.editlayanan');
+    Route::post('/dinas/removelayanan', [DinasController::class, 'removelayanan'])->name('dinas.removelayanan');
     Route::post('/dinas/storetambahlayanan', [DinasController::class, 'storetambahlayanan'])->name('dinas.storetambahlayanan');
 
 

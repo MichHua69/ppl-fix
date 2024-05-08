@@ -679,16 +679,16 @@ class DinasController extends Controller
 
     public function storetambahlayanan(Request $request) {
         $validatedData = $request->validate([
-            'nama' => 'required|string|max:255',
+            'puskeswan' => 'required|string|max:255',
             'Jalan' => 'required|string',
             'kecamatan' => 'required|exists:kecamatan,id',
             'desa' => 'required|exists:desa,id',
             'dusun' => 'required|string',
             'telepon' => 'required|max:20',
         ], [
-            'nama.required' => 'Kolom Nama wajib diisi.',
-            'nama.string' => 'Kolom Nama harus berupa teks.',
-            'nama.max' => 'Kolom Nama tidak boleh lebih dari :max karakter.',
+            'puskeswan.required' => 'Kolom nama wajib diisi.',
+            'puskeswan.string' => 'Kolom nama harus berupa teks.',
+            'puskeswan.max' => 'Kolom nama tidak boleh lebih dari :max karakter.',
             'Jalan.required' => 'Kolom Jalan wajib diisi.',
             'Jalan.string' => 'Kolom Jalan harus berupa teks.',
             'kecamatan.required' => 'Kolom Kecamatan wajib dipilih.',
@@ -715,13 +715,79 @@ class DinasController extends Controller
             'dusun' => $request->dusun,
         ]);
         $puskeswan = puskeswan::create([
-            'puskeswan' => $request->nama,
+            'puskeswan' => $request->puskeswan,
             'id_alamat' => $alamat->id,
             'telepon' => $request->telepon,
         ]);
         
         // Redirect ke halaman lain atau tampilkan pesan sukses
         return redirect()->route('dinas.layanan')->with('success', 'Puskeswan berhasil ditambahkan.');
+    }
+
+    public function editlayanan(Request $request) {
+        // dd($request);
+        $validator = Validator::make($request->all(),[
+            'puskeswan' => 'required|string|max:255',
+            'Jalan' => 'required|string|max:255',
+            'kecamatan' => 'required|exists:kecamatan,id',
+            'desa' => 'required|exists:desa,id',
+            'dusun' => 'required|string|max:255',
+            'telepon' => 'required|string|max:20',
+        ], [
+            'puskeswan.required' => 'Nama wajib diisi.',
+            'puskeswan.string' => 'Nama harus berupa teks.',
+            'puskeswan.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+            'Jalan.required' => 'Jalan wajib diisi.',
+            'Jalan.string' => 'Jalan harus berupa teks.',
+            'Jalan.max' => 'Jalan tidak boleh lebih dari 255 karakter.',
+            'kecamatan.required' => 'Kecamatan wajib dipilih.',
+            'kecamatan.exists' => 'Kecamatan yang dipilih tidak valid.',
+            'desa.required' => 'Desa wajib dipilih.',
+            'desa.exists' => 'Desa yang dipilih tidak valid.',
+            'dusun.required' => 'Dusun harus diisi.',
+            'dusun.string' => 'Dusun harus berupa teks.',
+            'dusun.max' => 'Dusun tidak boleh lebih dari 255 karakter.',
+            'telepon.required' => 'Telepon harus diisi.',
+            'telepon.string' => 'Telepon harus berupa teks.',
+            'telepon.max' => 'Telepon tidak boleh lebih dari 20 karakter.',
+        ]);
+
+        if ($validator->fails()) {
+            session()->flash('error_modal', 'modaleditdata');
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $puskeswan = puskeswan::where('id', $request->id)->firstOrFail();
+        $alamat = $puskeswan->alamat;
+        $wilayah = wilayah::where('id_kecamatan', intval($request->kecamatan))
+                        ->where('id_desa', intval($request->desa))
+                        ->first();
+
+        $alamat->update([
+            'jalan' => $request->Jalan,
+            'dusun' => $request->dusun,
+            'id_wilayah' => $wilayah->id,
+        ]);
+
+        $puskeswan->update([
+            'puskeswan' => $request->puskeswan,
+            'dusun' => $request->dusun,
+            'id_wilayah' => $wilayah->id,
+        ]);
+        return redirect()->back()->with('success', 'PUSKESWAN Berhasil Diubah');
+    }
+
+    public function removelayanan(Request $request) {
+        $puskeswan = puskeswan::findOrFail($request->id);
+        $alamat = alamat::findOrFail($puskeswan->id_alamat);
+
+        $puskeswan->delete();
+        $alamat->delete();
+
+        return redirect()->back()->with('success', 'PUSKESWAN Berhasil Dihapus');
+
     }
     
 }

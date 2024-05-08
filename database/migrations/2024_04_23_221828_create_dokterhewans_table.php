@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('dokterhewan', function (Blueprint $table) {
             $table->id('id')->unique();
             $table->string('nama');
-            $table->foreignId('id_puskeswan')->constrained('puskeswan');
+            $table->foreignId('id_puskeswan')->nullable()->constrained('puskeswan')->nullOnDelete();
             $table->foreignId('id_pengguna')->constrained('pengguna');
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations.s
      */
     public function down(): void
     {

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('nik');
             $table->string('telepon');
-            $table->foreignId('id_alamat')->constrained('alamat');
+            $table->foreignId('id_alamat')->nullable()->constrained('alamat')->nullOnDelete();
             $table->foreignId('id_pengguna')->constrained('pengguna');
         });
     }

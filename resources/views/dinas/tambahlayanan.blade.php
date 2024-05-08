@@ -22,16 +22,16 @@
               @csrf
               <div class="p-8">
                 <div class="flex flex-col mb-4 w-full justify-between ">
-                  <label class="basis-3/12 font-semibold text-xl" for="nama">
+                  <label class="basis-3/12 font-semibold text-xl" for="puskeswan">
                       Nama PUSKESWAN
                   </label>
                   <div class="relative basis-9/12 mt-2"
                       data-twe-input-wrapper-init>
-                      <input type="text" name="nama" id="nama"
+                      <input type="text" name="puskeswan" id="puskeswan"
                           placeholder="Masukkan Nama PUSKESWAN"
-                          class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('nama') border-red-500 @enderror"
-                          value="{{old('nama')}}" autocomplete="nama" />
-                      @error('nama')
+                          class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('puskeswan') border-red-500 @enderror"
+                          value="{{old('puskeswan')}}" autocomplete="puskeswan"/>
+                      @error('puskeswan')
                       <p class="text-red-500 text-xs italic">{{ $message }}</p>
                       @enderror
                   </div>
@@ -149,9 +149,6 @@
     
   </section>
 
-  <script>
-    
-  </script>
 </body>
 
 </html>
