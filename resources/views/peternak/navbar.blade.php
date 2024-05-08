@@ -63,3 +63,4 @@
         </form> --}}
     </div>
   </nav>
+  @vite('public/assets/js/dropdown.js')
