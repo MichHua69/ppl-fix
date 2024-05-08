@@ -96,6 +96,8 @@
                         <div id="typing-area" class="typing-area">
                             <!-- input form -->
                             <input id="type-area" class="type-area" placeholder="Type something...">
+                            <!-- send button -->
+                            <button id="" type="submit" class="btn-send absolute"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 72 72" id="Mail-Send-Email-Message--Streamline-Plump" height="30" width="30"><desc>Mail Send Email Message Streamline Icon: https://streamlinehq.com</desc><g id="mail-send-email-message--send-email-paper-airplane-deliver"><path id="Union" fill="#538D22" d="M7.4451 0.98895C3.7899000000000003 -0.2808 0.42599999999999993 3.1611000000000002 1.8231000000000002 6.7844999999999995C5.17755 15.483899999999998 9.25755 24.113400000000002 11.18145 28.06935C11.97735 29.696849999999998 13.371299999999998 30.95385 15.072 31.57815L27.011400000000002 36.000299999999996L15.07215 40.423950000000005C13.3716 41.0478 11.97765 42.3042 11.18145 43.9311C9.25755 47.88705 5.17905 56.51655 1.8231000000000002 65.21610000000001C0.42599999999999993 68.8395 3.7899000000000003 72.27975 7.4451 71.0115C19.7265 66.7533 45.63735 56.69160000000001 67.9422 40.90935C71.3529 38.52525 71.3529 33.47535 67.9422 31.09125C45.63735 15.30885 19.7265 5.2488 7.4451 0.98895Z" stroke-width="1"></path></g></svg></button>
                         </div>
                     </section>
                 {{-- </div> --}}

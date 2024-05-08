@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Alamat;
+use App\Models\alamat;
 use App\Models\Wilayah;
 use Illuminate\Database\Seeder;
 
@@ -48,7 +48,7 @@ class AlamatSeeder extends Seeder
             }
 
             // Buat entri alamat
-            Alamat::create([
+            alamat::create([
                 'jalan' => $jalan,
                 'id_wilayah' => $wilayah->id,
                 'dusun' => $dusun,

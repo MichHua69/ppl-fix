@@ -5,10 +5,12 @@ body {
 }
 
 .btn-send {
-    border: 1px solid #538d22;
-    background-color: #538d22;
-    color: #538d22;
+    /* border: 1px solid #538d22; */
+    /* background-color: #538d22; */
+    color: white;
     border-radius: 10px 10px 10px 10px;
+    padding: 10px;
+    right: 20px;
 }
 
 .app {
@@ -238,8 +240,8 @@ body {
 .chat-area {
     /* border: 5px solid lightseagreen; */
     overflow-y: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    /* padding-top: 10px;
+    padding-bottom: 10px; */
 }
 
 .chat-area::-webkit-scrollbar {
@@ -289,7 +291,7 @@ body {
     color: #485373;
     background: #D9D9D9;
     font-size: 0.9em;
-    
+
 }
 
 .chat-datetime {
@@ -336,6 +338,8 @@ body {
     grid-auto-flow: column;
     overflow-x: hidden;
     box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    align-items: center;
 }
 
 .type-area {
@@ -347,6 +351,7 @@ body {
     padding: 10px 20px;
     color: #333;
     font-size: 1.1em;
+    height: 100%;
 }
 
 input::placeholder {
@@ -389,3 +394,5 @@ input::placeholder {
 .hidden {
     display: none !important;
 }
+
+
