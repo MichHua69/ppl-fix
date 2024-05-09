@@ -41,7 +41,7 @@
                                                 <input type="text" name="nama" id="nama"
                                                     placeholder="Masukkan Nama"
                                                     class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('nama') border-red-500 @enderror"
-                                                    value="{{ old('nama') }}" 
+                                                    value="{{ old('nama') }}"
                                                     autocomplete="name" autofocus />
 
                                                 @error('nama')
@@ -60,7 +60,7 @@
                                                 <input type="text" name="alamat" id="alamat"
                                                     placeholder="Masukkan Jalan"
                                                     class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('alamat') border-red-500 @enderror"
-                                                    value="{{ old('alamat') }}" 
+                                                    value="{{ old('alamat') }}"
                                                     autocomplete="alamat" autofocus />
 
                                                 @error('alamat')
@@ -147,7 +147,7 @@
                                                 <input type="text" name="nama_pengguna" id="nama_pengguna"
                                                     placeholder="Masukkan Nama Pengguna"
                                                     class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('nama_pengguna') border-red-500 @enderror"
-                                                    value="{{ old('nama_pengguna') }}" 
+                                                    value="{{ old('nama_pengguna') }}"
                                                     autocomplete="nama_pengguna" autofocus />
 
                                                 @error('nama_pengguna')
@@ -164,7 +164,7 @@
                                                 <input type="email" name="email" id="email"
                                                     placeholder="Masukkan Email"
                                                     class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('email') border-red-500 @enderror"
-                                                    value="{{ old('email') }}" 
+                                                    value="{{ old('email') }}"
                                                     autocomplete="email" autofocus />
 
                                                 @error('email')
@@ -207,7 +207,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        
+
                                         <div>
                                           <div class="flex items-center justify-between">
                                                 <div
@@ -246,9 +246,33 @@
         </div>
     </div>
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    
+    $(document).ready(function() {
+        $('#kecamatan').on('change', function() {
+            var kecamatanId = $(this).val();
+            if (kecamatanId) {
+                $.ajax({
+                    url: '{{ route("get.desa.by.kecamatan") }}',
+                    type: 'GET',
+                    data: {
+                        id_kecamatan: kecamatanId
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#desa').empty();
+                        $.each(data, function(key, value) {
+                            $('#desa').append('<option value="' + key + '">' + value + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#desa').empty();
+            }
+        });
+    });
 </script>
+
 </body>
 
 </html>

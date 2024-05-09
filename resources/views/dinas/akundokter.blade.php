@@ -45,9 +45,9 @@
                   data-twe-ripple-init
                   data-twe-ripple-color="light">
                   Tambah
-                  </button> 
+                  </button>
                 </div>
-                
+
                 <div class="flex flex-col mt-6">
                   <div class="-my-2 overflow-x-auto">
                       <div class="overflow-y-scroll h-[55vh] border border-gray-200 dark:border-gray-700 md:rounded-lg">
@@ -71,7 +71,10 @@
                                       </th>
                                   </tr>
                               </thead>
-                              <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                              <tbody  id="table-body" class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                @php
+                                    dd($aktor);
+                                @endphp
                                 @foreach ($aktor as $item)
                                     <tr data-id="{{ $item->id }}">
                                       <td class="text-center px-4 nama-column">{{ $item->nama }}</td>
@@ -91,7 +94,7 @@
                                           <button type="button" class="text center p-2 text-sm bg-blue-500 rounded-lg text-secondary font-bold reset-password"> Reset Password</button>
                                       </td>
                                     </tr>
-                                @endforeach      
+                                @endforeach
                               </tbody>
                           </table>
                       </div>
@@ -247,9 +250,9 @@
                 // Simpan nilai id_pengguna dalam input tersembunyi pada formulir modal
                 document.querySelector('#formTambah input[name="id_pengguna"]').value = idPengguna;
 
-                
+
                 // Setelah membersihkan semua opsi, tambahkan opsi "Pilih Puskeswan"
-                
+
                 const selectPuskeswan = document.getElementById('selectPuskeswan');
                 selectPuskeswan.innerHTML = ''; // Bersihkan opsi sebelum menambahkan yang baru
 
@@ -273,7 +276,7 @@
                 modal.classList.remove('hidden');
             });
         });
-        
+
         // Event listener untuk tombol reset password
         document.querySelectorAll('.reset-password').forEach(item => {
             item.addEventListener('click', event => {
@@ -282,7 +285,7 @@
                 // Tampilkan modal reset password dengan JavaScript
                 const modalResetPassword = document.getElementById('modalresetpassword');
                 modalResetPassword.classList.remove('hidden');
-                
+
                 const idPengguna = item.closest('tr').querySelector('.id-column').innerText;
                 document.querySelector('#formreset input[name="id_pengguna"]').value = idPengguna;
             });
@@ -344,10 +347,10 @@
 
           var inputPassword = document.getElementById('password');
           inputPassword.classList.remove('border-red-500');
-          
+
         }
-        
-        
+
+
         const closeButton = document.getElementById('close-button');
 
         closeButton.addEventListener('click', function() {
@@ -355,8 +358,8 @@
           alertMessage.style.display = 'none';
         });
       </script>
-    
-      
+
+
 
     </body>
 

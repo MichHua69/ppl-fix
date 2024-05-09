@@ -16,9 +16,16 @@ class RegisterController extends Controller
     public function index() {
         $kecamatan = kecamatan::all();
         $desa = desa::all();
-        
+
         return view('register', compact('kecamatan', 'desa'));
     }
+    public function getDesaByKecamatan(Request $request) {
+        $desa = Wilayah::where('id_kecamatan', $request->id_kecamatan)->pluck('id_desa');
+        $desaNames = Desa::whereIn('id', $desa)->pluck('desa');
+
+        return response()->json($desaNames);
+    }
+
 
     public function store(Request $request) {
         // Validation
@@ -35,24 +42,24 @@ class RegisterController extends Controller
             'password' => 'required|string|min:5|confirmed'],
 
             [
-                'nama' => [ 'required' => 'Nama wajib diisi.', 'string' => 'Nama harus berupa string.', 'max' => 'Nama maksimal : 255 karakter.', ], 
-                
-                'alamat' => [ 'required' => 'Alamat wajib diisi.', 'string' => 'Alamat harus berupa string.', 'max' => 'Alamat maksimal : 255 karakter.', ], 
-                
-                'kecamatan' => [ 'required' => 'Kecamatan wajib diisi.', 'string' => 'Kecamatan harus berupa string.', ], 
-                
-                'desa' => [ 'required' => 'Desa wajib diisi.', 'string' => 'Desa harus berupa string.', ], 
-                
-                'dusun' => [ 'required' => 'Dusun wajib diisi.', 'string' => 'Dusun harus berupa string.', ], 
-                
-                'nik' => [ 'required' => 'NIK wajib diisi.', 'string' => 'NIK harus berupa string.', 'min' => 'NIK harus 16 digit.', 'max' => 'NIK harus 16 digit.', 'unique' => 'NIK sudah terdaftar.', ], 
-                
-                'telepon' => [ 'required' => 'No. Telepon wajib diisi.', 'string' => 'No. Telepon harus berupa string.', 'max' => 'No. Telepon maksimal : 20 karakter.', 'unique' => 'No. Telepon sudah terdaftar.', ], 
-                
-                'nama_pengguna' => [ 'required' => 'Nama Pengguna wajib diisi.', 'string' => 'Nama Pengguna harus berupa string.', 'max' => 'Nama Pengguna maksimal : 255 karakter.', 'unique' => 'Nama Pengguna sudah terdaftar.', ], 
-                
-                'email' => [ 'required' => 'Email wajib diisi.', 'string' => 'Email harus berupa string.', 'email' => 'Email harus berupa alamat email yang valid.', 'max' => 'Email maksimal : 255 karakter.', 'unique' => 'Email sudah terdaftar.', ], 
-                
+                'nama' => [ 'required' => 'Nama wajib diisi.', 'string' => 'Nama harus berupa string.', 'max' => 'Nama maksimal : 255 karakter.', ],
+
+                'alamat' => [ 'required' => 'Alamat wajib diisi.', 'string' => 'Alamat harus berupa string.', 'max' => 'Alamat maksimal : 255 karakter.', ],
+
+                'kecamatan' => [ 'required' => 'Kecamatan wajib diisi.', 'string' => 'Kecamatan harus berupa string.', ],
+
+                'desa' => [ 'required' => 'Desa wajib diisi.', 'string' => 'Desa harus berupa string.', ],
+
+                'dusun' => [ 'required' => 'Dusun wajib diisi.', 'string' => 'Dusun harus berupa string.', ],
+
+                'nik' => [ 'required' => 'NIK wajib diisi.', 'string' => 'NIK harus berupa string.', 'min' => 'NIK harus 16 digit.', 'max' => 'NIK harus 16 digit.', 'unique' => 'NIK sudah terdaftar.', ],
+
+                'telepon' => [ 'required' => 'No. Telepon wajib diisi.', 'string' => 'No. Telepon harus berupa string.', 'max' => 'No. Telepon maksimal : 20 karakter.', 'unique' => 'No. Telepon sudah terdaftar.', ],
+
+                'nama_pengguna' => [ 'required' => 'Nama Pengguna wajib diisi.', 'string' => 'Nama Pengguna harus berupa string.', 'max' => 'Nama Pengguna maksimal : 255 karakter.', 'unique' => 'Nama Pengguna sudah terdaftar.', ],
+
+                'email' => [ 'required' => 'Email wajib diisi.', 'string' => 'Email harus berupa string.', 'email' => 'Email harus berupa alamat email yang valid.', 'max' => 'Email maksimal : 255 karakter.', 'unique' => 'Email sudah terdaftar.', ],
+
                 'password' => [ 'required' => 'Kata Sandi wajib diisi.', 'string' => 'Kata Sandi harus berupa string.', 'min' => 'Kata Sandi minimal 5 karakter.', 'confirmed' => 'Konfirmasi Kata Sandi tidak sesuai.'],
 
                 'billing_same' => 'accepted',
@@ -99,5 +106,3 @@ class RegisterController extends Controller
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 }
-
-
