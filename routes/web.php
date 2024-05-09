@@ -51,6 +51,7 @@ Route::middleware(['role:1'])->group(function () {
     Route::get('/dinas/buatakun', [DinasController::class, 'buatakun'])->name('dinas.buatakun');
     Route::post('/dinas/buatakun/store', [DinasController::class, 'buatakunstore'])->name('dinas.buatakun.store');
     Route::get('/dinas/akundokter', [DinasController::class, 'akundokter'])->name('dinas.akundokter');
+    Route::post('/dinas/akundokter/validate', [DinasController::class, 'validateEdit'])->name('dinas.validateEdit');
     Route::post('/dinas/akundokter/edit', [DinasController::class, 'editakundokter'])->name('dinas.editakundokter');
     Route::post('/dinas/akundokter/resetpassword', [DinasController::class, 'resetpasswordakundokter'])->name('dinas.resetpasswordakundokter');
     Route::post('/dinas/akundokter/remove', [DinasController::class, 'removeakundokter'])->name('dinas.removeakundokter');

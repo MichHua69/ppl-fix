@@ -107,55 +107,41 @@
 
       </section>
       <div id="modaleditdata" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 hidden">
-          <div class="bg-white p-8 rounded shadow-lg w-1/3">
-              <h3 class="text-lg mb-4 font-bold text-center">Edit Data</h3>
-              <form id="formTambah" action="{{route('dinas.editakundokter')}}" method="POST">
-                @csrf
-                  <input type="text" class="hidden" name="id_pengguna" value="">
-                  <div class="mb-4">
-                      <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
-                      <input type="text" id="nama" name="nama"
-                          class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm @error('nama') border-red-500 @enderror" value="{{old('nama')}}">
-                      @error('nama')
-                      <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
-                      @enderror
-                  </div>
-                  <div class="mb-4">
-                      <label for="nama_pengguna" class="block text-sm font-medium text-gray-700">Nama Pengguna</label>
-                      <input type="text" id="nama_pengguna" name="nama_pengguna" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm @error('nama_pengguna') border-red-500 @enderror" value="{{old('nama_pengguna')}}">
-                      @error('nama_pengguna')
-                      <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
-                      @enderror
-                  </div>
-                  <div class="mb-4">
-                      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                      <input type="email" id="email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm error-message @error('email') border-red-500 @enderror" value="{{old('email')}}">
-                      @error('email')
-                      <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
-                      @enderror
-                  </div>
-                  <div class="mb-4">
-                      <label for="puskeswan" class="block text-sm font-medium text-gray-700">Puskeswan</label>
-                      <select id="selectPuskeswan" name="puskeswan"
-                          class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm @error('puskeswan') border-red-500 @enderror">
-                          <option class="selectOption" selected hidden value="">Pilih Puskeswan</option>
-                          @foreach($puskeswan as $item)
-                          <option value="{{ $item->id }}">{{ $item->puskeswan }}</option>
-                          @endforeach
-                      </select>
-                      @error('puskeswan')
-                      <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
-                      @enderror
-                  </div>
+            <div class="bg-white p-8 rounded shadow-lg w-1/3">
+                <h3 class="text-lg mb-4 font-bold text-center">Edit Data</h3>
+                <form id="formTambah" action="{{ route('dinas.editakundokter') }}" method="POST">
+                    @csrf
+                    <input type="text" class="hidden" name="id_pengguna" value="">
+                    <div class="mb-4">
+                        <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
+                        <input type="text" id="nama" name="nama" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm " value="{{ old('nama') }}">
+                    </div>
+                    <div class="mb-4">
+                        <label for="nama_pengguna" class="block text-sm font-medium text-gray-700">Nama Pengguna</label>
+                        <input type="text" id="nama_pengguna" name="nama_pengguna" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm " value="{{ old('nama_pengguna') }}">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm" value="{{ old('email') }}">
+                    </div>
+                    <div class="mb-4">
+                        <label for="puskeswan" class="block text-sm font-medium text-gray-700">Puskeswan</label>
+                        <select id="selectPuskeswan" name="puskeswan" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm ">
+                            <option class="selectOption" selected hidden value="">Pilih Puskeswan</option>
+                            @foreach($puskeswan as $item)
+                            <option value="{{ $item->id }}">{{ $item->puskeswan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                  <div class="flex items-center justify-end">
-                      <button type="button"
-                          class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4 " id="batalEditData"
-                          onclick="closeModal()">Batal</button>
-                      <button type="submit" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light">Simpan</button>
-                  </div>
-              </form>
-          </div>
+                    <div class="mb-4" id="error-container"></div> <!-- Div untuk menampilkan pesan kesalahan -->
+
+                    <div class="flex items-center justify-end">
+                        <button type="button" class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4" id="batalEditData" onclick="closeModal()">Batal</button>
+                        <button type="submit" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light">Simpan</button>
+                    </div>
+                </form>
+            </div>
       </div>
       <div id="modalremove" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 hidden">
           <div class="bg-white p-8 rounded shadow-lg w-1/3">
@@ -218,6 +204,40 @@
           });
         });
       </script>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script>
+     $(document).ready(function(){
+         $('#formTambah').on('submit', function(e){
+             e.preventDefault();
+
+             var formData = $(this).serialize();
+
+             $.ajax({
+                 type: 'POST',
+                 url: '{{ route('dinas.validateEdit') }}',
+                 data: formData,
+                 success: function(response){
+                     if(response.errors){
+                         // Kosongkan pesan kesalahan dan reset warna border sebelumnya
+                         $('.error-message').remove();
+                         $('.border-red-500').removeClass('border-red-500');
+
+                         // Iterasi pesan kesalahan dan terapkan pada input yang bersangkutan
+                         $.each(response.errors, function(key, value){
+                             var inputName = '#' + key;
+                             $(inputName).addClass('border-red-500');
+                             $(inputName).after('<p class="text-red-500 text-xs italic error-message">' + value + '</p>');
+                         });
+                     } else {
+                         // Validasi berhasil, lanjutkan submit form
+                         $('#formTambah').off('submit').submit();
+                     }
+                 }
+             });
+         });
+     });
+     </script>
+
 
       @if ($errors->any() && session('error_modal') === 'modaleditdata')
           <script>

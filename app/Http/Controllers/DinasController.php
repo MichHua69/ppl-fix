@@ -196,7 +196,35 @@ class DinasController extends Controller
         return view ('dinas.akundokter', compact('user', 'photo','aktor','puskeswan') );
     }
 
-    
+    public function validateEdit(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$request->id_pengguna,
+            'email' => 'required|string|max:255|unique:pengguna,email,'.$request->id_pengguna,
+            'nama' => 'required',
+            'puskeswan' => 'required',
+        ], [
+            'puskeswan.required' => 'Puskeswan wajib diisi.',
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.string' => 'Nama harus berupa string.',
+            'nama_pengguna.required' => 'Nama Pengguna wajib diisi.',
+            'nama_pengguna.string' => 'Nama Pengguna harus berupa string.',
+            'nama_pengguna.max' => 'Nama Pengguna maksimal : 255 karakter.',
+            'nama_pengguna.unique' => 'Nama Pengguna sudah terdaftar.',
+            'email.required' => 'Email wajib diisi.',
+            'email.string' => 'Email harus berupa string.',
+            'email.max' => 'Email maksimal : 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        }
+
+        return response()->json(['success' => 'Validasi berhasil.']);
+    }
+
+
 
     public function editakundokter(Request $request){
         // Temukan pengguna berdasarkan id_pengguna dari request
