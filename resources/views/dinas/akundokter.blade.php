@@ -72,9 +72,9 @@
                                   </tr>
                               </thead>
                               <tbody  id="table-body" class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                @php
+                                {{-- @php
                                     dd($aktor);
-                                @endphp
+                                @endphp --}}
                                 @foreach ($aktor as $item)
                                     <tr data-id="{{ $item->id }}">
                                       <td class="text-center px-4 nama-column">{{ $item->nama }}</td>
@@ -195,6 +195,29 @@
               </form>
           </div>
       </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const searchInput = document.getElementById('search-dropdown');
+          const tableRows = document.querySelectorAll('#table-body tr');
+
+          searchInput.addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+
+            tableRows.forEach(row => {
+              const nama = row.querySelector('.nama-column').textContent.toLowerCase();
+              const namaPengguna = row.querySelector('.namapengguna-column').textContent.toLowerCase();
+              const email = row.querySelector('.email-column').textContent.toLowerCase();
+              const puskeswan = row.querySelector('.puskeswan-column').textContent.toLowerCase();
+
+              if (nama.includes(searchText) || namaPengguna.includes(searchText) || email.includes(searchText) || puskeswan.includes(searchText)) {
+                row.style.display = 'table-row';
+              } else {
+                row.style.display = 'none';
+              }
+            });
+          });
+        });
+      </script>
 
       @if ($errors->any() && session('error_modal') === 'modaleditdata')
           <script>
