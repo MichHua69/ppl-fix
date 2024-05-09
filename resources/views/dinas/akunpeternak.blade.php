@@ -37,7 +37,7 @@
               <div class="mt-8">
                 <div class="-my-2">
                     <div class="px-4">
-                        <div class="overflow-y-scroll border-gray-200 dark:border-gray-700 md:rounded-lg max-h-[55vh] grid grid-cols-2 justify-center gap-4 flex-wrap">
+                        <div class="overflow-y-scroll border-gray-200 dark:border-gray-700 md:rounded-lg max-h-[55vh] grid grid-cols-2 justify-center gap-4 flex-wrap" id="table-body">
                                 @foreach($peternak as $ptn)
                                 <div class="flex gap-8 items-center justify-center">
                                     <div class="p-4 bg-white shadow-xl rounded-lg">
@@ -45,7 +45,7 @@
                                             $photos = $ptn->pengguna->avatar;
                                             if ($photos != null) {
                                                 $photo = 'storage/'.$photos;
-                                            } 
+                                            }
                                             $photos = '/images/defaultprofile.png';
                                         @endphp
                                         <img class="w-28" src="{{$photos}}" alt="">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            
+
             </div>
           </div>
         </div>
@@ -70,7 +70,27 @@
     </section>
 
     <script>
-        // your script here
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById('search-dropdown');
+            const tableRows = document.querySelectorAll('#table-body > div');
+
+            searchInput.addEventListener('input', function() {
+                const searchText = this.value.toLowerCase();
+
+                tableRows.forEach(row => {
+                    const nama = row.querySelector('span:nth-child(1)').textContent.toLowerCase();
+                    const namaPengguna = row.querySelector('span:nth-child(2)').textContent.toLowerCase();
+                    const nik = row.querySelector('span:nth-child(3)').textContent.toLowerCase();
+                    const alamat = row.querySelector('span:nth-child(4)').textContent.toLowerCase();
+
+                    if (nama.includes(searchText) || namaPengguna.includes(searchText) || nik.includes(searchText) || alamat.includes(searchText)) {
+                        row.style.display = 'flex';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
     </script>
 </body>
 
