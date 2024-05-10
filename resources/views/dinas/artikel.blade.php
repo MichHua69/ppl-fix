@@ -17,14 +17,29 @@
             <div class="px-6 py-10 mx-auto h-full flex justify-center">
                 <div class="container bg-secondary rounded-lg shadow-lg min-h-[80vh] p-12">
                     <div class="py-4 font-semibold text-3xl">Artikel</div>
-                    <div class="grid grid-cols-3 gap-6">
+                    <div class="mx-auto w-full">
+                        <div class="relative w-full">
+                            <input type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-md text-gray-900 bg-gray-50 rounded-e-lg border-gray-300 border-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                                placeholder="Cari Artikel" required/>
+                            <button type="submit"
+                                class="absolute top-0 right-0 p-2.5 text-sm font-medium border-gray-300 h-full text-white bg-primary rounded-e-lg border hover:bg-primary-light focus:ring-4 focus:outline-none focus:ring-primary-light dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                </svg>
+                                <span class="sr-only">Search</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-6 mt-4">
                         {{-- Hero card --}}
-                        <div class="relative flex flex-col gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden max-h shadow-xl col-span-3 row-span-2 hero-card">
+                        <div class="relative flex flex-col gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden max-h shadow-xl col-span-3 hero-card">
                             @if($latestArticle->gambar)
                                 <img class="h-36 object-cover rounded-lg" src="/artikel/{{$latestArticle->gambar}}" alt="">
                             @endif
-                            <div class="font-semibold text-lg h-8 overflow-hidden">{{$latestArticle->judul_artikel}}</div>
-                            <div class="text-sm h-52 overflow-hidden">{!! $latestArticle->isi_artikel !!}</div>
+                            <div class="font-semibold text-lg h-8 overflow-hidden judul">{{$latestArticle->judul_artikel}}</div>
+                            <div class="text-sm h-52 overflow-hidden isi">{!! $latestArticle->isi_artikel !!}</div>
                             <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md font-semibold" href="{{ route('dinas.lihatartikel', ['id' => $latestArticle->id]) }}">Lihat</a>
                         </div>
             
@@ -48,9 +63,132 @@
         </div>
     </section>
 
+    {{-- <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById('search-dropdown');
+            const artikelCards = document.querySelectorAll('.hero-card, .regular-card');
+    
+            searchInput.addEventListener('input', function() {
+                const searchText = this.value.toLowerCase();
+    
+                artikelCards.forEach(card => {
+                    const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
+                    const isi = card.querySelector('.text-sm').textContent.toLowerCase();
+    
+                    if (judul.includes(searchText) || isi.includes(searchText)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }); 
+        });
+    </script> --}}
+
     <script>
-        // your script here
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById('search-dropdown');
+            const heroCards = document.querySelectorAll('.hero-card');
+            const regularCards = document.querySelectorAll('.regular-card');
+
+            searchInput.addEventListener('input', function() {
+                const searchText = this.value.toLowerCase();
+
+                heroCards.forEach(card => {
+                    const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
+                    const isi = card.querySelector('.text-sm').textContent.toLowerCase();
+
+                    if (judul.includes(searchText) || isi.includes(searchText)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                regularCards.forEach(card => {
+                    const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
+                    const isi = card.querySelector('.text-sm').textContent.toLowerCase();
+                    const heroCardDisplay = heroCards[0].style.display;
+
+                    if (judul.includes(searchText) || isi.includes(searchText)) {
+                        card.style.display = 'flex';
+                        if (heroCardDisplay === 'none') {
+                            card.classList.remove('col-span-1');
+                            card.classList.add('col-span-3');
+                        }
+                    } else {
+                        card.style.display = 'none';
+                        if (heroCardDisplay === 'none') {
+                            card.classList.remove('col-span-3');
+                            card.classList.add('col-span-1');
+                        }
+                    }
+                });
+            }); 
+        });
+
+
     </script>
+
+    {{-- <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById('search-dropdown');
+            const heroCards = document.querySelectorAll('.hero-card');
+            const regularCards = document.querySelectorAll('.regular-card');
+
+            searchInput.addEventListener('input', function() {
+                const searchText = this.value.toLowerCase();
+                const heroCardDisplay = heroCards[0].style.display;
+
+                // Menampilkan atau menyembunyikan hero card berdasarkan pencarian
+                heroCards.forEach(card => {
+                    const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
+                    const isi = card.querySelector('.text-sm').textContent.toLowerCase();
+
+                    if (judul.includes(searchText) || isi.includes(searchText)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Menampilkan atau menyembunyikan regular card berdasarkan pencarian
+                regularCards.forEach(card => {
+                    const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
+                    const isi = card.querySelector('.text-sm').textContent.toLowerCase();
+                    
+                    if (judul.includes(searchText) || isi.includes(searchText)) {
+                            card.style.display = 'flex';
+                            if(heroCardDisplay=='none') {
+                                card.classList.remove('col-span-1');
+                                card.classList.add('col-span-3') ;
+                            } else {
+                                card.classList.remove('col-span-3');
+                                card.classList.add('col-span-1');
+                            }
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }); 
+
+            // Mengatur ulang kelas col-span regular card jika hero card ditampilkan kembali
+            heroCards.forEach(card => {
+                card.addEventListener('transitionend', function() {
+                    if (card.style.display !== 'none') {
+                        regularCards.forEach(regularCard => {
+                            regularCard.classList.remove('col-span-3');
+                            regularCard.classList.add('col-span-1');
+                        });
+                    }
+                });
+            });
+        });
+
+    </script> --}}
+    
+   
+
 </body>
 
 </html>
