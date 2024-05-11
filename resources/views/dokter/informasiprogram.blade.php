@@ -16,6 +16,15 @@
       <div class="bg-primary pt-20 mt-6 h-full pb-1">
         <div class="px-6 py-10 mx-auto h-full flex justify-center">
           <div class="container bg-secondary rounded-lg shadow-lg h-full relative p-12">
+            @if(session('success'))
+              <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded absolute top-0 left-0 alert-message" role="alert" style="position: absolute; width: 100%;">
+                <strong class="font-bold">Berhasil!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+                <span id="close-button" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                  <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.697z"/></svg>
+                </span>
+              </div>
+            @endif
             <div class="relative flex items-center w-full justify-center">
               <div class="flex items-center">
                 <span class="px-2 py-4 bg-primary rounded-lg mx-auto text-3xl text-secondary font-semibold">Informasi dan Program Dinas Ketahanan Pangan dan Peternakan Kabupaten Jember</span>
@@ -71,7 +80,7 @@
             <div class="py-4 font-semibold text-3xl">Program</div>
               <div class="flex gap-8 justify-center">
                 @foreach($latestProgram as $program)
-                      <div class="relative flex flex-col gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl">
+                      <div class="relative flex flex-col gap-2 bg-gray-200 rounded-lg p-4 overflow-hidden h-full max-h shadow-xl w-1/2">
                         <div class="font-semibold text-lg h-16 overflow-hidden">{{$program->nama_program}}</div>
                         <div class="text-sm h-48 overflow-hidden">{!! $program->deskripsi !!}</div>
                         <a class="absolute bottom-0 right-0 m-2 py-1 px-6 bg-white rounded-full shadow-md" href="{{ route('dokter.lihatprogram', ['id' => $program->id]) }}">Lihat</a>

@@ -162,7 +162,7 @@ class DinasController extends Controller
         // dd($aktor);
         $puskeswan = puskeswan::all();
 
-        return redirect()-> route('dinas.akundokter', compact('user', 'photo','aktor','puskeswan'))->with('success','Data Berhasil Ditambahkan');
+        return redirect()-> route('dinas.akundokter', compact('user', 'photo','aktor','puskeswan'))->with('success','Data Berhasil Ditambahkan.');
     }
 
     public function akunpeternak() {
@@ -367,7 +367,7 @@ class DinasController extends Controller
         }
 
         // Redirect atau respons sukses
-        return redirect(route('dinas.informasiprogram'))->with('success', 'Artikel berhasil dibuat');
+        return redirect(route('dinas.informasiprogram'))->with('success', 'Artikel Berhasil Ditambahkan');
     }
 
     public function artikel() {
@@ -471,7 +471,7 @@ class DinasController extends Controller
         $artikel->save();
 
         // Redirect atau respons sukses
-        return redirect(route('dinas.lihatartikel',['id'=> $id]))->with('success', 'Artikel berhasil diperbarui');
+        return redirect(route('dinas.lihatartikel',['id'=> $id]))->with('success', 'Perubahan berhasil disimpan');
     }
 
     public function tambahprogram() {
@@ -543,7 +543,7 @@ class DinasController extends Controller
         }
 
 
-        return redirect()->route('dinas.informasiprogram')->with('success', 'Program berhasil disimpan.');
+        return redirect()->route('dinas.informasiprogram')->with('success', 'Program Berhasil Ditambahkan.');
     }
 
     public function program() {
@@ -669,7 +669,7 @@ class DinasController extends Controller
         $jadwal->save();
     }
 
-        return redirect()->route('dinas.informasiprogram')->with('success', 'Program berhasil diperbarui.');
+        return redirect()->route('dinas.informasiprogram')->with('success', 'Perubahan berhasil disimpan.');
     }
 
     public function layanan() {

@@ -183,7 +183,7 @@ class DokterController extends Controller
         }
     
         // Redirect atau respons sukses
-        return redirect(route('dokter.informasiprogram'))->with('success', 'Artikel berhasil dibuat');
+        return redirect(route('dokter.informasiprogram'))->with('success', 'Artikel Berhasil Ditambahkan');
     }
 
     public function artikel() {
@@ -286,7 +286,7 @@ class DokterController extends Controller
         $artikel->save();
         
         // Redirect atau respons sukses
-        return redirect(route('dokter.lihatartikel',['id'=> $id]))->with('success', 'Artikel berhasil diperbarui');
+        return redirect(route('dokter.lihatartikel',['id'=> $id]))->with('success', 'Perubahan Berhasil Disimpan.');
     }
 
     public function program() {

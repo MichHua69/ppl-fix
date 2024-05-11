@@ -26,7 +26,7 @@
             <div class="container px-6 py-10 mx-auto">
                 <div class="container bg-white rounded-lg shadow-lg h-full min-h-[75vh] relative p-12 mb-16">
                     <div class="block">
-                        <h2 class="text-5xl font-bold mb-4 grid grid-row-15 row-span-1">Tambah Program</h2>
+                        <h2 class="text-5xl font-bold mb-4 grid grid-row-15 row-span-1">Edit Program</h2>
                         <form action="{{route('dinas.storeeditprogram',['id' => $program->id])}}" method="post">
                             @csrf
                             <div class="">
@@ -70,7 +70,7 @@
                                         </button>
                                     </div>
                                     <input type="" id="numTbodies" name="numTbodies"
-                                        value="{{ session('numTbodies', 0) }}">
+                                        class="hidden" value="{{ session('numTbodies', 0) }}">
                                     <div class="relative basis-9/12 mt-2" data-twe-input-wrapper-init>
                                         <div class="relative basis-9/12 mt-2" data-twe-input-wrapper-init>
                                             <table id="jadwal_table" class="w-full border-collapse">
@@ -157,7 +157,7 @@
                                         <button type="button"
                                             class="inline-block w-full rounded rounded-full px-6 py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-danger hover:bg-primary-light min-w-32"
                                             type="button"
-                                            onclick="window.location='{{route('dinas.informasiprogram')}}'"
+                                            onclick="window.location='{{route('dinas.lihatprogram',['id' => $program->id])}}'"
                                             id="cancel-profile-button" data-twe-ripple-init
                                             data-twe-ripple-color="light">
                                             Batal

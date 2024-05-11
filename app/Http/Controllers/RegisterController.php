@@ -103,6 +103,6 @@ class RegisterController extends Controller
         ]);
 
         // Redirect to login page
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login. ');
     }
 }

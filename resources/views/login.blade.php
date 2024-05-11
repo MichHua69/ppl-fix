@@ -53,15 +53,21 @@
                     <label>Nama Pengguna / Email</label>
                     <!--Username input-->
                     <div class="relative mb-4" data-twe-input-wrapper-init>
-                      <input type="text" name="nama_pengguna" id="nama_pengguna" placeholder="Masukkan Nama Pengguna / Email" class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" autofocus/>
+                      <input type="text" name="nama_pengguna" id="nama_pengguna" placeholder="Masukkan Nama Pengguna / Email" class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('nama_pengguna') border-red-500 @enderror" autofocus/>
+                      @error('nama_pengguna')
+                      <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                      @enderror
                     </div>
                     
                     <label>Kata Sandi</label>
                     <!--Password input-->
                     <div class="relative mb-4" data-twe-input-wrapper-init>                
                       <div class="flex items-center text-lg mb-6 md:mb-8">
-                        <input type="password" name="password" id="password" class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Kata Sandi"/>
+                        <input type="password" name="password" id="password" class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('password') border-red-500 @enderror" placeholder="Kata Sandi"/>
                       </div>
+                      @error('password')
+                      <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                      @enderror
                     </div>
                       <!--Submit button-->
                       <div class="mb-12 pb-1 pt-1 text-center">

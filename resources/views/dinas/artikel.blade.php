@@ -63,129 +63,44 @@
         </div>
     </section>
 
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const searchInput = document.getElementById('search-dropdown');
-            const artikelCards = document.querySelectorAll('.hero-card, .regular-card');
-    
-            searchInput.addEventListener('input', function() {
-                const searchText = this.value.toLowerCase();
-    
-                artikelCards.forEach(card => {
-                    const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
-                    const isi = card.querySelector('.text-sm').textContent.toLowerCase();
-    
-                    if (judul.includes(searchText) || isi.includes(searchText)) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }); 
-        });
-    </script> --}}
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById('search-dropdown');
-            const heroCards = document.querySelectorAll('.hero-card');
-            const regularCards = document.querySelectorAll('.regular-card');
-
+            const artikelCards = document.querySelectorAll('.hero-card, .regular-card');
+            let firstFlexIndex = -1; // Variabel untuk menyimpan index pertama kali 'flex' ditemukan
+    
             searchInput.addEventListener('input', function() {
                 const searchText = this.value.toLowerCase();
-
-                heroCards.forEach(card => {
+                const prevFlexIndex = firstFlexIndex; // Simpan indeks sebelumnya
+                firstFlexIndex = -1; // Reset indeks saat event input dipicu
+    
+                artikelCards.forEach((card, index) => {
                     const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
                     const isi = card.querySelector('.text-sm').textContent.toLowerCase();
-
+    
                     if (judul.includes(searchText) || isi.includes(searchText)) {
                         card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                regularCards.forEach(card => {
-                    const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
-                    const isi = card.querySelector('.text-sm').textContent.toLowerCase();
-                    const heroCardDisplay = heroCards[0].style.display;
-
-                    if (judul.includes(searchText) || isi.includes(searchText)) {
-                        card.style.display = 'flex';
-                        if (heroCardDisplay === 'none') {
-                            card.classList.remove('col-span-1');
+                        if (firstFlexIndex === -1) {
+                            firstFlexIndex = index; // Set index pertama kali 'flex' ditemukan
                             card.classList.add('col-span-3');
                         }
+    
                     } else {
-                        card.style.display = 'none';
-                        if (heroCardDisplay === 'none') {
-                            card.classList.remove('col-span-3');
-                            card.classList.add('col-span-1');
-                        }
+                        card.style.display = 'none'; 
+                    }
+    
+                    // Hapus class 'col-span-3' dari kartu dengan indeks 'prevFlexIndex' jika berbeda dari 'firstFlexIndex'
+                    if (prevFlexIndex !== -1 && prevFlexIndex !== firstFlexIndex && prevFlexIndex === index) {
+                        artikelCards[prevFlexIndex].classList.remove('col-span-3');
                     }
                 });
             }); 
         });
-
-
     </script>
-
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const searchInput = document.getElementById('search-dropdown');
-            const heroCards = document.querySelectorAll('.hero-card');
-            const regularCards = document.querySelectorAll('.regular-card');
-
-            searchInput.addEventListener('input', function() {
-                const searchText = this.value.toLowerCase();
-                const heroCardDisplay = heroCards[0].style.display;
-
-                // Menampilkan atau menyembunyikan hero card berdasarkan pencarian
-                heroCards.forEach(card => {
-                    const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
-                    const isi = card.querySelector('.text-sm').textContent.toLowerCase();
-
-                    if (judul.includes(searchText) || isi.includes(searchText)) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                // Menampilkan atau menyembunyikan regular card berdasarkan pencarian
-                regularCards.forEach(card => {
-                    const judul = card.querySelector('.font-semibold').textContent.toLowerCase();
-                    const isi = card.querySelector('.text-sm').textContent.toLowerCase();
-                    
-                    if (judul.includes(searchText) || isi.includes(searchText)) {
-                            card.style.display = 'flex';
-                            if(heroCardDisplay=='none') {
-                                card.classList.remove('col-span-1');
-                                card.classList.add('col-span-3') ;
-                            } else {
-                                card.classList.remove('col-span-3');
-                                card.classList.add('col-span-1');
-                            }
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }); 
-
-            // Mengatur ulang kelas col-span regular card jika hero card ditampilkan kembali
-            heroCards.forEach(card => {
-                card.addEventListener('transitionend', function() {
-                    if (card.style.display !== 'none') {
-                        regularCards.forEach(regularCard => {
-                            regularCard.classList.remove('col-span-3');
-                            regularCard.classList.add('col-span-1');
-                        });
-                    }
-                });
-            });
-        });
-
-    </script> --}}
+    
+    
+    
+    
     
    
 
