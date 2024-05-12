@@ -13,6 +13,7 @@ use App\Models\peternak;
 use App\Models\kecamatan;
 use App\Models\puskeswan;
 use App\Models\dokterhewan;
+use App\Models\percakapan;
 use Illuminate\Http\Request;
 use App\Models\jadwalprogram;
 use App\Models\dinaspeternakan;
@@ -50,16 +51,16 @@ class PeternakController extends Controller
         if ($photo != null) {
             $photo = 'storage/'.$user->avatar;
             return view('peternak.profil',compact('user','photo','kecamatan','desa'));
-        } 
+        }
             $photo = '/images/defaultprofile.png';
         return view('peternak.profil',compact('user','aktor','photo','kecamatan','desa'));
     }
 
     public function saveprofil(Request $request) {
         $user = Auth::user();
-        
+
         $aktor = peternak::with('pengguna', 'alamat.wilayah.kecamatan', 'alamat.wilayah.desa')->where('id_pengguna', $user->id)->first();
-        
+
         $request->validate([
             'alamat' => 'required|string|max:255',
             'kecamatan' => 'required',
@@ -70,23 +71,23 @@ class PeternakController extends Controller
             'password' => 'required|string|min:5',
             'file_input' => 'image|mimes:jpeg,png,jpg,gif,svg'
             ],
-            
+
             [
-                
-                'alamat' => [ 'required' => 'Alamat wajib diisi.', 'string' => 'Alamat harus berupa string.', 'max' => 'Alamat maksimal : 255 karakter.', ], 
-                
-                'kecamatan' => [ 'required' => 'Kecamatan wajib diisi.', 'string' => 'Kecamatan harus berupa string.', ], 
-                
-                'desa' => [ 'required' => 'Desa wajib diisi.', 'string' => 'Desa harus berupa string.', ], 
-                
-                'dusun' => [ 'required' => 'Dusun wajib diisi.', 'string' => 'Dusun harus berupa string.', ], 
-                
-                'telepon' => [ 'required' => 'No. Telepon wajib diisi.', 'string' => 'No. Telepon harus berupa string.', 'max' => 'No. Telepon maksimal : 20 karakter.', 'unique' => 'No. Telepon sudah terdaftar.', ], 
-                
-                'nama_pengguna' => [ 'required' => 'Nama Pengguna wajib diisi.', 'string' => 'Nama Pengguna harus berupa string.', 'max' => 'Nama Pengguna maksimal : 255 karakter.', 'unique' => 'Nama Pengguna sudah terdaftar.', ], 
-                
+
+                'alamat' => [ 'required' => 'Alamat wajib diisi.', 'string' => 'Alamat harus berupa string.', 'max' => 'Alamat maksimal : 255 karakter.', ],
+
+                'kecamatan' => [ 'required' => 'Kecamatan wajib diisi.', 'string' => 'Kecamatan harus berupa string.', ],
+
+                'desa' => [ 'required' => 'Desa wajib diisi.', 'string' => 'Desa harus berupa string.', ],
+
+                'dusun' => [ 'required' => 'Dusun wajib diisi.', 'string' => 'Dusun harus berupa string.', ],
+
+                'telepon' => [ 'required' => 'No. Telepon wajib diisi.', 'string' => 'No. Telepon harus berupa string.', 'max' => 'No. Telepon maksimal : 20 karakter.', 'unique' => 'No. Telepon sudah terdaftar.', ],
+
+                'nama_pengguna' => [ 'required' => 'Nama Pengguna wajib diisi.', 'string' => 'Nama Pengguna harus berupa string.', 'max' => 'Nama Pengguna maksimal : 255 karakter.', 'unique' => 'Nama Pengguna sudah terdaftar.', ],
+
                 'password' => [ 'required' => 'Kata Sandi wajib diisi.', 'string' => 'Kata Sandi harus berupa string.', 'min' => 'Kata Sandi minimal 5 karakter.', 'confirmed' => 'Konfirmasi Kata Sandi tidak sesuai.'],
-                
+
                 'file_input' => ['image' => 'File harus berupa gambar.'],
                 'billing_same' => 'accepted',
             ]);
@@ -111,61 +112,108 @@ class PeternakController extends Controller
     {
         $user = Auth::user();
         $photo = $user->avatar;
-        // dd($user);
-        // $user = $request->session()->get('user');
-        // $request->session()->get('user');
-        // dd($request);
 
+        // Mendapatkan data peternak yang sedang masuk
         $aktor = Peternak::with('pengguna', 'alamat')->where('id_pengguna', $user->id)->first();
-        // dd($aktor);
-        $data["friends"] = pengguna::whereNot("id", $user->id)->get();
+
+        // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
+        $relatedUsers = Percakapan::pluck('users')->unique()->map(function ($item) {
+            return explode(':', $item);
+        })->flatten()->unique();
+
+        // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
+        $friendsWithId = Pengguna::whereIn('id', $relatedUsers)->whereNot("id", $user->id)->get();
+
+        // Mendapatkan daftar pengguna yang tidak terkait dengan kolom "users" dalam tabel percakapan
+        $friendsWithoutId = Pengguna::where('id_role', 2)->whereNotIn('id', [$user->id])->get();
+
+
+
+        // Mengatur foto profil
         if ($photo != null) {
             $photo = 'storage/'.$user->avatar;
-            return view('peternak.konsultasi',compact('user','data','aktor','photo') );
+        } else {
+            $photo = '/images/defaultprofile.png';
         }
-        $photo = '/images/defaultprofile.png';
-        return view('peternak.konsultasi',compact('user','data','aktor','photo') );
+
+        return view('peternak.konsultasi', compact('user', 'aktor', 'photo', 'friendsWithId', 'friendsWithoutId'));
     }
+
+    public function loadkiri(){
+        $user = Auth::user();
+        $photo = $user->avatar;
+
+        // Mendapatkan data peternak yang sedang masuk
+        $aktor = Peternak::with('pengguna', 'alamat')->where('id_pengguna', $user->id)->first();
+
+        // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
+        $relatedUsers = Percakapan::pluck('users')->unique()->map(function ($item) {
+            return explode(':', $item);
+        })->flatten()->unique();
+
+        // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
+        $friendsWithId = Pengguna::whereIn('id', $relatedUsers)->whereNot("id", $user->id)->get();
+
+        // Mengatur foto profil
+        if ($photo != null) {
+            $photo = 'storage/'.$user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
+        }
+
+        // Menggabungkan data dalam satu array sebelum dikirim sebagai respons JSON
+        $responseData = [
+            'user' => $user,
+            'aktor' => $aktor,
+            'photo' => $photo,
+            'friendsWithId' => $friendsWithId,
+        ];
+
+        return response()->json($responseData);
+    }
+
+
+
 
     public function informasiprogram(){
         $user = Auth::user();
         $photo = $user->avatar;
-    
+
         if ($photo != null) {
             $photo = 'storage/' . $user->avatar;
         } else {
             $photo = '/images/defaultprofile.png';
         }
-    
+
         // Mengambil 4 artikel terbaru dari model Artikel
         $latestArticles = artikel::latest()->take(4)->get();
         $latestProgram = program::latest()->take(4)->get();
-    
+
         return view('peternak.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram'));
     }
 
     public function artikel() {
         $user = Auth::user();
         $photo = $user->avatar;
-    
+
         if ($photo != null) {
             $photo = 'storage/' . $user->avatar;
         } else {
             $photo = '/images/defaultprofile.png';
         }
-    
+
         // Mengambil data artikel dari model, diurutkan berdasarkan created_at
         $artikel = Artikel::latest()->get();
-    
+
         // Pisahkan artikel terbaru untuk dijadikan hero card
         $latestArticle = $artikel->shift();
-    
+
         return view('peternak.artikel', compact('user', 'photo', 'artikel','latestArticle'));
     }
     public function lihatartikel() {
         $user = Auth::user();
         $photo = $user->avatar;
-    
+
         if ($photo != null) {
             $photo = 'storage/' . $user->avatar;
         } else {
@@ -173,7 +221,7 @@ class PeternakController extends Controller
         }
         $id_artikel = request()->query('id');
 
-        if (!$id_artikel) { 
+        if (!$id_artikel) {
             return redirect()->route('peternak.artikel');
         }
 
@@ -182,7 +230,7 @@ class PeternakController extends Controller
         // dd($penulis);
         if (!$penulis) {
                 $penulis = dokterhewan::where('id_pengguna',$artikel->id_pengguna)->first();
-            
+
         }
 
         return view('peternak.lihatartikel', compact('user', 'photo','artikel','penulis'));
@@ -191,14 +239,14 @@ class PeternakController extends Controller
     public function program() {
         $user = Auth::user();
         $photo = $user->avatar;
-    
+
         if ($photo != null) {
             $photo = 'storage/' . $user->avatar;
         } else {
             $photo = '/images/defaultprofile.png';
         }
         $program = program::latest()->get();
-    
+
         $latestProgram = $program->shift();
         return view('peternak.program', compact('user', 'photo','latestProgram','program'));
     }
@@ -206,7 +254,7 @@ class PeternakController extends Controller
     public function lihatprogram() {
         $user = Auth::user();
         $photo = $user->avatar;
-    
+
         if ($photo != null) {
             $photo = 'storage/' . $user->avatar;
         } else {
@@ -214,7 +262,7 @@ class PeternakController extends Controller
         }
         $id_artikel = request()->query('id');
 
-        if (!$id_artikel) { 
+        if (!$id_artikel) {
             return redirect()->route('peternak.artikel');
         }
 
@@ -225,7 +273,7 @@ class PeternakController extends Controller
 
         return view('peternak.lihatprogram', compact('user', 'photo','program','jadwalprogram'));
     }
-    
+
     public function layanan() {
         $user = Auth::user();
         $photo= $user->avatar;

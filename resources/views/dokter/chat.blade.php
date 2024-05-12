@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Chat App Template</title>
     <link rel="stylesheet" href="{{ asset("assets/css/chat.css") }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .sends:hover path {
     fill: #69CF3A; /* Ganti dengan warna yang diinginkan */
@@ -30,32 +31,19 @@
                         <!-- chat list -->
                         <div id="chat-list" class="chat-list">
                             <!-- user lists -->
-                            @foreach($data['friends'] as $friend)
+                            @foreach($friendsWithId as $friend)
                             @php
-                                $avatar = $friend->avatar;
-                                if ($avatar != null) {
-                                    // Mengatur jalur foto avatar jika ada
-                                    $avatar = 'storage/'.$friend->avatar;
-                                } else {
-                                    // Mengatur jalur foto default jika tidak ada foto avatar
-                                    $avatar = '/images/defaultprofile.png';
-                                }
+                                $avatar = $friend->avatar ? 'storage/'.$friend->avatar : '/images/defaultprofile.png';
                             @endphp
-                                <div class="friends" data-id="{{ $friend->id }}" data-name="{{ $friend->nama_pengguna }}" data-avatar=
-                                    "{{asset($avatar)}}">
-                                    <!-- photo -->
-                                    <div class="profile friends-photo border-2 border-white">
-                                        <img src="{{ asset($avatar) }}" alt="" >
-                                    </div>
-
-                                    <div class="friends-credent">
-                                        <!-- name -->
-                                        <span class="friends-name">{{ $friend->nama_pengguna }}</span>
-                                        <!-- last message -->
-                                        <span class="friends-message friend-status">Offline</span>
-                                    </div>
+                            <div class="friends tes" data-id="{{ $friend->id }}" data-name="{{ $friend->nama_pengguna }}" data-avatar="{{ asset($avatar) }}">
+                                <div class="profile friends-photo border-2 border-white">
+                                    <img src="{{ asset($avatar) }}" alt="">
                                 </div>
-                            @endforeach
+                                <div class="friends-credent">
+                                    <span class="friends-name">{{ $friend->nama_pengguna }}</span>
+                                </div>
+                            </div>
+                        @endforeach
                         </div>
                     </section>
 
@@ -83,6 +71,7 @@
                         <!-- header -->
                         <div id="header-right" class="header-right ">
                             <!-- profile pict -->
+                            <div id="back" class="cursor-pointer">Kembali</div>
                             <div id="header-img" class="profile header-img">
                                 {{-- <img src="{{ asset("assets/images/ava2.jpg") }}" alt=""> --}}
                             </div>
@@ -117,7 +106,7 @@
     <input type="hidden" name="" id="messsage-url" value="{{route('dokter.chat.save')}}">
     <input type="hidden" name="" id="load-chat-url" value="{{route('dokter.chat.load',["roomId" => ":roomId"])}}">
 
-    
+
     @vite('resources/js/bootstrap.js')
     @vite('resources/js/app.js')
 
