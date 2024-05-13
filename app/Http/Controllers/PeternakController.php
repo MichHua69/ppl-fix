@@ -29,14 +29,8 @@ class PeternakController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('peternak.dashboard', compact('user','photo'));
-        }
-        $photo = '/images/defaultprofile.png';
+        
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         return view('peternak.dashboard', compact('user','photo'));
     }
 
@@ -49,12 +43,7 @@ class PeternakController extends Controller
 
         // dd($aktor->alamat->wilayah->kecamatan->id);
 
-        $photo = $user->avatar;
-        if ($photo != null) {
-            $photo = 'profil/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         return view('peternak.profil',compact('user','aktor','photo','kecamatan','desa'));
     }
@@ -178,18 +167,13 @@ class PeternakController extends Controller
 
 
         // Mengatur foto profil
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         return view('peternak.konsultasi', compact('user', 'aktor', 'photo', 'friendsWithId', 'friendsWithoutId'));
     }
 
     public function loadkiri(){
         $user = Auth::user();
-        $photo = $user->avatar;
 
         // Mendapatkan data peternak yang sedang masuk
         $aktor = Peternak::with('pengguna', 'alamat')->where('id_pengguna', $user->id)->first();
@@ -203,11 +187,7 @@ class PeternakController extends Controller
         $friendsWithId = Pengguna::whereIn('id', $relatedUsers)->whereNot("id", $user->id)->get();
 
         // Mengatur foto profil
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         // Menggabungkan data dalam satu array sebelum dikirim sebagai respons JSON
         $responseData = [
@@ -225,13 +205,7 @@ class PeternakController extends Controller
 
     public function informasiprogram(){
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         // Mengambil 4 artikel terbaru dari model Artikel
         $latestArticles = artikel::latest()->take(4)->get();
@@ -242,13 +216,7 @@ class PeternakController extends Controller
 
     public function artikel() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         // Mengambil data artikel dari model, diurutkan berdasarkan created_at
         $artikel = Artikel::latest()->get();
@@ -260,13 +228,8 @@ class PeternakController extends Controller
     }
     public function lihatartikel() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+        
         $id_artikel = request()->query('id');
 
         if (!$id_artikel) {
@@ -286,13 +249,8 @@ class PeternakController extends Controller
 
     public function program() {
         $user = Auth::user();
-        $photo = $user->avatar;
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
         $program = program::latest()->get();
 
         $latestProgram = $program->shift();
@@ -301,13 +259,9 @@ class PeternakController extends Controller
 
     public function lihatprogram() {
         $user = Auth::user();
-        $photo = $user->avatar;
 
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+
         $id_artikel = request()->query('id');
 
         if (!$id_artikel) {
@@ -324,15 +278,11 @@ class PeternakController extends Controller
 
     public function layanan() {
         $user = Auth::user();
-        $photo= $user->avatar;
 
         $puskeswan = puskeswan::all();
         // dd($puskeswan);
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+
         return view ('peternak.layanan', compact('user', 'photo','puskeswan') );
     }
 }

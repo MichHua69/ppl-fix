@@ -24,12 +24,7 @@ class DokterController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $photo= $user->avatar;
-        if ($photo != null) {
-            $photo = 'profil/'.$user->avatar;
-            return view('dokter.dashboard', compact('user','photo'));
-        }
-        $photo = '/images/defaultprofile.png';
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         return view('dokter.dashboard', compact('user','photo'));
     }
 
@@ -39,14 +34,8 @@ class DokterController extends Controller
         $kecamatan = kecamatan::all();
         $desa = desa::all();
 
-        // dd($aktor);
 
-        $photo = $user->avatar;
-        if ($photo != null) {
-            $photo = 'profil/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         
         return view('dokter.profil',compact('user','aktor','photo','kecamatan','desa'));
     }
@@ -124,11 +113,6 @@ class DokterController extends Controller
     {
 
         $user = Auth::user();
-        $photo = $user->avatar;
-        // dd($user);
-        // $user = $request->session()->get('user');
-        // $request->session()->get('user');
-        // dd($request);
 
         $aktor = dokterhewan::with('pengguna', 'alamat')->where('id_pengguna', $user->id)->first();
         // dd($aktor);
@@ -141,23 +125,13 @@ class DokterController extends Controller
 
         $friendsWithId = Pengguna::where('id_role', 3)->whereIn('id', $relatedUsers)->whereNot("id", $user->id)->get();
 
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dokter.konsultasi',compact('user','data','aktor','photo') );
-        }
-        $photo = '/images/defaultprofile.png';
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         return view('dokter.konsultasi',compact('user','friendsWithId','aktor','photo') );
     }
 
     public function informasiprogram(){
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         // Mengambil 4 artikel terbaru dari model Artikel
         $latestArticles = Artikel::latest()->take(4)->get();
@@ -170,13 +144,7 @@ class DokterController extends Controller
 
     public function tambahartikel() {
         $user = Auth::user();
-        $photo= $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dokter.tambahartikel', compact('user','photo'));
-        }
-        $photo = '/images/defaultprofile.png';
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         return view('dokter.tambahartikel' , compact('user','photo'));
     }
 
@@ -216,13 +184,7 @@ class DokterController extends Controller
 
     public function artikel() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         // Mengambil data artikel dari model, diurutkan berdasarkan created_at
         $artikel = Artikel::latest()->get();
@@ -234,13 +196,8 @@ class DokterController extends Controller
     }
     public function lihatartikel() {
         $user = Auth::user();
-        $photo = $user->avatar;
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
         $id_artikel = request()->query('id');
 
         if (!$id_artikel) {
@@ -260,13 +217,7 @@ class DokterController extends Controller
 
     public function editartikel() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         $id_artikel = request()->query('id');
         $artikel = Artikel::findOrFail($id_artikel);
@@ -319,13 +270,8 @@ class DokterController extends Controller
 
     public function program() {
         $user = Auth::user();
-        $photo = $user->avatar;
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
         $program = program::latest()->get();
 
         $latestProgram = $program->shift();
@@ -334,13 +280,8 @@ class DokterController extends Controller
 
     public function lihatprogram() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+        
         $id_artikel = request()->query('id');
 
         if (!$id_artikel) {

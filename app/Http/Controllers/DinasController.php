@@ -27,12 +27,7 @@ class DinasController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $photo= $user->avatar;
-        if ($photo != null) {
-            $photo = 'profil/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         return view('dinas.dashboard', compact('user','photo'));
     }
 
@@ -44,12 +39,7 @@ class DinasController extends Controller
 
         // dd($aktor->alamat->wilayah->kecamatan->id);
 
-        $photo = $user->avatar;
-        if ($photo != null) {
-            $photo = 'profil/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         return view('dinas.profil',compact('user','aktor','photo','kecamatan','desa'));
     }
 
@@ -123,14 +113,10 @@ class DinasController extends Controller
 
     public function buatakun() {
         $user = Auth::user();
-        $photo= $user->avatar;
+
         $puskeswan = puskeswan::all();
 
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dinas.buatakun', compact('user','photo','puskeswan'));
-        }
-        $photo = '/images/defaultprofile.png';
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
 
         return view ('dinas.buatakun', compact('user', 'photo','puskeswan') );
@@ -167,11 +153,8 @@ class DinasController extends Controller
         ]);
 
         $user = Auth::user();
-        $photo= $user->avatar;
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dinas.akundokter', compact('user','photo'));
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+
         $photo = '/images/defaultprofile.png';
 
         $aktor = dokterhewan::with('pengguna','puskeswan')->get();
@@ -183,27 +166,18 @@ class DinasController extends Controller
 
     public function akunpeternak() {
         $user = Auth::user();
-        $photo= $user->avatar;
+
 
         $peternak = peternak::with('pengguna')->get();
         // dd($peternak);
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dinas.akunpeternak', compact('user','photo','peternak'));
-        }
-        $photo = '/images/defaultprofile.png';
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         return view ('dinas.akunpeternak', compact('user', 'photo','peternak') );
     }
 
 
     public function akundokter() {
         $user = Auth::user();
-        $photo= $user->avatar;
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dinas.akundokter', compact('user','photo'));
-        }
-        $photo = '/images/defaultprofile.png';
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         $aktor = dokterhewan::with('pengguna','puskeswan')->get();
         // dd($aktor);
@@ -309,30 +283,17 @@ class DinasController extends Controller
         return redirect()->back()->with('success', 'Password berhasil diganti.');
     }
     public function removeakundokter(Request $request){
-        // dd($request);
-        // Menghapus dokter hewan yang memiliki id_pengguna yang sama dengan $request->id_pengguna
         DokterHewan::where('id_pengguna', $request->id_pengguna)->delete();
 
         $pengguna = Pengguna::findOrFail($request->id_pengguna);
-
-        // Menghapus pengguna
         $pengguna->delete();
-
-
         return redirect()->back()->with('success', 'Akun Berhasil Dihapus');
     }
 
     public function informasiprogram(){
         $user = Auth::user();
-        $photo = $user->avatar;
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
-
-        // Mengambil 4 artikel terbaru dari model Artikel
         $latestArticles = artikel::latest()->take(4)->get();
         $latestProgram = program::latest()->take(4)->get();
 
@@ -342,13 +303,7 @@ class DinasController extends Controller
 
     public function tambahartikel() {
         $user = Auth::user();
-        $photo= $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dinas.tambahartikel', compact('user','photo'));
-        }
-        $photo = '/images/defaultprofile.png';
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         return view('dinas.tambahartikel' , compact('user','photo'));
     }
 
@@ -388,14 +343,7 @@ class DinasController extends Controller
 
     public function artikel() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
-
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         // Mengambil data artikel dari model, diurutkan berdasarkan created_at
         $artikel = Artikel::latest()->get();
 
@@ -407,13 +355,7 @@ class DinasController extends Controller
 
     public function lihatartikel() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         $id_artikel = request()->query('id');
 
         if (!$id_artikel) {
@@ -433,14 +375,7 @@ class DinasController extends Controller
 
     public function editartikel() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
-
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         $id_artikel = request()->query('id');
         $artikel = Artikel::findOrFail($id_artikel);
 
@@ -492,13 +427,7 @@ class DinasController extends Controller
 
     public function tambahprogram() {
         $user = Auth::user();
-        $photo= $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         $puskeswan = puskeswan::all();
         $numTbodies = Session::get('numTbodies', 0);
         return view('dinas.tambahprogram' , compact('user','photo','puskeswan','numTbodies'));
@@ -564,13 +493,7 @@ class DinasController extends Controller
 
     public function program() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         $program = program::latest()->get();
 
         $latestProgram = $program->shift();
@@ -579,13 +502,7 @@ class DinasController extends Controller
 
     public function lihatprogram() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/' . $user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         $id_artikel = request()->query('id');
 
         if (!$id_artikel) {
@@ -602,13 +519,7 @@ class DinasController extends Controller
 
     public function editprogram() {
         $user = Auth::user();
-        $photo = $user->avatar;
-
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         $puskeswan = puskeswan::all();
         $id_program = request()->query('id');
@@ -690,12 +601,7 @@ class DinasController extends Controller
 
     public function layanan() {
         $user = Auth::user();
-        $photo= $user->avatar;
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         // $aktor = dokterhewan::with('pengguna','puskeswan')->get();
         // // dd($aktor);
@@ -709,16 +615,11 @@ class DinasController extends Controller
 
     public function tambahlayanan() {
         $user = Auth::user();
-        $photo= $user->avatar;
         $puskeswan = puskeswan::all();
         $kecamatan = kecamatan::all();
         $desa = desa::all();
 
-        if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-        } else {
-            $photo = '/images/defaultprofile.png';
-        }
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         return view ('dinas.tambahlayanan', compact('user', 'photo','puskeswan','kecamatan','desa') );
     }
