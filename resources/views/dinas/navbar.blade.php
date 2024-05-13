@@ -47,7 +47,7 @@
         <span class="text-gray-600 font-medium truncate max-w-[7.5rem] dark:text-gray-400">
           {{$user->nama_pengguna}}
         </span>
-        <img class="w-8 h-auto rounded-full" src="{{asset($photo)}}" alt="profil">
+        <img class="w-8 h-8 rounded-full object-cover" src="{{asset($photo)}}" alt="profil">
       </button>
     
       <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 divide-y divide-gray-200 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700" aria-labelledby="hs-dropdown-with-dividers">

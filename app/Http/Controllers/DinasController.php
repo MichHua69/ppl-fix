@@ -29,14 +29,14 @@ class DinasController extends Controller
         $user = Auth::user();
         $photo= $user->avatar;
         if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dokter.dashboard', compact('user','photo'));
+            $photo = 'profil/'.$user->avatar;
+        } else {
+            $photo = '/images/defaultprofile.png';
         }
-        $photo = '/images/defaultprofile.png';
         return view('dinas.dashboard', compact('user','photo'));
     }
 
-    public function profil(Request $request) {
+    public function profil() {
         $user = Auth::user();
         $aktor = dinaspeternakan::with('pengguna')->where('id_pengguna', $user->id)->first();
         $kecamatan = kecamatan::all();
@@ -46,10 +46,10 @@ class DinasController extends Controller
 
         $photo = $user->avatar;
         if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('dinas.profil',compact('user','photo','kecamatan','desa'));
-        }
+            $photo = 'profil/'.$user->avatar;
+        } else {
             $photo = '/images/defaultprofile.png';
+        }
         return view('dinas.profil',compact('user','aktor','photo','kecamatan','desa'));
     }
 
@@ -58,29 +58,12 @@ class DinasController extends Controller
 
         $aktor = dinaspeternakan::with('pengguna')->where('id_pengguna', $user->id)->first();
 
-        $request->validate([
-            'alamat' => 'required|string|max:255',
-            'kecamatan' => 'required',
-            'desa' => 'required',
-            'dusun' => 'required|string',
-            'telepon' => 'required|string|max:20',
-            'nama_pengguna' => 'required|string|max:255',
+        $validator = Validator::make($request->all(),[
             'password' => 'required|string|min:5',
             'file_input' => 'image|mimes:jpeg,png,jpg,gif,svg'
             ],
 
             [
-
-                'alamat' => [ 'required' => 'Alamat wajib diisi.', 'string' => 'Alamat harus berupa string.', 'max' => 'Alamat maksimal : 255 karakter.', ],
-
-                'kecamatan' => [ 'required' => 'Kecamatan wajib diisi.', 'string' => 'Kecamatan harus berupa string.', ],
-
-                'desa' => [ 'required' => 'Desa wajib diisi.', 'string' => 'Desa harus berupa string.', ],
-
-                'dusun' => [ 'required' => 'Dusun wajib diisi.', 'string' => 'Dusun harus berupa string.', ],
-
-                'telepon' => [ 'required' => 'No. Telepon wajib diisi.', 'string' => 'No. Telepon harus berupa string.', 'max' => 'No. Telepon maksimal : 20 karakter.', 'unique' => 'No. Telepon sudah terdaftar.', ],
-
                 'nama_pengguna' => [ 'required' => 'Nama Pengguna wajib diisi.', 'string' => 'Nama Pengguna harus berupa string.', 'max' => 'Nama Pengguna maksimal : 255 karakter.', 'unique' => 'Nama Pengguna sudah terdaftar.', ],
 
                 'password' => [ 'required' => 'Kata Sandi wajib diisi.', 'string' => 'Kata Sandi harus berupa string.', 'min' => 'Kata Sandi minimal 5 karakter.', 'confirmed' => 'Konfirmasi Kata Sandi tidak sesuai.'],
@@ -88,21 +71,54 @@ class DinasController extends Controller
                 'file_input' => ['image' => 'File harus berupa gambar.'],
                 'billing_same' => 'accepted',
             ]);
-        $wilayah = wilayah::where('id_kecamatan',$request->kecamatan)->where('id_desa',$request )->first();
-        // dd($aktor->pengguna->nama_pengguna);
-        // dd($request->nama_pengguna);
-        $aktor->alamat->jalan = $request->alamat;
-        // $aktor->alamat->wilayah->id_kecamatan = $request->kecamatan;
-        // $aktor->alamat->wilayah->id_desa = $request->desa;
-        $aktor->alamat->dusun = $request->dusun;
-
-        $aktor->telepon = $request->telepon;
-        $aktor->pengguna->nama_pengguna = $request->nama_pengguna;
-        $aktor->pengguna->password = Hash::make($request->password);
-        dd($request);
-        $aktor->save();
-
-        return view('dokter.profil',compact('user','aktor','kecamatan','desa','dusun','kec','des','dus','photo'))->with('success', 'Profil berhasil diperbarui.');
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator);
+            }
+        
+            // Handle avatar upload
+            
+            $aktor->pengguna->nama_pengguna = $request->nama_pengguna;
+            $aktor->pengguna->password = Hash::make($request->password);
+            $aktor->pengguna->save();
+    
+            $avatar = $aktor->pengguna->avatar;
+            if ($avatar) {
+                $extension = pathinfo($avatar)['extension'];
+                $newAvatarName = $aktor->pengguna->nama_pengguna.'.'.$extension;
+    
+                // Simpan file avatar baru dengan nama baru
+                $oldAvatarPath = public_path('profil').'/'.$avatar;
+                $newAvatarPath = public_path('profil').'/'.$newAvatarName;
+    
+                // Rename file dengan menggunakan fungsi PHP rename
+                rename($oldAvatarPath, $newAvatarPath);
+    
+                // Simpan nama file avatar baru ke dalam database
+                $aktor->pengguna->avatar = $newAvatarName;
+                $aktor->pengguna->save();
+            }
+    
+            // Handle avatar upload
+            if ($request->hasFile('file_input')) {
+                $avatar = $request->file('file_input');
+                $avatarName = $aktor->pengguna->nama_pengguna.'.'.$avatar->getClientOriginalExtension();
+    
+                // Simpan file avatar baru
+                $avatar->move(public_path('profil'), $avatarName);
+    
+                // Hapus file avatar lama jika ada
+                if ($avatar) {
+                    $oldAvatarPath = public_path('profil').'/'.$avatar;
+                    if (file_exists($oldAvatarPath)) {
+                        unlink($oldAvatarPath);
+                    }
+                }
+    
+                // Simpan nama avatar ke dalam database jika belum ada
+                $aktor->pengguna->avatar = $avatarName;
+                $aktor->pengguna->save();
+            }
+            return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function buatakun() {

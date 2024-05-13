@@ -27,7 +27,7 @@
           <span class="text-gray-600 font-medium truncate max-w-[7.5rem] dark:text-gray-400">
             {{$user->nama_pengguna}}
           </span>
-          <img class="w-8 h-auto rounded-full" src="{{asset($photo)}}" alt="profil">
+          <img class="w-8 h-8 rounded-full object-cover" src="{{asset($photo)}}" alt="profil">
           {{-- <svg class="hs-dropdown-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg> --}}
         </button>
       

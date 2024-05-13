@@ -14,23 +14,23 @@ class PenggunaSeeder extends Seeder
     public function run(): void
     {
         $penggunaData = [
-            ['dinaspeternakan', 'dinaspeternakan@gmail.com', 'dinas123', 1], // [nama_pengguna, email, password, id_role]
-            ['dokter', 'dokter@gmail.com', 'dokter123', 2],
-            ['peternak', 'peternak@gmail.com', 'peternak123', 3],
-            ['AdiSetiawan', 'adisetiawan@gmail.com', 'dokter123', 2],
-            ['KurniadiWahyu', 'kurniadiwahyu@gmail.com', 'dokter123', 2],
-            ['AhmadNasir', 'ahmadnasir@gmail.com', 'dokter123', 2],
-            ['HasyimBukhori', 'hasyimbukhori@gmail.com', 'dokter123', 2],
-            ['StevenKurniawan', 'stevenkurniawan@gmail.com', 'dokter123', 2],
-            ['KevinMahendra', 'kevinmahendra@gmail.com', 'dokter123', 2],
-            ['UyeeWashington', 'uyeewashington@gmail.com', 'dokter123', 2],
-            ['JokoSusilo', 'jokosusilo@gmail.com', 'peternak123', 3],
-            ['BudiSantoso', 'budisantoso@gmail.com', 'peternak123', 3],
-            ['SitiRahayu', 'sitirahayu@gmail.com', 'peternak123', 3],
-            ['RinaWulandari', 'rinawulandari@gmail.com', 'peternak123', 3],
-            ['DewiLestari', 'dewilestari@gmail.com', 'peternak123', 3],
-            ['EkoPrasetyo', 'ekoprasetyo@gmail.com', 'peternak123', 3],
-            ['AniRahayu', 'anirahayu@gmail.com', 'peternak123', 3],
+            ['dinaspeternakan', 'dinaspeternakan@gmail.com', 'dinas123', 1, 'dinaspeternakan.jpg'], // [nama_pengguna, email, password, id_role]
+            ['dokter', 'dokter@gmail.com', 'dokter123', 2, 'dokter.png'],
+            ['peternak', 'peternak@gmail.com', 'peternak123', 3 , 'peternak.png'],
+            ['AdiSetiawan', 'adisetiawan@gmail.com', 'dokter123', 2 , null],
+            ['KurniadiWahyu', 'kurniadiwahyu@gmail.com', 'dokter123', 2 , null],
+            ['AhmadNasir', 'ahmadnasir@gmail.com', 'dokter123', 2 , null],
+            ['HasyimBukhori', 'hasyimbukhori@gmail.com', 'dokter123', 2 , null],
+            ['StevenKurniawan', 'stevenkurniawan@gmail.com', 'dokter123', 2 , null],
+            ['KevinMahendra', 'kevinmahendra@gmail.com', 'dokter123', 2 , null],
+            ['UyeeWashington', 'uyeewashington@gmail.com', 'dokter123', 2 , null],
+            ['JokoSusilo', 'jokosusilo@gmail.com', 'peternak123', 3 , null],
+            ['BudiSantoso', 'budisantoso@gmail.com', 'peternak123', 3 , null],
+            ['SitiRahayu', 'sitirahayu@gmail.com', 'peternak123', 3 , null],
+            ['RinaWulandari', 'rinawulandari@gmail.com', 'peternak123', 3 , null],
+            ['DewiLestari', 'dewilestari@gmail.com', 'peternak123', 3 , null],
+            ['EkoPrasetyo', 'ekoprasetyo@gmail.com', 'peternak123', 3 , null],
+            ['AniRahayu', 'anirahayu@gmail.com', 'peternak123', 3 , null],
         ];
 
         foreach ($penggunaData as $data) {
@@ -39,6 +39,7 @@ class PenggunaSeeder extends Seeder
                 'email' => $data[1],
                 'password' => bcrypt($data[2]),
                 'id_role' => $data[3],
+                'avatar' => $data[4],
             ]);
         }
     }

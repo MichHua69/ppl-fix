@@ -40,9 +40,10 @@ class PeternakController extends Controller
         return view('peternak.dashboard', compact('user','photo'));
     }
 
-    public function profil(Request $request) {
+    public function profil() {
         $user = Auth::user();
         $aktor = peternak::with('pengguna', 'alamat.wilayah.kecamatan', 'alamat.wilayah.desa')->where('id_pengguna', $user->id)->first();
+        // dd($aktor);
         $kecamatan = kecamatan::all();
         $desa = desa::all();
 
@@ -50,10 +51,11 @@ class PeternakController extends Controller
 
         $photo = $user->avatar;
         if ($photo != null) {
-            $photo = 'storage/'.$user->avatar;
-            return view('peternak.profil',compact('user','photo','kecamatan','desa'));
-        }
+            $photo = 'profil/'.$user->avatar;
+        } else {
             $photo = '/images/defaultprofile.png';
+        }
+
         return view('peternak.profil',compact('user','aktor','photo','kecamatan','desa'));
     }
 
@@ -70,7 +72,7 @@ class PeternakController extends Controller
             'telepon' => 'required|string|max:20',
             'nama_pengguna' => 'required|string|max:255',
             'password' => 'required|string|min:5',
-            'file_input' => 'image|mimes:jpeg,png,jpg,gif,svg'
+            'file_input' => 'image'
             ],
 
             [
@@ -98,15 +100,6 @@ class PeternakController extends Controller
         }
     
         // Handle avatar upload
-        if ($request->hasFile('file_input')) {
-            $avatar = $request->file('file_input');
-            $avatarName = $aktor->pengguna->nama_pengguna.'.'.$avatar->getClientOriginalExtension();
-            $avatar->storeAs('public', $avatarName); // Store avatar in storage/app/public folder
-            // Update user's avatar path in the database
-            $aktor->pengguna->avatar = $avatarName;
-            $aktor->pengguna->save();
-        }
-    
         $wilayah = wilayah::where('id_kecamatan', intval($request->kecamatan))->where('id_desa', intval($request->desa))->first();
     
         $aktor->alamat->jalan = $request->alamat;
@@ -115,10 +108,50 @@ class PeternakController extends Controller
         $aktor->telepon = $request->telepon;
         $aktor->pengguna->nama_pengguna = $request->nama_pengguna;
         $aktor->pengguna->password = Hash::make($request->password);
-    
+        
         $aktor->alamat->save();
         $aktor->pengguna->save();
         $aktor->save();
+
+        // Rename file avatar
+        $avatar = $aktor->pengguna->avatar;
+        if ($avatar) {
+            $extension = pathinfo($avatar)['extension'];
+            $newAvatarName = $aktor->pengguna->nama_pengguna.'.'.$extension;
+
+            // Simpan file avatar baru dengan nama baru
+            $oldAvatarPath = public_path('profil').'/'.$avatar;
+            $newAvatarPath = public_path('profil').'/'.$newAvatarName;
+
+            // Rename file dengan menggunakan fungsi PHP rename
+            rename($oldAvatarPath, $newAvatarPath);
+
+            // Simpan nama file avatar baru ke dalam database
+            $aktor->pengguna->avatar = $newAvatarName;
+            $aktor->pengguna->save();
+        }
+
+        // Handle avatar upload
+        if ($request->hasFile('file_input')) {
+            $avatar = $request->file('file_input');
+            $avatarName = $aktor->pengguna->nama_pengguna.'.'.$avatar->getClientOriginalExtension();
+
+            // Simpan file avatar baru
+            $avatar->move(public_path('profil'), $avatarName);
+
+            // Hapus file avatar lama jika ada
+            if ($avatar) {
+                $oldAvatarPath = public_path('profil').'/'.$avatar;
+                if (file_exists($oldAvatarPath)) {
+                    unlink($oldAvatarPath);
+                }
+            }
+
+            // Simpan nama avatar ke dalam database jika belum ada
+            $aktor->pengguna->avatar = $avatarName;
+            $aktor->pengguna->save();
+        }
+
 
         return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
     }
