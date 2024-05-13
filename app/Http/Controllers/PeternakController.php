@@ -12,13 +12,14 @@ use App\Models\Pengguna;
 use App\Models\peternak;
 use App\Models\kecamatan;
 use App\Models\puskeswan;
-use App\Models\dokterhewan;
 use App\Models\percakapan;
+use App\Models\dokterhewan;
 use Illuminate\Http\Request;
 use App\Models\jadwalprogram;
 use App\Models\dinaspeternakan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class PeternakController extends Controller
 {
@@ -60,8 +61,8 @@ class PeternakController extends Controller
         $user = Auth::user();
 
         $aktor = peternak::with('pengguna', 'alamat.wilayah.kecamatan', 'alamat.wilayah.desa')->where('id_pengguna', $user->id)->first();
-
-        $request->validate([
+        // dd($request);
+        $validator = Validator::make($request->all(),[
             'alamat' => 'required|string|max:255',
             'kecamatan' => 'required',
             'desa' => 'required',
@@ -91,21 +92,35 @@ class PeternakController extends Controller
                 'file_input' => ['image' => 'File harus berupa gambar.'],
                 'billing_same' => 'accepted',
             ]);
-        $wilayah = wilayah::where('id_kecamatan',$request->kecamatan)->where('id_desa',$request )->first();
-        // dd($aktor->pengguna->nama_pengguna);
-        // dd($request->nama_pengguna);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+    
+        // Handle avatar upload
+        if ($request->hasFile('file_input')) {
+            $avatar = $request->file('file_input');
+            $avatarName = $aktor->pengguna->nama_pengguna.'.'.$avatar->getClientOriginalExtension();
+            $avatar->storeAs('public', $avatarName); // Store avatar in storage/app/public folder
+            // Update user's avatar path in the database
+            $aktor->pengguna->avatar = $avatarName;
+            $aktor->pengguna->save();
+        }
+    
+        $wilayah = wilayah::where('id_kecamatan', intval($request->kecamatan))->where('id_desa', intval($request->desa))->first();
+    
         $aktor->alamat->jalan = $request->alamat;
-        // $aktor->alamat->wilayah->id_kecamatan = $request->kecamatan;
-        // $aktor->alamat->wilayah->id_desa = $request->desa;
         $aktor->alamat->dusun = $request->dusun;
-
+        $aktor->alamat->id_wilayah = $wilayah->id;
         $aktor->telepon = $request->telepon;
         $aktor->pengguna->nama_pengguna = $request->nama_pengguna;
         $aktor->pengguna->password = Hash::make($request->password);
-        dd($request);
+    
+        $aktor->alamat->save();
+        $aktor->pengguna->save();
         $aktor->save();
 
-        return view('peternak.profil',compact('user','aktor','kecamatan','desa','dusun','kec','des','dus','photo'))->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function konsultasi(Request $request)

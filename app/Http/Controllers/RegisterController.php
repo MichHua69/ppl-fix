@@ -21,14 +21,17 @@ class RegisterController extends Controller
     }
     public function getDesaByKecamatan(Request $request) {
         $desa = Wilayah::where('id_kecamatan', $request->id_kecamatan)->pluck('id_desa');
-        $desaNames = Desa::whereIn('id', $desa)->pluck('desa');
-
-        return response()->json($desaNames);
+        $desaData = Desa::whereIn('id', $desa)->get(['id', 'desa']); // Mengambil ID dan nama desa
+    
+        // Membuat array objek dengan ID desa sebagai kunci dan nama desa sebagai nilai
+        $desaOptions = $desaData->pluck('desa', 'id');
+    
+        return response()->json($desaOptions);
     }
-
 
     public function store(Request $request) {
         // Validation
+        // dd($request);
         $request->validate([
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
@@ -77,7 +80,7 @@ class RegisterController extends Controller
 
         // Cari data wilayah berdasarkan id_kecamatan dan id_desa dari request
         $wilayah = wilayah::where('id_kecamatan', intval($id_kecamatan))
-                        ->orWhere('id_desa', intval($id_desa))
+                        ->where('id_desa', intval($id_desa))
                         ->first();
 
         $alamat = alamat::create([
