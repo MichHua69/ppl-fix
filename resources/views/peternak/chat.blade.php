@@ -23,11 +23,11 @@
                             <!-- user lists for related users -->
                             @foreach($friendsWithId as $friend)
                                 @php
-                                    $avatar = $friend->avatar ? 'storage/'.$friend->avatar : '/images/defaultprofile.png';
+                                    $avatar = $friend->avatar ? 'profil/'.$friend->avatar : '/images/defaultprofile.png';
                                 @endphp
                                 <div class="friends tes" data-id="{{ $friend->id }}" data-name="{{ $friend->nama_pengguna }}" data-avatar="{{ asset($avatar) }}">
                                     <div class="profile friends-photo border-2 border-white">
-                                        <img src="{{ asset($avatar) }}" alt="">
+                                        <img class="w-10 h-10 rounded-full object-cover" src="{{ asset($avatar) }}" alt="">
                                     </div>
                                     <div class="friends-credent">
                                         <span class="friends-name">{{ $friend->nama_pengguna }}</span>
@@ -48,11 +48,11 @@
                             <!-- user lists for unrelated users -->
                             @foreach($friendsWithoutId as $friend)
                                 @php
-                                    $avatar = $friend->avatar ? 'storage/'.$friend->avatar : '/images/defaultprofile.png';
+                                    $avatar = $friend->avatar ? 'profil/'.$friend->avatar : '/images/defaultprofile.png';
                                 @endphp
                                 <div id='kanan' id data-id="{{ $friend->id }}" data-name="{{ $friend->nama_pengguna }}" data-avatar="{{ asset($avatar) }}" class="rooms w-1/5 mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal ml-5 friends right">
                                     <div class="flex items-center">
-                                        <img class="w-10 h-10 rounded-full mr-4" src="{{ asset($avatar) }}" alt="Avatar of Jonathan Reinink">
+                                        <img class="w-10 h-10 rounded-full object-cover mr-4" src="{{ asset($avatar) }}" alt="Avatar of Jonathan Reinink">
                                         <div class="text-sm ">
                                             <p class="text-gray-900 leading-none ">{{ $friend->nama_pengguna }}</p>
                                             <p class="text-gray-600">Offline</p>

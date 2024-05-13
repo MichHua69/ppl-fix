@@ -33,11 +33,11 @@
                             <!-- user lists -->
                             @foreach($friendsWithId as $friend)
                             @php
-                                $avatar = $friend->avatar ? 'storage/'.$friend->avatar : '/images/defaultprofile.png';
+                                $avatar = $friend->avatar ? 'profil/'.$friend->avatar : '/images/defaultprofile.png';
                             @endphp
                             <div class="friends tes" data-id="{{ $friend->id }}" data-name="{{ $friend->nama_pengguna }}" data-avatar="{{ asset($avatar) }}">
                                 <div class="profile friends-photo border-2 border-white">
-                                    <img src="{{ asset($avatar) }}" alt="">
+                                    <img class="w-10 h-10 rounded-full object-cover" src="{{ asset($avatar) }}" alt="">
                                 </div>
                                 <div class="friends-credent">
                                     <span class="friends-name">{{ $friend->nama_pengguna }}</span>
