@@ -65,7 +65,7 @@
                       Tambah
                     </button>
                   </div>
-                  <input type="text" id="numTbodies" name="numTbodies" value="{{ session('numTbodies', 0) }}">
+                  <input type="text" class="hidden" id="numTbodies" name="numTbodies" value="{{ session('numTbodies', 0) }}">
                   <div class="relative basis-9/12 mt-2" data-twe-input-wrapper-init>
                     <div class="relative basis-9/12 mt-2" data-twe-input-wrapper-init>
                       <table id="jadwal_table" class="w-full border-collapse">

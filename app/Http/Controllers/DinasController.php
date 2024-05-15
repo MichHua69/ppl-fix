@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\desa;
 use App\Models\alamat;
 use App\Models\artikel;
+use App\Models\laporan;
 use App\Models\program;
 use App\Models\wilayah;
 use App\Models\pengguna;
@@ -737,4 +738,28 @@ class DinasController extends Controller
 
     }
 
+    public function laporan() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+        $laporan = laporan::latest()->get();
+
+        // Pisahkan laporan terbaru untuk dijadikan hero card
+        $latestlaporan = $laporan->shift();
+        return view('dinas.laporan', compact('user', 'photo','laporan','latestlaporan'));
+    }
+
+    public function lihatlaporan() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+
+        $id_laporan = request()->query('id');
+
+        if (!$id_laporan) {
+            return redirect()->route('dokter.laporan')->with('success','Laporan Berhasil Dibuat');
+        }
+
+        $laporan = laporan::findOrFail($id_laporan);
+        
+        return view('dinas.lihatlaporan', compact('user', 'photo','laporan'));
+    }
 }

@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\desa;
 use App\Models\artikel;
+use App\Models\laporan;
 use App\Models\program;
 use App\Models\wilayah;
 use App\Models\Pengguna;
+use App\Models\peternak;
 use App\Models\kecamatan;
 use App\Models\puskeswan;
-use App\Models\dokterhewan;
 use App\Models\percakapan;
+use App\Models\dokterhewan;
 use Illuminate\Http\Request;
 use App\Models\jadwalprogram;
 use App\Models\dinaspeternakan;
@@ -296,4 +298,104 @@ class DokterController extends Controller
         return view('dokter.lihatprogram', compact('user', 'photo','program','jadwalprogram'));
     }
 
+    public function laporan() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+        // Mengambil data artikel dari model, diurutkan berdasarkan created_at
+        $laporan = laporan::latest()->where('id_dokter',$user->id)->get();
+
+        // Pisahkan laporan terbaru untuk dijadikan hero card
+        $latestlaporan = $laporan->shift();
+        return view('dokter.laporan', compact('user', 'photo','laporan','latestlaporan'));
+    }
+    public function tambahlaporan() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+        $peternak = peternak::all();
+        
+        return view('dokter.tambahlaporan', compact('user', 'photo', 'peternak'));
+    }
+    public function storetambahlaporan(Request $request) {
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(),[
+            'judul' => 'required',
+            'isi' => 'required',
+            'peternak' => 'required',
+        ],[
+            'judul.required' => 'Judul Laporan wajib diisi',
+            'isi.required' => 'Isi Laporan wajib diisi',
+            'peternak.required' => 'Peternak wajib diisi',
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        laporan::create([
+            'judul_laporan' => $request->judul,
+            'isi_laporan' => $request->isi,
+            'id_peternak' => intval($request->peternak),
+            'id_dokter' => $user->id
+
+        ]);
+
+        return redirect(route('dokter.laporan'))->with('success', 'Laporan Berhasil Dibuat');
+    }
+
+    public function lihatlaporan() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+
+        
+        $id_laporan = request()->query('id');
+
+        if (!$id_laporan) {
+            return redirect()->route('dokter.laporan')->with('success','Laporan Berhasil Dibuat');
+        }
+
+        $laporan = laporan::findOrFail($id_laporan);
+
+        return view('dokter.lihatlaporan', compact('user', 'photo','laporan'));
+    }
+
+    public function editlaporan() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+        $peternak = peternak::all();
+
+        $id_laporan = request()->query('id');
+        $laporan = laporan::findOrFail($id_laporan);
+
+
+        return view('dokter.editlaporan', compact('user', 'photo','laporan','peternak'));
+    }
+
+    public function storeeditlaporan(Request $request) {
+        $user = Auth::user();
+        $id_laporan = request()->query('id');
+        $validator = Validator::make($request->all(),[
+            'judul' => 'required',
+            'isi' => 'required',
+            'peternak' => 'required',
+        ],[
+            'judul.required' => 'Judul Laporan wajib diisi',
+            'isi.required' => 'Isi Laporan wajib diisi',
+            'peternak.required' => 'Peternak wajib diisi',
+        ]);
+        
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
+        $laporan = Laporan::findOrFail($id_laporan);
+        // Mengupdate laporan
+        $laporan->judul_laporan = $request->judul;
+        $laporan->isi_laporan = $request->isi;
+        $laporan->id_peternak = intval($request->peternak);
+        $laporan->save();
+
+        return redirect(route('dokter.lihatlaporan',['id'=> $id_laporan]))->with('success', 'Perubahan Berhasil Disimpan.');
+
+    }
 }

@@ -84,6 +84,10 @@ Route::middleware(['role:1'])->group(function () {
     Route::post('/dinas/removelayanan', [DinasController::class, 'removelayanan'])->name('dinas.removelayanan');
     Route::post('/dinas/storetambahlayanan', [DinasController::class, 'storetambahlayanan'])->name('dinas.storetambahlayanan');
 
+    //laporan
+    Route::get('/dinas/laporan',[DinasController::class, 'laporan'])->name('dinas.laporan');
+    Route::get('/dinas/laporan/lihatlaporan',[DinasController::class, 'lihatlaporan'])->name('dinas.lihatlaporan');
+
 
 
 
@@ -118,6 +122,15 @@ Route::middleware(['role:2'])->group(function () {
     //informasiprogram-program
     Route::get('/dokter/informasiprogram/program',[DokterController::class, 'program'])->name('dokter.program');
     Route::get('/dokter/informasiprogram/lihatprogram',[DokterController::class, 'lihatprogram'])->name('dokter.lihatprogram');
+    
+    //laporan
+    Route::get('/dokter/laporan',[DokterController::class, 'laporan'])->name('dokter.laporan');
+    Route::get('/dokter/tambahlaporan',[DokterController::class, 'tambahlaporan'])->name('dokter.tambahlaporan');
+    Route::post('/dokter/storetambahlaporan',[DokterController::class, 'storetambahlaporan'])->name('dokter.storetambahlaporan');
+    Route::get('/dokter/laporan/lihatlaporan',[DokterController::class, 'lihatlaporan'])->name('dokter.lihatlaporan');
+    Route::get('/dokter/laporan/editlaporan',[DokterController::class, 'editlaporan'])->name('dokter.editlaporan');
+    Route::post('/dokter/storeeditlaporan',[DokterController::class, 'storeeditlaporan'])->name('dokter.storeeditlaporan');
+    
 
 
 });
@@ -150,6 +163,12 @@ Route::middleware(['role:3'])->group(function () {
 
     // ajax
     Route::get('/peternak/konsultasi/loadkiri', [PeternakController::class, 'loadkiri'])->name('load.kirian');
+    
+
+    //laporan
+    Route::get('/peternak/laporan',[PeternakController::class, 'laporan'])->name('peternak.laporan');
+    Route::get('/peternak/laporan/lihatlaporan',[PeternakController::class, 'lihatlaporan'])->name('peternak.lihatlaporan');
+    
 
 
 

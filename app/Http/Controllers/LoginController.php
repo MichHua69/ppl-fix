@@ -17,7 +17,7 @@ class LoginController extends Controller
             'password' => 'required',
         ],[
             'nama_pengguna.required' => 'Nama Pengguna / Email wajib diisi',
-            'password.required' => 'Password wajib diisi',
+            'password.required' => 'Kata Sandi wajib diisi',
         ]);
         
         // Coba otentikasi dengan nama_pengguna

@@ -31,4 +31,5 @@ class dokterhewan extends Model
     {
         return $this->belongsTo(pengguna::class, 'id_pengguna', 'id');
     }
+
 }

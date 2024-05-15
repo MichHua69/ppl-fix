@@ -14,7 +14,9 @@ $(document).on("click", ".friends", function () {
     let avatar = $(this).attr("data-avatar");
     // Set chat room properties
     $(".friend-name").html(name);
-    $(".header-img").html(`<img src="${avatar}" />`);
+    $(".header-img").html(
+        `<img src="${avatar}" class="w-10 h-10 rounded-full object-cover"/>`
+    );
 
     createRoom(id, avatar);
     console.log(id);
@@ -128,7 +130,7 @@ function handelLeftMessage(message, avatar) {
         '                <div class="profile friends-chat-photo">\n' +
         '                    <img src="' +
         avatar +
-        '" alt="">\n' +
+        '" alt="" class="w-10 h-10 rounded-full object-cover">\n' +
         "                </div>\n" +
         '                <div class="friends-chat-content">\n' +
         '                    <p class="friends-chat-name friends-chat-balloon">' +

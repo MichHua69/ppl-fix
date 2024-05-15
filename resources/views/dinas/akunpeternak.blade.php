@@ -73,16 +73,16 @@
         document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById('search-dropdown');
             const tableRows = document.querySelectorAll('#table-body > div');
-
+    
             searchInput.addEventListener('input', function() {
                 const searchText = this.value.toLowerCase();
-
+    
                 tableRows.forEach(row => {
                     const nama = row.querySelector('span:nth-child(1)').textContent.toLowerCase();
                     const namaPengguna = row.querySelector('span:nth-child(2)').textContent.toLowerCase();
                     const nik = row.querySelector('span:nth-child(3)').textContent.toLowerCase();
                     const alamat = row.querySelector('span:nth-child(4)').textContent.toLowerCase();
-
+    
                     if (nama.includes(searchText) || namaPengguna.includes(searchText) || nik.includes(searchText) || alamat.includes(searchText)) {
                         row.style.display = 'flex';
                     } else {
@@ -92,7 +92,7 @@
             });
         });
     </script>
-
+    
 
 
 </body>

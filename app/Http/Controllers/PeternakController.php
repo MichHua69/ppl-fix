@@ -6,6 +6,7 @@ use App\Models\desa;
 use App\Models\dusun;
 use App\Models\pesan;
 use App\Models\artikel;
+use App\Models\laporan;
 use App\Models\program;
 use App\Models\wilayah;
 use App\Models\Pengguna;
@@ -284,5 +285,32 @@ class PeternakController extends Controller
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
         return view ('peternak.layanan', compact('user', 'photo','puskeswan') );
+    }
+
+    public function laporan() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+        $laporan = laporan::latest()->where('id_peternak',$user->id)->get();
+
+        // Pisahkan laporan terbaru untuk dijadikan hero card
+        $latestlaporan = $laporan->shift();
+        return view('peternak.laporan', compact('user', 'photo','laporan','latestlaporan'));
+    }
+
+    public function lihatlaporan() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+
+        $id_laporan = request()->query('id');
+
+        if (!$id_laporan) {
+            return redirect()->route('dokter.laporan')->with('success','Laporan Berhasil Dibuat');
+        }
+
+        $laporan = laporan::findOrFail($id_laporan);
+        if(!($laporan->id_peternak == $user->id) ){
+            return redirect(route('peternak.laporan'));
+        }
+        return view('peternak.lihatlaporan', compact('user', 'photo','laporan'));
     }
 }

@@ -62,7 +62,7 @@
                     <label>Kata Sandi</label>
                     <!--Password input-->
                     <div class="relative mb-4" data-twe-input-wrapper-init>                
-                      <div class="flex items-center text-lg mb-6 md:mb-8">
+                      <div class="flex items-center text-lg">
                         <input type="password" name="password" id="password" class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('password') border-red-500 @enderror" placeholder="Kata Sandi"/>
                       </div>
                       @error('password')

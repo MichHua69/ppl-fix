@@ -35,7 +35,8 @@ class DatabaseSeeder extends Seeder
             DokterSeeder::class,
             PeternakSeeder::class,
             ArtikelSeeder::class,
-            ProgramSeeder::class
+            ProgramSeeder::class,
+            LaporanSeeder::class,
         ]);
     }
 }

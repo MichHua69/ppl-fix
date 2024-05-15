@@ -47,7 +47,6 @@
               data-twe-ripple-color="light">
               Tambah
               </button>
-
             </div>
             
             <div class="flex flex-col mt-6">
