@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\desa;
+use App\Events\Notif;
 use App\Models\dusun;
 use App\Models\pesan;
 use App\Models\artikel;
@@ -13,6 +14,7 @@ use App\Models\Pengguna;
 use App\Models\peternak;
 use App\Models\kecamatan;
 use App\Models\puskeswan;
+use App\Models\notifikasi;
 use App\Models\percakapan;
 use App\Models\dokterhewan;
 use Illuminate\Http\Request;
@@ -32,7 +34,9 @@ class PeternakController extends Controller
         $user = Auth::user();
         
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
-        return view('peternak.dashboard', compact('user','photo'));
+        $notifikasi = notifikasi::latest()->get();
+
+        return view('peternak.dashboard', compact('user','photo','notifikasi'));
     }
 
     public function profil() {
@@ -313,4 +317,13 @@ class PeternakController extends Controller
         }
         return view('peternak.lihatlaporan', compact('user', 'photo','laporan'));
     }
+
+    public function loadNotification() {
+        $notifikasi = Notifikasi::orderBy('updated_at', 'desc')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $notifikasi,
+        ]);
+    }
+    
 }

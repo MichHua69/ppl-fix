@@ -12,13 +12,16 @@ use App\Models\pengguna;
 use App\Models\peternak;
 use App\Models\kecamatan;
 use App\Models\puskeswan;
+use App\Models\notifikasi;
 use App\Models\dokterhewan;
-use Illuminate\Http\Request;
 use App\Models\jadwalprogram;
 use App\Models\dinaspeternakan;
+use App\Events\Notif;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\tesnotification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -761,5 +764,37 @@ class DinasController extends Controller
         $laporan = laporan::findOrFail($id_laporan);
         
         return view('dinas.lihatlaporan', compact('user', 'photo','laporan'));
+    }
+
+    public function notifikasi() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+        $notifikasi = notifikasi::latest()->get();
+        return view ('dinas.notifikasi', compact('user', 'photo','notifikasi') );
+    }
+
+    public function pusher(Request $request) {
+        $validator = Validator::make($request->all(),[
+            'judul' => 'required',
+            'isi' => 'required'
+        ],[
+            'judul.required' => 'Judul wajib diisi.',
+            'isi.required' => 'Isi wajib diisi.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+        $data = notifikasi::create([
+            'judul' => $request->judul,
+            'isi' => $request->isi
+        ]);
+
+        event(new Notif($data));
+        return redirect()->back();
+    }
+    public function cek() {
+
+        return view('dinas.pusher');
     }
 }

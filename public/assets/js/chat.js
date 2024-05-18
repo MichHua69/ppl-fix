@@ -239,6 +239,8 @@ function createRoom(friendId, avatar) {
         });
 }
 
+
+
 function loadMessage(roomId, friendId, avatar) {
     var chatBody = document.querySelector("#chat-area");
     chatBody.innerHTML = ""; // Membersihkan isi chatBody

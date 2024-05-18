@@ -32,3 +32,28 @@ window.Echo = new Echo({
     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? "https") === "https",
     enabledTransports: ["ws", "wss"],
 });
+
+
+
+window.Echo.channel('my-channel')
+    .listen('.notifikasi', (e) => {
+        renderNotification(e.data.judul, e.data.isi);
+    });
+
+function renderNotification(judul, isi) {
+    const notificationsContainer = document.getElementById("notifications");
+
+    const notificationElement = document.createElement("div");
+    notificationElement.className = "notification";
+
+    const titleElement = document.createElement("h3");
+    titleElement.innerText = judul;
+
+    const messageElement = document.createElement("p");
+    messageElement.innerText = isi;
+
+    notificationElement.appendChild(titleElement);
+    notificationElement.appendChild(messageElement);
+
+    notificationsContainer.appendChild(notificationElement);
+}

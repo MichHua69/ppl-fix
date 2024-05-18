@@ -87,7 +87,11 @@ Route::middleware(['role:1'])->group(function () {
     //laporan
     Route::get('/dinas/laporan',[DinasController::class, 'laporan'])->name('dinas.laporan');
     Route::get('/dinas/laporan/lihatlaporan',[DinasController::class, 'lihatlaporan'])->name('dinas.lihatlaporan');
-
+    
+    //notifikasi
+    Route::get('/dinas/notifikasi',[DinasController::class, 'notifikasi'])->name('dinas.notifikasi');
+    Route::post('/dinas/pusher',[DinasController::class, 'pusher'])->name('dinas.pusher');
+    Route::get('/dinas/notifikasi/cek',[DinasController::class, 'cek'])->name('dinas.cek');
 
 
 
@@ -169,7 +173,7 @@ Route::middleware(['role:3'])->group(function () {
     Route::get('/peternak/laporan',[PeternakController::class, 'laporan'])->name('peternak.laporan');
     Route::get('/peternak/laporan/lihatlaporan',[PeternakController::class, 'lihatlaporan'])->name('peternak.lihatlaporan');
     
-
+    Route::get('/peternak/notifikasi/load', [PeternakController::class, 'loadNotification'])->name('peternak.notifikasi.load');
 
 
 
