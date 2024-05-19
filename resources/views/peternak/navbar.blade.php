@@ -72,7 +72,6 @@
   </nav>
   @vite('public/assets/js/dropdown.js')
 
-
   {{-- <script>
     document.addEventListener('DOMContentLoaded', function () {
         window.Echo.channel('my-channel')
@@ -84,16 +83,22 @@
 
     function renderNotificationpusher(judul, isi) {
         const notificationsContainer = document.getElementById("notifications");
-
+        
         // Menghapus notifikasi duplikat
         const existingNotifications = notificationsContainer.getElementsByClassName('notification');
         for (let i = 0; i < existingNotifications.length; i++) {
-            const titleElement = existingNotifications[i].querySelector('span.font-bold');
-            const messageElement = existingNotifications[i].querySelector('span.font-sm');
+            const titleElement = existingNotifications[i].querySelector('h3');
+            const messageElement = existingNotifications[i].querySelector('p');
             if (titleElement && messageElement && titleElement.innerText === judul && messageElement.innerText === isi) {
                 notificationsContainer.removeChild(existingNotifications[i]);
                 break; // Asumsikan hanya satu duplikat yang perlu dihapus
             }
+        }
+
+        // Menghapus pesan "Tidak ada Notifikasi" jika ada notifikasi baru
+        const noNotificationElement = notificationsContainer.querySelector('.no-notification');
+        if (noNotificationElement) {
+            notificationsContainer.removeChild(noNotificationElement);
         }
 
         // Membuat elemen notifikasi baru
@@ -114,7 +119,7 @@
 
         const timeElement = document.createElement("p");
         timeElement.className = "text-right font-sm";
-        timeElement.innerText = "Baru saja"; // Waktu dapat disesuaikan sesuai kebutuhan
+        timeElement.innerText = created_at; // Waktu dapat disesuaikan sesuai kebutuhan
 
         contentContainer.appendChild(titleElement);
         contentContainer.appendChild(messageElement);
@@ -143,7 +148,7 @@
         const notificationsContainer = document.getElementById("notifications");
         notificationsContainer.innerHTML = ""; // Kosongkan kontainer sebelum menambahkan notifikasi baru
 
-        if (Array.isArray(notifications)) {
+        if (Array.isArray(notifications) && notifications.length > 0) {
             notifications.forEach(notification => {
                 const notificationElement = document.createElement("div");
                 notificationElement.className = "notification flex items-center px-4 py-3 border-b mx-2";
@@ -162,7 +167,7 @@
 
                 const timeElement = document.createElement("p");
                 timeElement.className = "text-right font-sm";
-                timeElement.innerText = "2 hari yang lalu"; // Waktu dapat disesuaikan sesuai kebutuhan
+                timeElement.innerText = notification.created_at || "Waktu tidak tersedia"; // Mengambil waktu notifikasi
 
                 contentContainer.appendChild(titleElement);
                 contentContainer.appendChild(messageElement);
@@ -174,7 +179,22 @@
                 notificationsContainer.appendChild(notificationElement);
             });
         } else {
-            console.error('Expected an array of notifications but received:', notifications);
+            const noNotificationElement = document.createElement("div");
+            noNotificationElement.className = "notification no-notification flex items-center px-4 py-3 border-b mx-2";
+            noNotificationElement.style.width = "calc(100% - 1rem)";
+
+            const contentContainer = document.createElement("div");
+            contentContainer.className = "text-gray-600 text-sm mx-2 flex flex-col justify-between w-full";
+
+            const titleElement = document.createElement("span");
+            titleElement.className = "font-bold text-lg";
+            titleElement.innerText = "Tidak ada Notifikasi";
+
+            contentContainer.appendChild(titleElement);
+
+            noNotificationElement.appendChild(contentContainer);
+
+            notificationsContainer.appendChild(noNotificationElement);
         }
     }
 
@@ -188,22 +208,28 @@
       window.Echo.channel('my-channel')
           .listen('.notifikasi', (e) => {
               console.log(e.data);
-              renderNotificationpusher(e.data.judul, e.data.isi);
+              renderNotificationpusher(e.data.judul, e.data.isi, e.data.created_at);
           });
   });
 
-  function renderNotificationpusher(judul, isi) {
+  function renderNotificationpusher(judul, isi, createdAt) {
       const notificationsContainer = document.getElementById("notifications");
       
       // Menghapus notifikasi duplikat
       const existingNotifications = notificationsContainer.getElementsByClassName('notification');
       for (let i = 0; i < existingNotifications.length; i++) {
-          const titleElement = existingNotifications[i].querySelector('h3');
-          const messageElement = existingNotifications[i].querySelector('p');
+          const titleElement = existingNotifications[i].querySelector('span.font-bold.text-lg');
+          const messageElement = existingNotifications[i].querySelector('span.font-sm');
           if (titleElement && messageElement && titleElement.innerText === judul && messageElement.innerText === isi) {
               notificationsContainer.removeChild(existingNotifications[i]);
               break; // Asumsikan hanya satu duplikat yang perlu dihapus
           }
+      }
+
+      // Menghapus pesan "Tidak ada Notifikasi" jika ada notifikasi baru
+      const noNotificationElement = notificationsContainer.querySelector('.no-notification');
+      if (noNotificationElement) {
+          notificationsContainer.removeChild(noNotificationElement);
       }
 
       // Membuat elemen notifikasi baru
@@ -215,16 +241,16 @@
       contentContainer.className = "text-gray-600 text-sm mx-2 flex flex-col justify-between w-full";
 
       const titleElement = document.createElement("span");
-      titleElement.className = "font-bold text-lg overflow-hidden";
+      titleElement.className = "font-bold text-lg";
       titleElement.innerText = judul;
 
       const messageElement = document.createElement("span");
-      messageElement.className = "font-sm overflow-hidden";
+      messageElement.className = "font-sm";
       messageElement.innerText = isi;
 
       const timeElement = document.createElement("p");
       timeElement.className = "text-right font-sm";
-      timeElement.innerText = "Baru saja"; // Waktu dapat disesuaikan sesuai kebutuhan
+      timeElement.innerText = getTimeElapsed(createdAt);
 
       contentContainer.appendChild(titleElement);
       contentContainer.appendChild(messageElement);
@@ -234,6 +260,24 @@
 
       // Menambahkan elemen notifikasi baru ke bagian atas kontainer
       notificationsContainer.insertBefore(notificationElement, notificationsContainer.firstChild);
+  }
+
+  function getTimeElapsed(createdAt) {
+      const now = new Date();
+      const createdTime = new Date(createdAt);
+      const elapsedTime = now - createdTime;
+
+      const minutes = Math.floor(elapsedTime / (1000 * 60));
+      const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+      const days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+
+      if (minutes < 60) {
+          return `${minutes} menit yang lalu`;
+      } else if (hours < 24) {
+          return `${hours} jam yang lalu`;
+      } else {
+          return `${days} hari yang lalu`;
+      }
   }
 
   async function loadNotif() {
@@ -253,7 +297,7 @@
       const notificationsContainer = document.getElementById("notifications");
       notificationsContainer.innerHTML = ""; // Kosongkan kontainer sebelum menambahkan notifikasi baru
 
-      if (Array.isArray(notifications)) {
+      if (Array.isArray(notifications) && notifications.length > 0) {
           notifications.forEach(notification => {
               const notificationElement = document.createElement("div");
               notificationElement.className = "notification flex items-center px-4 py-3 border-b mx-2";
@@ -263,16 +307,16 @@
               contentContainer.className = "text-gray-600 text-sm mx-2 flex flex-col justify-between w-full";
 
               const titleElement = document.createElement("span");
-              titleElement.className = "font-bold text-lg overflow-hidden";
+              titleElement.className = "font-bold text-lg";
               titleElement.innerText = notification.judul; // Mengambil judul notifikasi
 
               const messageElement = document.createElement("span");
-              messageElement.className = "font-sm overflow-hidden";
+              messageElement.className = "font-sm";
               messageElement.innerText = notification.isi; // Mengambil isi notifikasi
 
               const timeElement = document.createElement("p");
               timeElement.className = "text-right font-sm";
-              timeElement.innerText = notification.time || "Waktu tidak tersedia"; // Mengambil waktu notifikasi
+              timeElement.innerText = getTimeElapsed(notification.created_at); // Mengambil waktu notifikasi
 
               contentContainer.appendChild(titleElement);
               contentContainer.appendChild(messageElement);
@@ -284,7 +328,22 @@
               notificationsContainer.appendChild(notificationElement);
           });
       } else {
-          console.error('Expected an array of notifications but received:', notifications);
+          const noNotificationElement = document.createElement("div");
+          noNotificationElement.className = "notification no-notification flex items-center px-4 py-3 border-b mx-2";
+          noNotificationElement.style.width = "calc(100% - 1rem)";
+
+          const contentContainer = document.createElement("div");
+          contentContainer.className = "text-gray-600 text-sm mx-2 flex flex-col justify-between w-full";
+
+          const titleElement = document.createElement("span");
+          titleElement.className = "font-bold text-lg";
+          titleElement.innerText = "Tidak ada Notifikasi";
+
+          contentContainer.appendChild(titleElement);
+
+          noNotificationElement.appendChild(contentContainer);
+
+          notificationsContainer.appendChild(noNotificationElement);
       }
   }
 
@@ -292,88 +351,7 @@
   document.addEventListener('DOMContentLoaded', loadNotif);
 </script>
 
-{{-- <script>
-  document.addEventListener('DOMContentLoaded', function () {
-       window.Echo.channel('my-channel')
-           .listen('.notifikasi', (e) => {
-               console.log(e.data);
-               renderNotificationpusher(e.data.judul, e.data.isi);
-           });
-   });
 
-   function renderNotificationpusher(judul, isi) {
-       const notificationsContainer = document.getElementById("notifications");
-       
-       // Menghapus notifikasi duplikat
-       const existingNotifications = notificationsContainer.getElementsByClassName('notification');
-       for (let i = 0; i < existingNotifications.length; i++) {
-           const titleElement = existingNotifications[i].querySelector('h3');
-           const messageElement = existingNotifications[i].querySelector('p');
-           if (titleElement && messageElement && titleElement.innerText === judul && messageElement.innerText === isi) {
-               notificationsContainer.removeChild(existingNotifications[i]);
-               break; // Asumsikan hanya satu duplikat yang perlu dihapus
-           }
-       }
-
-       // Membuat elemen notifikasi baru
-       const notificationElement = document.createElement("div");
-       notificationElement.className = "notification";
-
-       const titleElement = document.createElement("h3");
-       titleElement.innerText = judul;
-
-       const messageElement = document.createElement("p");
-       messageElement.innerText = isi;
-
-       notificationElement.appendChild(titleElement);
-       notificationElement.appendChild(messageElement);
-
-       // Menambahkan elemen notifikasi baru ke bagian atas kontainer
-       notificationsContainer.insertBefore(notificationElement, notificationsContainer.firstChild);
-   }
-   
-   async function loadNotif() {
-       const url = document.getElementById("load-notification-url").value;
-
-       try {
-           const res = await axios.get(url); // Ganti dengan endpoint yang sesuai di server Anda
-           const notifications = res.data.data;
-           console.log(res.data.data);
-           renderNotifications(notifications);
-       } catch (error) {
-           console.error('Error fetching notifications:', error);
-       }
-   }
-
-   function renderNotifications(notifications) {
-       const notificationsContainer = document.getElementById("notifications");
-       notificationsContainer.innerHTML = ""; // Kosongkan kontainer sebelum menambahkan notifikasi baru
-
-       if (Array.isArray(notifications)) {
-           notifications.forEach(notification => {
-               const notificationElement = document.createElement("div");
-               notificationElement.className = "notification";
-
-               const titleElement = document.createElement("h3");
-               titleElement.innerText = notification.judul; // Mengambil judul notifikasi
-
-               const messageElement = document.createElement("p");
-               messageElement.innerText = notification.isi; // Mengambil isi notifikasi
-
-               notificationElement.appendChild(titleElement);
-               notificationElement.appendChild(messageElement);
-
-               // Menambahkan elemen notifikasi ke kontainer
-               notificationsContainer.appendChild(notificationElement);
-           });
-       } else {
-           console.error('Expected an array of notifications but received:', notifications);
-       }
-   }
-
-   // Panggil loadNotif saat halaman selesai dimuat
-   document.addEventListener('DOMContentLoaded', loadNotif);
-</script> --}}
 
 
 

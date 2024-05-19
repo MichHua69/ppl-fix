@@ -47,12 +47,6 @@
                                 </div>
                             </div>
                             <div class="py-4 font-semibold text-3xl text center flex justify-center">
-                                <button class="inline-block rounded rounded-lg text-center py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-primary hover:bg-primary-light min-w-32 px-4" type="button" onclick="window.location='{{route('dinas.cek')}}'" id="add-profile-button" data-twe-ripple-init data-twe-ripple-color="light">
-                                    Tes
-                                </button> 
-                                <button class="inline-block rounded rounded-lg text-center py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-primary hover:bg-primary-light min-w-32 px-4" type="button" onclick="tes()" id="add-profile-button" data-twe-ripple-init data-twe-ripple-color="light">
-                                    CEK
-                                </button> 
                                 <button class="inline-block rounded rounded-lg text-center py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-primary hover:bg-primary-light min-w-32 px-4" type="submit" id="add-profile-button" data-twe-ripple-init data-twe-ripple-color="light">
                                     Kirim Broadcast
                                 </button> 
