@@ -2,10 +2,12 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="path/to/your/favicon.png">
+  <link rel="apple-touch-icon" href="path/to/your/apple-touch-icon.png">
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <title>Dashboard</title>
 </head>
 
 <body>

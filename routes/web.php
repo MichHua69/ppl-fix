@@ -90,6 +90,7 @@ Route::middleware(['role:1'])->group(function () {
     
     //notifikasi
     Route::get('/dinas/notifikasi',[DinasController::class, 'notifikasi'])->name('dinas.notifikasi');
+    Route::get('/dinas/tambahnotifikasi',[DinasController::class, 'tambahnotifikasi'])->name('dinas.tambahnotifikasi');
     Route::post('/dinas/pusher',[DinasController::class, 'pusher'])->name('dinas.pusher');
     Route::get('/dinas/notifikasi/cek',[DinasController::class, 'cek'])->name('dinas.cek');
 

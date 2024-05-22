@@ -772,6 +772,12 @@ class DinasController extends Controller
         $notifikasi = notifikasi::latest()->get();
         return view ('dinas.notifikasi', compact('user', 'photo','notifikasi') );
     }
+    public function tambahnotifikasi() {
+        $user = Auth::user();
+        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
+        $notifikasi = notifikasi::latest()->get();
+        return view ('dinas.tambahnotifikasi', compact('user', 'photo','notifikasi') );
+    }
 
     public function pusher(Request $request) {
         $validator = Validator::make($request->all(),[
@@ -791,10 +797,7 @@ class DinasController extends Controller
         ]);
 
         event(new Notif($data));
-        return redirect()->back();
+        return redirect(route('dinas.notifikasi'))->with('success','Notifikasi Berhasil Ditambahkan.');
     }
-    public function cek() {
 
-        return view('dinas.pusher');
-    }
 }
