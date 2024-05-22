@@ -47,7 +47,7 @@
                 style="
             background-image: url('{{ asset('images/ssj-background.jpg') }}');
           ">
-                <span id="blackOverlay" class="w-full h-full absolute opacity-60 bg-black"></span>
+                <span id="blackOverlay" class="w-full h-full absolute opacity-50 bg-black"></span>
             </div>
             <div class="container relative mx-auto">
                 <div class="items-center flex flex-wrap">
@@ -173,13 +173,13 @@
                 </div>
                 <div class="lg:flex items-stretch md:mt-12 mt-8">
                     <div class="lg:w-full">
-                        <div class="sm:flex items-center justify-between xl:gap-x-8 gap-x-6">
+                        <div class="sm:flex items-center justify-between xl:gap-x-8 gap-x-6 ">
                             <div class="sm:w-1/3 relative">
                                 <div>
-                                    <p class="p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">1
+                                    <p class=" p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">1
                                         April 2024</p>
-                                    <div class="absolute bottom-0 left-0 p-6">
-                                        <h2 class="text-xl font-semibold 5 text-white">Pentingnya Vaksinasi untuk Sapi
+                                    <div class="absolute bottom-0 left-0 p-6 bg-black" style="background-color: rgba(0, 0, 0, 0.5);">
+                                        <h2 class="text-xl font-semibold text-white">Pentingnya Vaksinasi untuk Sapi
                                         </h2>
                                         <p class="text-base leading-4 text-white mt-2">Vaksinasi teratur membantu
                                             mencegah penyakit menular pada sapi dan meningkatkan kualitas kesehatan
@@ -197,14 +197,14 @@
                                         </a>
                                     </div>
                                 </div>
-                                <img src="https://kampungkb.bkkbn.go.id/storage/17/1702/170216/1702162011/46605/intervensi/2023/07/27/570619/16904595860.jpeg" class="w-[325px] h-[330px] object-cover" alt="Vaksinasi Sapi" />
+                                <img src="https://kampungkb.bkkbn.go.id/storage/17/1702/170216/1702162011/46605/intervensi/2023/07/27/570619/16904595860.jpeg" class="w-[325px] h-[330px] object-cover " alt="Vaksinasi Sapi" />
                             </div>
                             <div class="sm:w-1/3 sm:mt-0 mt-4 relative">
                                 <div>
                                     <p class="p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">12
                                         April 2024</p>
-                                    <div class="absolute bottom-0 left-0 p-6">
-                                        <h2 class="text-xl font-semibold 5 text-white">Manfaat Nutrisi Tepat untuk Sapi
+                                    <div class="absolute bottom-0 left-0 p-6" style="background-color: rgba(0, 0, 0, 0.5);">
+                                        <h2 class="text-xl font-semibold text-white">Manfaat Nutrisi Tepat untuk Sapi
                                         </h2>
                                         <p class="text-base leading-4 text-white mt-2">Pemilihan nutrisi yang tepat
                                             esensial untuk kesehatan dan produktivitas sapi.</p>
@@ -221,14 +221,16 @@
                                         </a>
                                     </div>
                                 </div>
-                                <img src="https://akcdn.detik.net.id/community/media/visual/2022/06/18/vaksinasi-pmk-di-sidoarjo_169.jpeg?w=700&q=90" class="w-[325px] h-[330px] object-cover" alt="Nutrisi Sapi" />
+                                <div class="w-[325px] h-[330px] object-cover">
+                                    <img class="w-full h-full object-cover" src="https://akcdn.detik.net.id/community/media/visual/2022/06/18/vaksinasi-pmk-di-sidoarjo_169.jpeg?w=700&q=90" alt="Nutrisi Sapi" />
+                                </div>
                             </div>
                             <div class="sm:w-1/3 sm:mt-0 mt-4 relative">
                                 <div>
                                     <p class="p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">12
                                         April 2024</p>
-                                    <div class="absolute bottom-0 left-0 p-6">
-                                        <h2 class="text-xl font-semibold 5 text-white">Manfaat Nutrisi Tepat untuk Sapi
+                                    <div class="absolute bottom-0 left-0 p-6" style="background-color: rgba(0, 0, 0, 0.5);">
+                                        <h2 class="text-xl font-semibold text-white">Manfaat Nutrisi Tepat untuk Sapi
                                         </h2>
                                         <p class="text-base leading-4 text-white mt-2">Pemilihan nutrisi yang tepat
                                             esensial untuk kesehatan dan produktivitas sapi.</p>
@@ -248,7 +250,7 @@
                                 <img src="https://klikjatim.com/wp-content/uploads/2022/06/IMG-20220628-WA0090.jpg" class="w-[325px] h-[330px] object-cover" alt="Nutrisi Sapi" />
                             </div>
                         </div>
-                        <div class="relative w-full flex justify-center">
+                        {{-- <div class="relative w-full flex justify-center">
                             <div class="sm:w-1/3 sm:mt-4 mt-4 relative mx-2">
                                 <div>
                                     <p class="p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">12
@@ -297,7 +299,7 @@
                                 </div>
                                 <img src="https://akcdn.detik.net.id/community/media/visual/2022/06/18/vaksinasi-pmk-di-sidoarjo_169.jpeg?w=700&q=90" class="w-[325px] h-[330px] object-cover" alt="Nutrisi Sapi" />
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -306,7 +308,7 @@
 
         {{-- Program --}}
         <section>
-            <div class="min-h-[500px] flex flex-col p-4 sm:p-4 md:p-4 justify-center bg-[#E2E8F0]">
+            <div class="mt-10 min-h-[500px] flex flex-col p-4 sm:p-4 md:p-4 justify-center bg-[#E2E8F0]">
                 <!-- Themes: blue, purple and teal -->
                 <div class="mx-auto max-w-6xl">
                     <h2 class="sr-only">Featured case study</h2>
@@ -403,7 +405,7 @@
                                 </svg>
                             </a>
                             <a href="#"
-                                class="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full mr-1 hover:text-blue-400 hover:border-blue-400">
+                                class="inline-flex items-center justify-center h-8 w-8 border border-gray-100 rounded-full hover:text-blue-400 hover:border-blue-400">
                                 <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 496 512">
                                     <path
