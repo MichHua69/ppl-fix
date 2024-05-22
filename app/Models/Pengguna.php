@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Pengguna;
+use App\Models\role;
+use App\Models\dokterhewan;
+use App\Models\peternak;
 
 class Pengguna extends Authenticatable
 {
