@@ -176,7 +176,7 @@
                         <div class="sm:flex items-center justify-between xl:gap-x-8 gap-x-6 ">
                             <div class="sm:w-1/3 relative">
                                 <div>
-                                    <p class=" p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">1
+                                    <p style="background-color: rgba(0, 0, 0, 0.5);" class=" p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">1
                                         April 2024</p>
                                     <div class="absolute bottom-0 left-0 p-6 bg-black" style="background-color: rgba(0, 0, 0, 0.5);">
                                         <h2 class="text-xl font-semibold text-white">Pentingnya Vaksinasi untuk Sapi
@@ -201,7 +201,7 @@
                             </div>
                             <div class="sm:w-1/3 sm:mt-0 mt-4 relative">
                                 <div>
-                                    <p class="p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">12
+                                    <p style="background-color: rgba(0, 0, 0, 0.5);" class="p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">12
                                         April 2024</p>
                                     <div class="absolute bottom-0 left-0 p-6" style="background-color: rgba(0, 0, 0, 0.5);">
                                         <h2 class="text-xl font-semibold text-white">Manfaat Nutrisi Tepat untuk Sapi
@@ -227,7 +227,7 @@
                             </div>
                             <div class="sm:w-1/3 sm:mt-0 mt-4 relative">
                                 <div>
-                                    <p class="p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">12
+                                    <p style="background-color: rgba(0, 0, 0, 0.5);" class="p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">12
                                         April 2024</p>
                                     <div class="absolute bottom-0 left-0 p-6" style="background-color: rgba(0, 0, 0, 0.5);">
                                         <h2 class="text-xl font-semibold text-white">Manfaat Nutrisi Tepat untuk Sapi
@@ -426,7 +426,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-gray-800 text-white text-center p-4 mt-1">
+            <div class="bg-gray-800 text-white text-center p-4 mt-[1px]">
                 Hak Cipta © 2024 Dinas Peternakan Jember
             </div>
 </body>
