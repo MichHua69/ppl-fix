@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->foreignId('id_role')->constrained('role');
-            $table->rememberToken();
             $table->timestamps();
         });
     }

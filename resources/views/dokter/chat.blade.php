@@ -112,5 +112,17 @@
 
 
     <script src="{{ asset("assets/js/chat.js") }}"></script>
+    <script>
+        // Mengatur event listener untuk tombol kirim pesan
+        $(document).on("click", "#type-button", function () {
+            let message = $("#type-area").val(); // Mengambil pesan dari input teks
+            let roomId = previousRoomId; // Menggunakan roomId yang telah disimpan sebelumnya
+            if (message.trim() !== "") {
+                // Pastikan pesan tidak kosong
+                sendMessage(message, roomId); // Panggil fungsi untuk mengirim pesan
+                $("#type-area").val(""); // Kosongkan input teks setelah mengirim pesan
+            }
+        });
+    </script>
     </body>
 </html>
