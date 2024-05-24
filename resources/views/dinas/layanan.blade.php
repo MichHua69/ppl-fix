@@ -27,7 +27,7 @@
             </div>
           @endif
           <div class="block">
-            <h2 class="text-5xl font-bold mb-8 grid grid-row-15 row-span-1">Data Layanan</h2>
+            <h2 class="text-5xl font-bold mb-8 grid grid-row-15 row-span-1">Data Puskeswan</h2>
 
             <div class="mx-auto w-full flex gap-4">
               <div class="relative w-full">
@@ -62,10 +62,9 @@
                                       <span>Alamat</span>
                                   </th>
                                   <th scope="col" class="py-3.5 px-4 text-lg font-medium text-center w-1/5 p-2">
-                                      <span>Telepon</span>
+                                      <span>No. Telepon</span>
                                   </th>
                                   <th scope="col" class="py-3.5 px-4 text-lg font-medium text-center w-1/5 p-2">
-                                      {{-- <span>Kolom Kelima</span> --}}
                                   </th>
                               </tr>
                           </thead>
@@ -73,7 +72,7 @@
                             @foreach ($puskeswan as $item)
                                 <tr data-id="{{ $item->id }}">
                                   <td class="text-center px-4 puskeswan-column">{{ $item->puskeswan }}</td>
-                                  <td class="text-center px-4 alamat-column">{{ $item->alamat->jalan}}, {{$item->alamat->dusun}}, {{$item->alamat->wilayah->desa->desa}}, Kec. {{$item->alamat->wilayah->kecamatan->kecamatan}}</td>
+                                  <td class="text-center px-4 alamat-column">{{ $item->alamat->jalan}}, Desa {{$item->alamat->wilayah->desa->desa}}, Kec. {{$item->alamat->wilayah->kecamatan->kecamatan}}</td>
                                   <td class="text-center px-4 telepon-column">{{ $item->telepon}}</td>
                                   <td class="py-4 px-4 text-center flex justify-center items-center gap-4">
                                     <a class="flex justify-center edit-icon" onclick="openEditModal({{ $item->id }}, '{{ $item->puskeswan }}', '{{ $item->alamat->jalan }}', '{{ $item->alamat->wilayah->kecamatan->id }}', '{{ $item->alamat->wilayah->desa->id }}', '{{ $item->alamat->dusun }}', '{{ $item->telepon }}')" href="javascript:void(0);">
@@ -143,14 +142,6 @@
                 <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
                 @enderror
             </div>
-
-            <div class="mb-4">
-                <label for="dusun" class="block text-sm font-medium text-gray-700">Dusun</label>
-                <input type="dusun" id="dusun" name="dusun" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm error-message @error('dusun') border-red-500 @enderror" value="{{old('dusun')}}">
-                @error('dusun')
-                <p class="text-red-500 text-xs italic error-message">{{ $message }}</p>
-                @enderror
-            </div>
             <div class="mb-4">
                 <label for="telepon" class="block text-sm font-medium text-gray-700">Telepon</label>
                 <input type="telepon" id="telepon" name="telepon" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm error-message @error('telepon') border-red-500 @enderror" value="{{old('telepon')}}">
@@ -211,7 +202,6 @@
       document.querySelector("#modaleditdata [name='Jalan']").value = jalan;
       document.querySelector("#modaleditdata [name='kecamatan']").value = kecamatan;
       document.querySelector("#modaleditdata [name='desa']").value = desa;
-      document.querySelector("#modaleditdata [name='dusun']").value = dusun;
       document.querySelector("#modaleditdata [name='telepon']").value = telepon;
   }
 

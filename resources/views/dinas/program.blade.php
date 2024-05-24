@@ -15,9 +15,18 @@
     <section class="h-full">
         <div class="bg-primary pt-20 mt-6 h-full pb-1">
             <div class="px-6 py-10 mx-auto h-full flex justify-center">
-                <div class="container bg-secondary rounded-lg shadow-lg min-h-[80vh] p-12">
+                <div class="container bg-secondary rounded-lg shadow-lg min-h-[80vh] p-12 relative">
+                    @if(session('success'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded absolute top-0 left-0 alert-message" role="alert" style="position: absolute; width: 100%;">
+                        <strong class="font-bold">Berhasil!</strong>
+                        <span class="block sm:inline">{{session('success')}}</span>
+                        <span id="close-button" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.697z"/></svg>
+                        </span>
+                        </div>
+                    @endif  
                     <div class="py-4 font-semibold text-3xl">Program</div>
-                    <div class="mx-auto w-full">
+                    <div class="mx-auto w-full flex gap-4">
                         <div class="relative w-full">
                             <input type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-md text-gray-900 bg-gray-50 rounded-e-lg border-gray-300 border-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                                 placeholder="Cari Program" required/>
@@ -31,6 +40,14 @@
                                 <span class="sr-only">Search</span>
                             </button>
                         </div>
+                        <button type="button" class="inline-block rounded rounded-lg text-center py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-primary hover:bg-primary-light min-w-32"
+                        type="button"
+                        id="add-profile-button"
+                        onclick="window.location='{{route('dinas.tambahprogram')}}'"
+                        data-twe-ripple-init
+                        data-twe-ripple-color="light">
+                        Tambah
+                        </button>
                     </div>
                     <div class="grid grid-cols-3 gap-6 mt-4">
                         {{-- Hero card --}}
@@ -87,6 +104,14 @@
                     }
                 });
             }); 
+        });
+    </script>
+    <script>
+        const closeButton = document.getElementById('close-button');
+    
+        closeButton.addEventListener('click', function() {
+            const alertMessage = document.querySelector('.alert-message');
+            alertMessage.style.display = 'none';
         });
     </script>
 </body>

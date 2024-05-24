@@ -14,18 +14,18 @@ class AlamatSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['Jalan Pahlawan', 'Bangsalsari', 'Bangsalsari', 'Krajan'],
-            ['Jalan Pemuda', 'Kaliwates', 'Kaliwates', 'Sidorejo'],
-            ['Jalan Raya', 'Jelbuk', 'Jelbuk', 'Mojo'],
-            ['Jalan Merdeka', 'Sumberjambe', 'Sumberjambe', 'Sidomulyo'],
-            ['Jalan Kartini', 'Patrang', 'Patrang', 'Pohkemuning'],
-            ['Jalan Mangga', 'Bangsalsari', 'Badean', 'Dusun Mangga'],
-            ['Jalan Anggrek', 'Jelbuk', 'Sukojember', 'Dusun Anggrek'],
-            ['Jalan Mawar', 'Ambulu', 'Sumberejo', 'Dusun Mawar'],
-            ['Jalan Melati', 'Sukowono', 'Sukorejo', 'Dusun Melati'],
-            ['Jalan Kamboja', 'Puger', 'Puger Kulon', 'Dusun Kamboja'],
-            ['Jalan Dahlia', 'Jenggawah', 'Sruni', 'Dusun Dahlia'],
-            ['Jalan Sakura', 'Ajung', 'Mangaran', 'Dusun Sakura'],
+            ['Jalan Pahlawan', 'Bangsalsari', 'Bangsalsari'],
+            ['Jalan Pemuda', 'Kaliwates', 'Kaliwates'],
+            ['Jalan Raya', 'Jelbuk', 'Jelbuk'],
+            ['Jalan Merdeka', 'Sumberjambe', 'Sumberjambe'],
+            ['Jalan Kartini', 'Patrang', 'Patrang'],
+            ['Jalan Mangga', 'Bangsalsari', 'Badean'],
+            ['Jalan Anggrek', 'Jelbuk', 'Sukojember'],
+            ['Jalan Mawar', 'Ambulu', 'Sumberejo'],
+            ['Jalan Melati', 'Sukowono', 'Sukorejo'],
+            ['Jalan Kamboja', 'Puger', 'Puger Kulon'],
+            ['Jalan Dahlia', 'Jenggawah', 'Sruni'],
+            ['Jalan Sakura', 'Ajung', 'Mangaran'],
         ];
 
         foreach ($data as $row) {
@@ -33,7 +33,6 @@ class AlamatSeeder extends Seeder
             $jalan = $row[0];
             $kecamatan = $row[1];
             $desa = $row[2];
-            $dusun = $row[3];
 
             // Cari wilayah berdasarkan kecamatan dan desa
             $wilayah = Wilayah::whereHas('kecamatan', function ($query) use ($kecamatan) {
@@ -51,7 +50,6 @@ class AlamatSeeder extends Seeder
             alamat::create([
                 'jalan' => $jalan,
                 'id_wilayah' => $wilayah->id,
-                'dusun' => $dusun,
             ]);
         }
     }

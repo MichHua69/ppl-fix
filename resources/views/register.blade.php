@@ -102,17 +102,7 @@
 
                                             </div>
                                         </div>
-                                        <div class="flex flex-row items-center mb-4 w-full justify-between">
-                                            <label class="basis-3/12" for="nik">Dusun</label>
-                                            <div class="relative basis-9/12" data-twe-input-wrapper-init>
-                                                <input type="text" name="dusun" id="dusun" placeholder="Masukkan Nama Dusun" class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('dusun') border-red-500 @enderror"
-                                                    value="{{ old('nik') }}"  autocomplete="dusun" autofocus />
 
-                                                @error('dusun')
-                                                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
                                         <div class="flex flex-row items-center mb-4 w-full justify-between">
                                             <label class="basis-3/12" for="nik">NIK</label>
                                             <div class="relative basis-9/12" data-twe-input-wrapper-init>
@@ -182,6 +172,7 @@
                                                     placeholder="Masukkan Kata Sandi"
                                                     class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('password') border-red-500 @enderror"
                                                      autocomplete="new-password" />
+                                                <p class="text-gray-400 text-xs italic">Password minimal 5 karakter</p>
 
                                                 @error('password')
                                                     <p class="text-red-500 text-xs italic">{{ $message }}</p>

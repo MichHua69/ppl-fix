@@ -60,7 +60,7 @@ class LoginController extends Controller
         }
     
         // Jika kedua otentikasi gagal, kembalikan ke halaman login dengan pesan error
-        return redirect()->back()->with('loginError', 'Nama Pengguna atau Email dan Password tidak cocok');
+        return redirect()->back()->with('loginError', 'Nama Pengguna atau Email dan Kata Sandi tidak cocok.');
     }
     
 

@@ -17,7 +17,7 @@
             <div class="px-6 py-10 mx-auto h-full flex justify-center">
                 <div class="container bg-secondary rounded-lg shadow-lg min-h-[80vh] p-24 relative">
                     @if(session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded absolute top-0 left-0 alert-message" role="alert" style="position: absolute; width: 100%;">
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded absolute top-0 left-0 alert-message z-50" role="alert" style="position: absolute; width: 100%;">
                             <strong class="font-bold">Berhasil!</strong>
                             <span class="block sm:inline">{{ session('success') }}</span>
                             <span id="close-button" class="absolute top-0 bottom-0 right-0 px-4 py-3">
@@ -64,7 +64,14 @@
             </div>
         </div>
     </section>
-
+    <script>
+        const closeButton = document.getElementById('close-button');
+      
+        closeButton.addEventListener('click', function() {
+          const alertMessage = document.querySelector('.alert-message');
+          alertMessage.style.display = 'none';
+        });
+      </script>
 </body>
 
 </html>

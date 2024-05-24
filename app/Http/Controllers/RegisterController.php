@@ -37,7 +37,6 @@ class RegisterController extends Controller
             'alamat' => 'required|string|max:255',
             'kecamatan' => 'required',
             'desa' => 'required',
-            'dusun' => 'required|string',
             'nik' => 'required|string|min:16|max:16|unique:peternak',
             'telepon' => 'required|string|max:20|unique:peternak',
             'nama_pengguna' => 'required|string|max:255|unique:pengguna',
@@ -53,8 +52,6 @@ class RegisterController extends Controller
 
                 'desa' => [ 'required' => 'Desa wajib diisi.', 'string' => 'Desa harus berupa string.', ],
 
-                'dusun' => [ 'required' => 'Dusun wajib diisi.', 'string' => 'Dusun harus berupa string.', ],
-
                 'nik' => [ 'required' => 'NIK wajib diisi.', 'string' => 'NIK harus berupa string.', 'min' => 'NIK harus 16 digit.', 'max' => 'NIK harus 16 digit.', 'unique' => 'NIK sudah terdaftar.', ],
 
                 'telepon' => [ 'required' => 'No. Telepon wajib diisi.', 'string' => 'No. Telepon harus berupa string.', 'max' => 'No. Telepon maksimal : 20 karakter.', 'unique' => 'No. Telepon sudah terdaftar.', ],
@@ -68,12 +65,6 @@ class RegisterController extends Controller
                 'billing_same' => 'accepted',
         ]);
 
-        // // Create Wilayah
-        // $wilayah = wilayah::create([
-        //     'id_kecamatan' => $request->kecamatan,
-        //     'id_desa' => $request->desa,
-
-        // ]);
         // Create Alamat
         $id_kecamatan = $request->input('kecamatan');
         $id_desa = $request->input('desa');
@@ -86,7 +77,6 @@ class RegisterController extends Controller
         $alamat = alamat::create([
             'jalan' => $request->alamat,
             'id_wilayah' => $wilayah->id,
-            'dusun' => $request->dusun,
         ]);
         // Create Pengguna
         $pengguna = pengguna::create([

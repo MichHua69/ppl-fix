@@ -37,25 +37,6 @@
                   </div>
                 </div>
                 <div class="flex flex-col mb-4 w-full justify-between ">
-                  <label class="basis-3/12 font-semibold text-xl" for="puskeswan">
-                      PUSKESWAN
-                  </label>
-                  <div class="relative basis-9/12 mt-2"
-                      data-twe-input-wrapper-init>
-                      <select 
-                          class="peer block w-full px-1 py-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('puskeswan') border-red-500 @enderror"
-                          name="puskeswan" id="puskeswan">
-                          <option selected hidden value="">Pilih PUSKESWAN</option>
-                          @foreach ($puskeswan as $item)
-                          <option value={{ $item->id }}>{{ $item->puskeswan }}</option>
-                          @endforeach
-                      </select>
-                      @error('puskeswan')
-                      <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                      @enderror
-                  </div>
-                </div>
-                <div class="flex flex-col mb-4 w-full justify-between ">
                   <label class="basis-3/12 font-semibold text-xl" for="nama_pengguna">
                       Nama Pengguna
                   </label>
@@ -81,6 +62,25 @@
                           class="peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('email') border-red-500 @enderror"
                           value="{{old('email')}}" autocomplete="email" />
                       @error('email')
+                      <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                      @enderror
+                  </div>
+                </div>
+                <div class="flex flex-col mb-4 w-full justify-between ">
+                  <label class="basis-3/12 font-semibold text-xl" for="puskeswan">
+                      PUSKESWAN
+                  </label>
+                  <div class="relative basis-9/12 mt-2"
+                      data-twe-input-wrapper-init>
+                      <select 
+                          class="peer block w-full px-1 py-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('puskeswan') border-red-500 @enderror"
+                          name="puskeswan" id="puskeswan">
+                          <option selected hidden value="">Pilih PUSKESWAN</option>
+                          @foreach ($puskeswan as $item)
+                          <option value={{ $item->id }}>{{ $item->puskeswan }}</option>
+                          @endforeach
+                      </select>
+                      @error('puskeswan')
                       <p class="text-red-500 text-xs italic">{{ $message }}</p>
                       @enderror
                   </div>

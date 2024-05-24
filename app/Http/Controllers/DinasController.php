@@ -8,7 +8,7 @@ use App\Models\artikel;
 use App\Models\laporan;
 use App\Models\program;
 use App\Models\wilayah;
-use App\Models\pengguna;
+use App\Models\Pengguna;
 use App\Models\peternak;
 use App\Models\kecamatan;
 use App\Models\puskeswan;
@@ -53,6 +53,7 @@ class DinasController extends Controller
         $aktor = dinaspeternakan::with('pengguna')->where('id_pengguna', $user->id)->first();
 
         $validator = Validator::make($request->all(),[
+            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$request->id_pengguna,
             'password' => 'required|string|min:5',
             'file_input' => 'image|mimes:jpeg,png,jpg,gif,svg'
             ],
@@ -112,7 +113,7 @@ class DinasController extends Controller
                 $aktor->pengguna->avatar = $avatarName;
                 $aktor->pengguna->save();
             }
-            return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
+            return redirect()->back()->with('success', 'Perubahan Berhasil Disimpan.');
     }
 
     public function buatakun() {
@@ -144,7 +145,7 @@ class DinasController extends Controller
                 'password' => [ 'required' => 'Kata Sandi wajib diisi.', 'string' => 'Kata Sandi harus berupa string.', 'min' => 'Kata Sandi minimal 5 karakter.', 'confirmed' => 'Konfirmasi Kata Sandi tidak sesuai.'],
             ]);
 
-        $pengguna = pengguna::create([
+        $pengguna = Pengguna::create([
             'nama_pengguna' => $request->nama_pengguna,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -165,7 +166,7 @@ class DinasController extends Controller
         // dd($aktor);
         $puskeswan = puskeswan::all();
 
-        return redirect()-> route('dinas.akundokter', compact('user', 'photo','aktor','puskeswan'))->with('success','Data Berhasil Ditambahkan.');
+        return redirect()-> route('dinas.akundokter', compact('user', 'photo','aktor','puskeswan'))->with('success','Data Akun Dokter Hewan Berhasil Ditambahkan.');
     }
 
     public function akunpeternak() {
@@ -186,6 +187,7 @@ class DinasController extends Controller
         $aktor = dokterhewan::with('pengguna','puskeswan')->get();
         // dd($aktor);
         $puskeswan = puskeswan::all();
+        // dd($puskeswan);
 
         return view ('dinas.akundokter', compact('user', 'photo','aktor','puskeswan') );
     }
@@ -222,13 +224,14 @@ class DinasController extends Controller
 
     public function editakundokter(Request $request){
         // Temukan pengguna berdasarkan id_pengguna dari request
-        $pengguna = pengguna::findOrFail($request->id_pengguna);
-        // dd($pengguna);
+        $pengguna = Pengguna::findOrFail($request->id_pengguna);
+        // dd($request);
         $validator = Validator::make($request->all(), [
             'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$pengguna->id,
             'email' => 'required|string|max:255|unique:pengguna,email,'.$pengguna->id,
             'nama' => 'required',
             'puskeswan' => 'required',
+            'password' => 'required'
         ],
         [
             'puskeswan' => [ 'required' => 'Puskeswan wajib diisi.' ],
@@ -253,6 +256,7 @@ class DinasController extends Controller
         $pengguna->update([
             'nama_pengguna' => $request->nama_pengguna,
             'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
         // Perbarui atribut dokter hewan dengan nilai baru dari request
         $dokter->update([
@@ -261,11 +265,11 @@ class DinasController extends Controller
         ]);
 
         // Redirect atau tampilkan pesan sukses atau lakukan tindakan lain yang sesuai
-        return redirect()->back()->with('success', 'Data pengguna berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Data Akun Dokter Hewan Berhasil Diperbarui.');
     }
 
     public function resetpasswordakundokter(Request $request){
-        $dokter = pengguna::findOrFail($request->id_pengguna);
+        $dokter = Pengguna::findOrFail($request->id_pengguna);
 
         $validator = Validator::make($request->all(), [
             'password' => 'required|min:5',
@@ -314,11 +318,12 @@ class DinasController extends Controller
     public function storetambahartikel(Request $request) {
 
         $request->validate([
-            'judul' => 'required',
+            'judul' => 'required|max:255',
             'gambar' => 'image', // Hapus validasi mimes untuk memperbolehkan semua jenis gambar
             'isi' => 'required'
         ], [
             'judul.required' => 'Judul Artikel wajib diisi',
+            'judul.max' => 'Judul Artikel tidak boleh lebih dari :max karakter.',
             'gambar.image' => 'File harus berupa gambar',
             'isi.required' => 'Isi Artikel wajib diisi'
         ]);
@@ -342,7 +347,7 @@ class DinasController extends Controller
         }
 
         // Redirect atau respons sukses
-        return redirect(route('dinas.informasiprogram'))->with('success', 'Artikel Berhasil Ditambahkan');
+        return redirect(route('dinas.artikel'))->with('success', 'Artikel Berhasil Ditambahkan');
     }
 
     public function artikel() {
@@ -492,7 +497,7 @@ class DinasController extends Controller
         }
 
 
-        return redirect()->route('dinas.informasiprogram')->with('success', 'Program Berhasil Ditambahkan.');
+        return redirect()->route('dinas.program')->with('success', 'Program Berhasil Ditambahkan.');
     }
 
     public function program() {
@@ -634,7 +639,6 @@ class DinasController extends Controller
             'Jalan' => 'required|string',
             'kecamatan' => 'required|exists:kecamatan,id',
             'desa' => 'required|exists:desa,id',
-            'dusun' => 'required|string',
             'telepon' => 'required|max:20',
         ], [
             'puskeswan.required' => 'Kolom nama wajib diisi.',
@@ -646,8 +650,6 @@ class DinasController extends Controller
             'kecamatan.exists' => 'Kecamatan yang dipilih tidak valid.',
             'desa.required' => 'Kolom Desa wajib dipilih.',
             'desa.exists' => 'Desa yang dipilih tidak valid.',
-            'dusun.required' => 'Kolom Dusun wajib diisi.',
-            'dusun.string' => 'Kolom Dusun harus berupa teks.',
             'telepon.required' => 'Kolom Telepon wajib diisi.',
             'telepon.max' => 'No. Telepon maksimal 20 angka.',
         ]);
@@ -663,7 +665,6 @@ class DinasController extends Controller
         $alamat = alamat::create([
             'jalan' => $request->Jalan,
             'id_wilayah' => $wilayah->id,
-            'dusun' => $request->dusun,
         ]);
         $puskeswan = puskeswan::create([
             'puskeswan' => $request->puskeswan,
@@ -672,7 +673,7 @@ class DinasController extends Controller
         ]);
 
         // Redirect ke halaman lain atau tampilkan pesan sukses
-        return redirect()->route('dinas.layanan')->with('success', 'Puskeswan berhasil ditambahkan.');
+        return redirect()->route('dinas.layanan')->with('success', 'Data berhasil ditambahkan.');
     }
 
     public function editlayanan(Request $request) {
@@ -682,7 +683,6 @@ class DinasController extends Controller
             'Jalan' => 'required|string|max:255',
             'kecamatan' => 'required|exists:kecamatan,id',
             'desa' => 'required|exists:desa,id',
-            'dusun' => 'required|string|max:255',
             'telepon' => 'required|string|max:20',
         ], [
             'puskeswan.required' => 'Nama wajib diisi.',
@@ -695,9 +695,6 @@ class DinasController extends Controller
             'kecamatan.exists' => 'Kecamatan yang dipilih tidak valid.',
             'desa.required' => 'Desa wajib dipilih.',
             'desa.exists' => 'Desa yang dipilih tidak valid.',
-            'dusun.required' => 'Dusun harus diisi.',
-            'dusun.string' => 'Dusun harus berupa teks.',
-            'dusun.max' => 'Dusun tidak boleh lebih dari 255 karakter.',
             'telepon.required' => 'Telepon harus diisi.',
             'telepon.string' => 'Telepon harus berupa teks.',
             'telepon.max' => 'Telepon tidak boleh lebih dari 20 karakter.',
@@ -718,13 +715,11 @@ class DinasController extends Controller
 
         $alamat->update([
             'jalan' => $request->Jalan,
-            'dusun' => $request->dusun,
             'id_wilayah' => $wilayah->id,
         ]);
 
         $puskeswan->update([
             'puskeswan' => $request->puskeswan,
-            'dusun' => $request->dusun,
             'id_wilayah' => $wilayah->id,
         ]);
         return redirect()->back()->with('success', 'PUSKESWAN Berhasil Diubah');

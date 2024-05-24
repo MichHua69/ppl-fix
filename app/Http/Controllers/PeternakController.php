@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\desa;
-use App\Events\Notif;
-use App\Models\dusun;
+use App\Events\Notif;   
 use App\Models\pesan;
 use App\Models\artikel;
 use App\Models\laporan;
@@ -62,9 +61,8 @@ class PeternakController extends Controller
             'alamat' => 'required|string|max:255',
             'kecamatan' => 'required',
             'desa' => 'required',
-            'dusun' => 'required|string',
             'telepon' => 'required|string|max:20',
-            'nama_pengguna' => 'required|string|max:255',
+            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$request->id_pengguna,
             'password' => 'required|string|min:5',
             'file_input' => 'image'
             ],
@@ -77,7 +75,6 @@ class PeternakController extends Controller
 
                 'desa' => [ 'required' => 'Desa wajib diisi.', 'string' => 'Desa harus berupa string.', ],
 
-                'dusun' => [ 'required' => 'Dusun wajib diisi.', 'string' => 'Dusun harus berupa string.', ],
 
                 'telepon' => [ 'required' => 'No. Telepon wajib diisi.', 'string' => 'No. Telepon harus berupa string.', 'max' => 'No. Telepon maksimal : 20 karakter.', 'unique' => 'No. Telepon sudah terdaftar.', ],
 
@@ -97,7 +94,6 @@ class PeternakController extends Controller
         $wilayah = wilayah::where('id_kecamatan', intval($request->kecamatan))->where('id_desa', intval($request->desa))->first();
     
         $aktor->alamat->jalan = $request->alamat;
-        $aktor->alamat->dusun = $request->dusun;
         $aktor->alamat->id_wilayah = $wilayah->id;
         $aktor->telepon = $request->telepon;
         $aktor->pengguna->nama_pengguna = $request->nama_pengguna;
@@ -147,7 +143,7 @@ class PeternakController extends Controller
         }
 
 
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Perubahan Berhasil Disimpan.');
     }
 
     public function konsultasi(Request $request)

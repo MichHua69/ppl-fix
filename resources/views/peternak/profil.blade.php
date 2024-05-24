@@ -130,24 +130,10 @@
                             </div>
     
                             <div class="flex flex-col mb-8 w-full justify-between">
-                                <label class="basis-3/12 font-semibold" for="dusun">Dusun</label>
-                                <p class="peer block w-full py-3 rounded-md" id="dusun-p">{{$aktor->alamat->dusun}}</p>
-                                <div class="relative basis-9/12" data-twe-input-wrapper-init>
-                                    <input type="text" name="dusun" id="dusun" placeholder="Masukkan Dusun" class="hidden peer block w-full p-3 pl-4 border border-gray-300 rounded-md shadow-sm focus:outline:none focus:ring-primary focus:border-primary @error('dusun') border-red-500 @enderror"
-                                        value="{{$aktor->alamat->dusun}}" autocomplete="dusun"/>
-                                    @error('dusun')
-                                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="flex flex-col mb-8 w-full justify-between">
                                 <label class="basis-3/12 font-semibold" for="nik">NIK</label>
                                 <p class="peer block w-full py-3 rounded-md" id="nik-p">{{$aktor->nik}}</p>
                             </div>
-    
-                            
-                        </div>
-                        <div class="flex flex-col px-7 py-5 basis-1/2">
+
                             <div class="flex flex-col mb-8 w-full justify-between">
                                 <label class="basis-3/12 font-semibold" for="telepon">No. Telepon</label>
                                 <p class="peer block w-full py-3 rounded-md" id="telepon-p">{{$aktor->telepon}}</p>
@@ -160,6 +146,11 @@
                                     @enderror
                                 </div>
                             </div>
+    
+                            
+                        </div>
+                        <div class="flex flex-col px-7 py-5 basis-1/2">
+
                             <div
                                 class="flex flex-col mb-8 w-full justify-between">
                                 <label class="basis-3/12 font-semibold" for="nama_pengguna">Nama Pengguna</label>
@@ -273,8 +264,6 @@
     const kecamatanInput = document.getElementById('kecamatan');
     const desasP = document.getElementById('desas-p');
     const desaInput = document.getElementById('desa');
-    const dusunP = document.getElementById('dusun-p');
-    const dusunInput = document.getElementById('dusun');
     const teleponP = document.getElementById('telepon-p');
     const teleponInput = document.getElementById('telepon');
     const namaPenggunaP = document.getElementById('nama_pengguna-p');
@@ -293,8 +282,6 @@
         kecamatanInput.classList.remove('hidden');
         desasP.classList.add('hidden');
         desaInput.classList.remove('hidden');
-        dusunP.classList.add('hidden');
-        dusunInput.classList.remove('hidden');
         teleponP.classList.add('hidden');
         teleponInput.classList.remove('hidden');
         namaPenggunaP.classList.add('hidden');
@@ -317,8 +304,6 @@
         kecamatanInput.classList.add('hidden');
         desasP.classList.remove('hidden');
         desaInput.classList.add('hidden');
-        dusunP.classList.remove('hidden');
-        dusunInput.classList.add('hidden');
         teleponP.classList.remove('hidden');
         teleponInput.classList.add('hidden');
         namaPenggunaP.classList.remove('hidden');
@@ -342,8 +327,6 @@
         kecamatanInput.classList.remove('hidden');
         desasP.classList.add('hidden');
         desaInput.classList.remove('hidden');
-        dusunP.classList.add('hidden');
-        dusunInput.classList.remove('hidden');
         teleponP.classList.add('hidden');
         teleponInput.classList.remove('hidden');
         namaPenggunaP.classList.add('hidden');

@@ -30,7 +30,7 @@ class DokterController extends Controller
         return view('dokter.dashboard', compact('user','photo'));
     }
 
-    public function profil(Request $request) {
+    public function profil() {
         $user = Auth::user();
         $aktor = dokterhewan::with('pengguna','puskeswan')->where('id_pengguna', $user->id)->first();
         $kecamatan = kecamatan::all();
@@ -48,7 +48,7 @@ class DokterController extends Controller
         $aktor = dokterhewan::with('pengguna', 'alamat.wilayah.kecamatan', 'alamat.wilayah.desa')->where('id_pengguna', $user->id)->first();
 
         $validator = Validator::make($request->all(),[
-            'nama_pengguna' => 'required|string|max:255',
+            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$request->id_pengguna,
             'password' => 'required|string|min:5',
             'file_input' => 'image'
             ],
@@ -108,7 +108,7 @@ class DokterController extends Controller
             $aktor->pengguna->avatar = $avatarName;
             $aktor->pengguna->save();
         }
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Perubahan Berhasil Disimpan.');
     }
 
     public function konsultasi(Request $request)
@@ -153,11 +153,12 @@ class DokterController extends Controller
     public function storetambahartikel(Request $request) {
 
         $request->validate([
-            'judul' => 'required',
+            'judul' => 'required|max:255',
             'gambar' => 'image', // Hapus validasi mimes untuk memperbolehkan semua jenis gambar
             'isi' => 'required'
         ], [
             'judul.required' => 'Judul Artikel wajib diisi',
+            'judul.max' => 'Judul Artikel tidak boleh lebih dari :max karakter.',
             'gambar.image' => 'File harus berupa gambar',
             'isi.required' => 'Isi Artikel wajib diisi'
         ]);
@@ -181,7 +182,7 @@ class DokterController extends Controller
         }
 
         // Redirect atau respons sukses
-        return redirect(route('dokter.informasiprogram'))->with('success', 'Artikel Berhasil Ditambahkan');
+        return redirect(route('dokter.artikel'))->with('success', 'Artikel Berhasil Ditambahkan');
     }
 
     public function artikel() {
