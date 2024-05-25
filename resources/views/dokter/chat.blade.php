@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chat App Template</title>
     <link rel="stylesheet" href="{{ asset("assets/css/chat.css") }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
@@ -54,18 +53,6 @@
                         <div>
                             <p style="text-align: center; font-size: 30px">Mitra resmi dari Dinas Ketahanan Pangan dan Peternakan Kabupaten Jember</p>
                         </div>
-                        {{-- <div class="flex">
-
-                            <div>
-                                <a href="#" class="flex items-center gap-5 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 ">
-                                    <img class="w-24 h-24 rounded-full " src="{{asset($photo)}}" alt="">
-                                    <div>
-                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$aktor->nama}}</h5>
-                                        <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div> --}}
                     </section>
                     <section id="main-right" class="main-right hidden">
                         <!-- header -->
@@ -113,14 +100,23 @@
 
     <script src="{{ asset("assets/js/chat.js") }}"></script>
     <script>
-        // Mengatur event listener untuk tombol kirim pesan
-        $(document).on("click", "#type-button", function () {
-            let message = $("#type-area").val(); // Mengambil pesan dari input teks
-            let roomId = previousRoomId; // Menggunakan roomId yang telah disimpan sebelumnya
+        // Function to handle sending message
+        function handleSendMessage() {
+            let message = document.getElementById("type-area").value;
+            let roomId = previousRoomId; // Get the current room ID
             if (message.trim() !== "") {
-                // Pastikan pesan tidak kosong
-                sendMessage(message, roomId); // Panggil fungsi untuk mengirim pesan
-                $("#type-area").val(""); // Kosongkan input teks setelah mengirim pesan
+                sendMessage(message, roomId);
+                document.getElementById("type-area").value = ""; // Clear the input field after sending
+            }
+        }
+    
+        // Add event listener to send button
+        document.getElementById("send-button").addEventListener("click", handleSendMessage);
+    
+        // Add event listener to input field to send message on pressing Enter
+        document.getElementById("type-area").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                handleSendMessage();
             }
         });
     </script>

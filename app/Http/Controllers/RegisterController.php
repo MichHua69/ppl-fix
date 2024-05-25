@@ -54,16 +54,16 @@ class RegisterController extends Controller
 
                 'nik' => [ 'required' => 'NIK wajib diisi.', 'string' => 'NIK harus berupa string.', 'min' => 'NIK harus 16 digit.', 'max' => 'NIK harus 16 digit.', 'unique' => 'NIK sudah terdaftar.', ],
 
-                'telepon' => [ 'required' => 'No. Telepon wajib diisi.', 'string' => 'No. Telepon harus berupa string.', 'max' => 'No. Telepon maksimal : 20 karakter.', 'unique' => 'No. Telepon sudah terdaftar.', ],
+                    'telepon' => [ 'required' => 'No. Telepon wajib diisi.', 'string' => 'No. Telepon harus berupa string.', 'max' => 'No. Telepon maksimal : 20 karakter.', 'unique' => 'No. Telepon sudah terdaftar.', ],
 
-                'nama_pengguna' => [ 'required' => 'Nama Pengguna wajib diisi.', 'string' => 'Nama Pengguna harus berupa string.', 'max' => 'Nama Pengguna maksimal : 255 karakter.', 'unique' => 'Nama Pengguna sudah terdaftar.', ],
+                    'nama_pengguna' => [ 'required' => 'Nama Pengguna wajib diisi.', 'string' => 'Nama Pengguna harus berupa string.', 'max' => 'Nama Pengguna maksimal : 255 karakter.', 'unique' => 'Nama Pengguna sudah terdaftar.', ],
 
-                'email' => [ 'required' => 'Email wajib diisi.', 'string' => 'Email harus berupa string.', 'email' => 'Email harus berupa alamat email yang valid.', 'max' => 'Email maksimal : 255 karakter.', 'unique' => 'Email sudah terdaftar.', ],
+                    'email' => [ 'required' => 'Email wajib diisi.', 'string' => 'Email harus berupa string.', 'email' => 'Email harus berupa alamat email yang valid.', 'max' => 'Email maksimal : 255 karakter.', 'unique' => 'Email sudah terdaftar.', ],
 
-                'password' => [ 'required' => 'Kata Sandi wajib diisi.', 'string' => 'Kata Sandi harus berupa string.', 'min' => 'Kata Sandi minimal 5 karakter.', 'confirmed' => 'Konfirmasi Kata Sandi tidak sesuai.'],
+                    'password' => [ 'required' => 'Kata Sandi wajib diisi.', 'string' => 'Kata Sandi harus berupa string.', 'min' => 'Kata Sandi minimal 5 karakter.', 'confirmed' => 'Konfirmasi Kata Sandi tidak sesuai.'],
 
-                'billing_same' => 'accepted',
-        ]);
+                    'billing_same' => 'accepted',
+            ]);
 
         // Create Alamat
         $id_kecamatan = $request->input('kecamatan');

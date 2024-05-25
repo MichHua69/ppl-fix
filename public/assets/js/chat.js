@@ -42,7 +42,7 @@ function refreshFriendList() {
             $("#chat-list").empty(); // Kosongkan daftar teman sebelum menambahkan yang baru
             $.each(friendsWithId, function (index, friend) {
                 var avatar = friend.avatar
-                    ? "storage/" + friend.avatar
+                    ? "/profil/" + friend.avatar
                     : "/images/defaultprofile.png";
                 var friendHtml =
                     '<div class="friends tes" data-id="' +
@@ -54,7 +54,10 @@ function refreshFriendList() {
                     '">';
                 friendHtml +=
                     '<div class="profile friends-photo border-2 border-white">';
-                friendHtml += '<img src="' + avatar + '" alt="">';
+                friendHtml +=
+                    '<img src="' +
+                    avatar +
+                    '" class="w-10 h-10 rounded-full object-cover" alt="">';
                 friendHtml += "</div>";
                 friendHtml += '<div class="friends-credent">';
                 friendHtml +=
@@ -127,7 +130,7 @@ function sendMessage(message, roomId) {
 function handelLeftMessage(message, avatar) {
     let html =
         '<div class="friends-chat">\n' +
-        '                <div class="profile friends-chat-photo">\n' +
+        '                <div class="profile friends-photo border-2 border-white">\n' +
         '                    <img src="' +
         avatar +
         '" alt="" class="w-10 h-10 rounded-full object-cover">\n' +
@@ -238,8 +241,6 @@ function createRoom(friendId, avatar) {
             console.error("Gagal membuat ruang:", error);
         });
 }
-
-
 
 function loadMessage(roomId, friendId, avatar) {
     var chatBody = document.querySelector("#chat-area");

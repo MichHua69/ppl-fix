@@ -166,7 +166,7 @@ class DinasController extends Controller
         // dd($aktor);
         $puskeswan = puskeswan::all();
 
-        return redirect()-> route('dinas.akundokter', compact('user', 'photo','aktor','puskeswan'))->with('success','Data Akun Dokter Hewan Berhasil Ditambahkan.');
+        return redirect()->route('dinas.akundokter', compact('user', 'photo','aktor','puskeswan'))->with('success','Data Akun Dokter Hewan Berhasil Ditambahkan.');
     }
 
     public function akunpeternak() {
