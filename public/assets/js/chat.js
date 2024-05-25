@@ -8,6 +8,20 @@ $(document).on("click", "#back", function () {
     showHideChatBox(false);
 });
 
+$(document).on("click", ".friends-right", function () {
+    let id = $(this).attr("data-id");
+    let name = $(this).attr("data-name");
+    let avatar = $(this).attr("data-avatar");
+    // Set chat room properties
+    $(".friend-name").html(name);
+    $(".header-img").html(
+        `<img src="${avatar}" class="w-10 h-10 rounded-full object-cover"/>`
+    );
+
+    createRoom(id, avatar);
+    console.log(id);
+    console.log(avatar);
+});
 $(document).on("click", ".friends", function () {
     let id = $(this).attr("data-id");
     let name = $(this).attr("data-name");
@@ -48,7 +62,7 @@ function refreshFriendList() {
                     '<div class="friends tes" data-id="' +
                     friend.id +
                     '" data-name="' +
-                    friend.nama_pengguna +
+                    friend.dokterhewan.nama +
                     '" data-avatar="' +
                     avatar +
                     '">';
@@ -218,7 +232,7 @@ function createRoom(friendId, avatar) {
                 .joining((user) => {
                     console.log(user.nama_pengguna + " telah bergabung");
                     document
-                        .querySelectorAll(".friends")
+                        .querySelectorAll(".friends-right")
                         .forEach(function (el) {
                             if (el.getAttribute("data-id") == user.id) {
                                 el.querySelector(

@@ -30,12 +30,12 @@
                                 @php
                                     $avatar = $friend->avatar ? 'profil/'.$friend->avatar : '/images/defaultprofile.png';
                                 @endphp
-                                <div class="friends tes" data-id="{{ $friend->id }}" data-name="{{ $friend->nama_pengguna }}" data-avatar="{{ asset($avatar) }}">
+                                <div class="friends tes" data-id="{{ $friend->id }}" data-name="{{ $friend->dokterhewan->nama }}" data-avatar="{{ asset($avatar) }}">
                                     <div class="profile friends-photo border-2 border-white">
                                         <img class="w-10 h-10 rounded-full object-cover" src="{{ asset($avatar) }}" alt="">
                                     </div>
                                     <div class="friends-credent">
-                                        <span class="friends-name">{{ $friend->nama_pengguna }}</span>
+                                        <span class="friends-name">{{ $friend->dokterhewan->nama }}</span>
                                     </div>
                                 </div>
                             @endforeach
@@ -45,27 +45,47 @@
 
 
                     <!-- RIGHT SECTION -->
-                    <section id="main-empty" class="main-right place-items-center">
-                        <div>
-                            <p style="text-align: center; font-size: 30px">Mitra resmi dari Dinas Ketahanan Pangan dan Peternakan Kabupaten Jember</p>
+                    <section id="main-empty" class="main-right-empty">
+                        <div class="flex items-center justify-center">
+                            <p style="text-align: center; font-size: 30px" class="">Mitra resmi dari Dinas Ketahanan Pangan dan Peternakan Kabupaten Jember</p>
                         </div>
-                        <div class="flex flex-wrap justify-center" >
+                        <div class="flex items-center px-8">
+                            <div class="mx-auto w-full">
+                                <div class="relative w-full">
+                                    <input type="search" id="search-dropdown"
+                                        class="block p-2.5 w-full z-20 text-md text-gray-900 bg-gray-50 rounded-e-lg border-gray-300 border-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                                        placeholder="Cari Puskeswan" required />
+                                    <button type="submit"
+                                        class="absolute top-0 right-0 p-2.5 text-sm font-medium border-gray-300 h-full text-white bg-primary rounded-e-lg border hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                        </svg>
+                                        <span class="sr-only">Search</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap justify-center overflow-y-scroll px-8 mt-2" style="scrollbar-width: none">
+                            
                             <!-- user lists for unrelated users -->
                             @foreach($friendsWithoutId as $friend)
                                 @php
                                     $avatar = $friend->avatar ? 'profil/'.$friend->avatar : '/images/defaultprofile.png';
                                 @endphp
-                                <div id='kanan' id data-id="{{ $friend->id }}" data-name="{{ $friend->nama_pengguna }}" data-avatar="{{ asset($avatar) }}" class="rooms w-1/5 mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal ml-5 friends right">
-                                    <div class="flex items-center">
+                                <div id='kanan' id data-id="{{ $friend->id }}" data-name="{{ $friend->dokterhewan->nama }}" data-avatar="{{ asset($avatar) }}" class="rooms w-full mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal  friends-right right h-36">
+                                    <div class="flex items-center px-5">
                                         <img class="w-10 h-10 rounded-full object-cover mr-4" src="{{ asset($avatar) }}" alt="Avatar of Jonathan Reinink">
-                                        <div class="text-sm ">
-                                            <p class="text-gray-900 leading-none ">{{ $friend->nama_pengguna }}</p>
-                                            <p class="text-gray-600">Offline</p>
-                                        </div>
+                                        {{-- <span class="text-sm "> --}}
+                                        <span class="text-gray-900 leading-none ">{{ $friend->dokterhewan->nama }}</span>
+                                        {{-- </span> --}}
                                     </div>
                                 </div>
                             @endforeach
                         </div>
+                        
                     </section>
                     <section id="main-right" class="main-right hidden">
                         <!-- header -->

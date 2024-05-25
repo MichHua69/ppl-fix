@@ -11,9 +11,9 @@
 
 <body>
   <header class="absolute inset-x-0 top-0 z-50">
-    @include ('peternak.navbar')
+    {{-- @include ('peternak.navbar') --}}
   </header>
-  <section class="h-full" >
+  <section class="" >
     @include ('peternak.chat')
 
   </section>
