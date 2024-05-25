@@ -48,7 +48,7 @@
                                     <label class="basis-3/12 font-semibold text-xl" for="gambar">
                                         Gambar
                                     </label>
-                                    <div class="my-4 mx-4 overflow-y-scroll w-1/2 h-48">
+                                    <div class="my-4 mx-4 overflow-y-scroll w-1/2 h-48" style="scrollbar-width: none;">
                                       <img id="preview_image"
                                           class="w-full object-cover object-top rounded-md"
                                           src="{{ asset('artikel/' . $artikel->gambar) }}"

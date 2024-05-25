@@ -50,7 +50,7 @@
                   <label class="basis-3/12 font-semibold text-xl" for="gambar">
                       Gambar
                   </label>
-                  <div class="hidden my-4 mx-4 overflow-y-scroll w-1/2 h-48" id="div_preview_image">
+                  <div class="hidden my-4 mx-4 overflow-y-scroll w-1/2 h-48" id="div_preview_image" style="scrollbar-width: none;">
                       <!-- Tambahkan atribut hidden di sini -->
                       <img id="preview_image"
                           class="hidden w-full object-cover object-top rounded-md"

@@ -51,7 +51,7 @@
             
             <div class="flex flex-col mt-6">
               <div class="-my-2 overflow-x-auto">
-                  <div class="overflow-y-scroll h-[55vh] border border-gray-200 dark:border-gray-700 md:rounded-lg ">
+                  <div class="overflow-y-scroll h-[55vh] border border-gray-200 dark:border-gray-700 md:rounded-lg " style="scrollbar-width: none;">
                       <table class="w-full divide-y divide-gray-200 dark:divide-gray-700 ">
                           <thead class="bg-gray-50 dark:bg-gray-800" style="position: sticky; top: 0; z-index: 50;">
                               <tr>

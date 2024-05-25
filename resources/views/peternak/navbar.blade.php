@@ -23,7 +23,7 @@
             <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
     
             <div x-show="dropdownOpen" class="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20" style="width:20rem;">
-                <div class="py-2 min-h-64 max-h-64 overflow-y-scroll scroll-smooth" style="width: calc(100% + 0.5rem)">
+                <div class="py-2 min-h-64 max-h-64 overflow-y-scroll scroll-smooth" style="width: calc(100% + 0.5rem); scrollbar-width: none;">
 
                   <input type="hidden" id="load-notification-url" value="{{route('peternak.notifikasi.load')}}"> <!-- Sesuaikan URL sesuai kebutuhan Anda -->
                   <div id="notifications"></div> 
@@ -70,139 +70,21 @@
       </div>
     </div>
   </nav>
+  {{-- <div id="modalLogout" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white p-8 rounded shadow-lg w-1/3">
+        <h3 class="text-lg mb-4 font-bold text-center">Logout</h3>
+        <p class="text-center">Apakah anda yakin untuk logout?</p>
+        <div class="flex items-center justify-end mt-4">
+            <button type="button" class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4" id="batalLogout" onclick="closeModal()">Tidak</button>
+            <button type="button" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light" onclick="document.getElementById('formLogout').submit()">Yakin</button>
+        </div>
+        <form id="formLogout" action="{{ route('logout') }}" method="POST" class="hidden">
+            @csrf
+        </form>
+    </div>
+</div> --}}
   @vite('public/assets/js/dropdown.js')
-
-  {{-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        window.Echo.channel('my-channel')
-            .listen('.notifikasi', (e) => {
-                console.log(e.data);
-                renderNotificationpusher(e.data.judul, e.data.isi);
-            });
-    });
-
-    function renderNotificationpusher(judul, isi) {
-        const notificationsContainer = document.getElementById("notifications");
-        
-        // Menghapus notifikasi duplikat
-        const existingNotifications = notificationsContainer.getElementsByClassName('notification');
-        for (let i = 0; i < existingNotifications.length; i++) {
-            const titleElement = existingNotifications[i].querySelector('h3');
-            const messageElement = existingNotifications[i].querySelector('p');
-            if (titleElement && messageElement && titleElement.innerText === judul && messageElement.innerText === isi) {
-                notificationsContainer.removeChild(existingNotifications[i]);
-                break; // Asumsikan hanya satu duplikat yang perlu dihapus
-            }
-        }
-
-        // Menghapus pesan "Tidak ada Notifikasi" jika ada notifikasi baru
-        const noNotificationElement = notificationsContainer.querySelector('.no-notification');
-        if (noNotificationElement) {
-            notificationsContainer.removeChild(noNotificationElement);
-        }
-
-        // Membuat elemen notifikasi baru
-        const notificationElement = document.createElement("div");
-        notificationElement.className = "notification flex items-center px-4 py-3 border-b mx-2";
-        notificationElement.style.width = "calc(100% - 1rem)";
-
-        const contentContainer = document.createElement("div");
-        contentContainer.className = "text-gray-600 text-sm mx-2 flex flex-col justify-between w-full";
-
-        const titleElement = document.createElement("span");
-        titleElement.className = "font-bold text-lg";
-        titleElement.innerText = judul;
-
-        const messageElement = document.createElement("span");
-        messageElement.className = "font-sm";
-        messageElement.innerText = isi;
-
-        const timeElement = document.createElement("p");
-        timeElement.className = "text-right font-sm";
-        timeElement.innerText = created_at; // Waktu dapat disesuaikan sesuai kebutuhan
-
-        contentContainer.appendChild(titleElement);
-        contentContainer.appendChild(messageElement);
-        contentContainer.appendChild(timeElement);
-
-        notificationElement.appendChild(contentContainer);
-
-        // Menambahkan elemen notifikasi baru ke bagian atas kontainer
-        notificationsContainer.insertBefore(notificationElement, notificationsContainer.firstChild);
-    }
-
-    async function loadNotif() {
-        const url = document.getElementById("load-notification-url").value;
-
-        try {
-            const res = await axios.get(url); // Ganti dengan endpoint yang sesuai di server Anda
-            const notifications = res.data.data;
-            console.log(res.data.data);
-            renderNotifications(notifications);
-        } catch (error) {
-            console.error('Error fetching notifications:', error);
-        }
-    }
-
-    function renderNotifications(notifications) {
-        const notificationsContainer = document.getElementById("notifications");
-        notificationsContainer.innerHTML = ""; // Kosongkan kontainer sebelum menambahkan notifikasi baru
-
-        if (Array.isArray(notifications) && notifications.length > 0) {
-            notifications.forEach(notification => {
-                const notificationElement = document.createElement("div");
-                notificationElement.className = "notification flex items-center px-4 py-3 border-b mx-2";
-                notificationElement.style.width = "calc(100% - 1rem)";
-
-                const contentContainer = document.createElement("div");
-                contentContainer.className = "text-gray-600 text-sm mx-2 flex flex-col justify-between w-full";
-
-                const titleElement = document.createElement("span");
-                titleElement.className = "font-bold text-lg";
-                titleElement.innerText = notification.judul; // Mengambil judul notifikasi
-
-                const messageElement = document.createElement("span");
-                messageElement.className = "font-sm";
-                messageElement.innerText = notification.isi; // Mengambil isi notifikasi
-
-                const timeElement = document.createElement("p");
-                timeElement.className = "text-right font-sm";
-                timeElement.innerText = notification.created_at || "Waktu tidak tersedia"; // Mengambil waktu notifikasi
-
-                contentContainer.appendChild(titleElement);
-                contentContainer.appendChild(messageElement);
-                contentContainer.appendChild(timeElement);
-
-                notificationElement.appendChild(contentContainer);
-
-                // Menambahkan elemen notifikasi ke kontainer
-                notificationsContainer.appendChild(notificationElement);
-            });
-        } else {
-            const noNotificationElement = document.createElement("div");
-            noNotificationElement.className = "notification no-notification flex items-center px-4 py-3 border-b mx-2";
-            noNotificationElement.style.width = "calc(100% - 1rem)";
-
-            const contentContainer = document.createElement("div");
-            contentContainer.className = "text-gray-600 text-sm mx-2 flex flex-col justify-between w-full";
-
-            const titleElement = document.createElement("span");
-            titleElement.className = "font-bold text-lg";
-            titleElement.innerText = "Tidak ada Notifikasi";
-
-            contentContainer.appendChild(titleElement);
-
-            noNotificationElement.appendChild(contentContainer);
-
-            notificationsContainer.appendChild(noNotificationElement);
-        }
-    }
-
-    // Panggil loadNotif saat halaman selesai dimuat
-    document.addEventListener('DOMContentLoaded', loadNotif);
-</script> --}}
-
-
+  
 <script>
   document.addEventListener('DOMContentLoaded', function () {
       window.Echo.channel('my-channel')

@@ -37,7 +37,7 @@
               <div class="mt-8">
                 <div class="-my-2">
                     <div class="px-4">
-                        <div class="overflow-y-scroll border-gray-200 dark:border-gray-700 md:rounded-lg max-h-[55vh] grid grid-cols-2 justify-center gap-4 flex-wrap" id="table-body">
+                        <div class="overflow-y-scroll border-gray-200 dark:border-gray-700 md:rounded-lg max-h-[55vh] grid grid-cols-2 justify-center gap-4 flex-wrap" id="table-body" style="scrollbar-width: none;">
                                 @foreach($peternak as $ptn)
                                 <div class="flex gap-8 items-center justify-center">
                                     <div class="p-4 bg-white shadow-xl rounded-lg">
