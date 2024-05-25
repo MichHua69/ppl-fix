@@ -59,15 +59,40 @@
           </a>
         </div>
         <div class="py-2 first:pt-0 last:pb-0">
-          <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700">
+          {{-- <form action="{{ route('logout') }}" method="POST">
+            @csrf --}}
+            <button type="button" onclick="logout()" class="flex w-full items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700">
               Log Out
             </button>
-          </form>
+          {{-- </form> --}}
         </div>
       </div>
     </div>
   </div>
 </nav>
+
+<div id="modalLogout" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-8 rounded shadow-lg w-1/3">
+      <h3 class="text-lg mb-4 font-bold text-center">Logout</h3>
+      <p class="text-center">Apakah anda yakin untuk logout?</p>
+      <div class="flex items-center justify-center mt-4">
+          <button type="button" class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4 w-1/3" id="batalLogout" onclick="closeModal()">Tidak</button>
+          <button type="button" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light w-1/3" onclick="document.getElementById('formLogout').submit()">Ya</button>
+      </div>
+      <form id="formLogout" action="{{ route('logout') }}" method="POST" class="hidden">
+          @csrf
+      </form>
+  </div>
+</div>
+<script>
+function logout() {
+  const modalLogout = document.getElementById('modalLogout');
+  modalLogout.classList.remove('hidden');
+}
+
+function closeModal() {
+  const modalLogout = document.getElementById('modalLogout');
+  modalLogout.classList.add('hidden');
+}
+</script>
 
