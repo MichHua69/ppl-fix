@@ -51,7 +51,6 @@ function refreshFriendList() {
             // Tambahkan log untuk memeriksa respons
             console.log("Response:", response);
 
-
             $("#chat-list").empty();
             $.each(friendsWithId, function (index, friend) {
                 // Tambahkan log untuk memeriksa setiap friend object setelah modifikasi
@@ -84,7 +83,9 @@ function refreshFriendList() {
 // Mengatur event listener untuk item teman yang diklik
 $(document).on("click", ".kanan", function () {
     refreshFriendList();
+    refreshFriendList();
 });
+
 
 // function createRoom(friendId, avatar) {
 //     let url = document.getElementById("room-url").value;

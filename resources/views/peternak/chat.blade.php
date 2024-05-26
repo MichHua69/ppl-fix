@@ -74,8 +74,8 @@
                                 @php
                                     $avatar = $friend->avatar ? 'profil/'.$friend->avatar : '/images/defaultprofile.png';
                                 @endphp
-                                <div data-id="{{ $friend->id }}" data-name="{{ $friend->dokterhewan->nama }}" data-avatar="{{ asset($avatar) }}" class="rooms w-full mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal friends kanan h-36">
-                                    <div class="flex items-center px-5">
+                                <div data-id="{{ $friend->id }}" data-name="{{ $friend->dokterhewan->nama }}" data-avatar="{{ asset($avatar) }}" class="rooms w-full mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal friends kanan h-36" style="grid-template-columns: none">
+                                    <div class="flex items-center px-5 w-full">
                                         <img class="w-10 h-10 rounded-full object-cover mr-4" src="{{ asset($avatar) }}" alt="Avatar of {{ $friend->dokterhewan->nama }}">
                                         <span class="text-gray-900 leading-none">{{ $friend->dokterhewan->nama }}</span>
                                     </div>
