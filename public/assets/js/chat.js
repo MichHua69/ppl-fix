@@ -51,15 +51,6 @@ function refreshFriendList() {
             // Tambahkan log untuk memeriksa respons
             console.log("Response:", response);
 
-            // Modifikasi setiap friend object untuk menambahkan alias dokterhewan.nama
-            friendsWithId = friendsWithId.map((friend) => {
-                return {
-                    ...friend,
-                    dokterhewan: {
-                        nama: friend.nama_pengguna,
-                    },
-                };
-            });
 
             $("#chat-list").empty();
             $.each(friendsWithId, function (index, friend) {
@@ -78,6 +69,9 @@ function refreshFriendList() {
                 friendHtml += `<span class="friends-name">${friend.dokterhewan.nama}</span>`;
                 friendHtml += "</div>";
                 friendHtml += "</div>";
+                // friendHtml += "@php";
+                // friendHtml += `dd(${friend.});`;
+                // friendHtml += "@endphp";
                 $("#chat-list").append(friendHtml);
             });
         },

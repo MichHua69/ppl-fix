@@ -160,10 +160,10 @@ class PeternakController extends Controller
         })->flatten()->unique();
 
         // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
-        $friendsWithId = Pengguna::whereIn('id', $relatedUsers)->whereNot("id", $user->id)->get();
+        $friendsWithId = Pengguna::whereIn('id', $relatedUsers)->with('dokterhewan')->whereNot("id", $user->id)->get();
 
         // Mendapatkan daftar pengguna yang tidak terkait dengan kolom "users" dalam tabel percakapan
-        $friendsWithoutId = Pengguna::where('id_role', 2)->whereNotIn('id', [$user->id])->get();
+        $friendsWithoutId = Pengguna::where('id_role', 2)->with('dokterhewan')->whereNotIn('id', [$user->id])->get();
 
 
 
@@ -185,7 +185,7 @@ class PeternakController extends Controller
         })->flatten()->unique();
 
         // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
-        $friendsWithId = Pengguna::whereIn('id', $relatedUsers)->whereNot("id", $user->id)->get();
+        $friendsWithId = Pengguna::whereIn('id', $relatedUsers)->with('dokterhewan')->whereNot("id", $user->id)->get();
 
         // Mengatur foto profil
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
