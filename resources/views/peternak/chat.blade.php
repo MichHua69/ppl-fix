@@ -47,7 +47,7 @@
                     <!-- RIGHT SECTION -->
                     <section id="main-empty" class="main-right-empty">
                         <div class="flex items-center justify-center">
-                            <p style="text-align: center; font-size: 30px" class="">Mitra resmi dari Dinas Ketahanan Pangan dan Peternakan Kabupaten Jember</p>
+                            <p class="text-center text-3xl">Mitra resmi dari Dinas Ketahanan Pangan dan Peternakan Kabupaten Jember</p>
                         </div>
                         <div class="flex items-center px-8">
                             <div class="mx-auto w-full">
@@ -69,24 +69,21 @@
                             </div>
                         </div>
                         <div class="flex flex-wrap justify-center overflow-y-scroll px-8 mt-2" style="scrollbar-width: none">
-                            
                             <!-- user lists for unrelated users -->
                             @foreach($friendsWithoutId as $friend)
                                 @php
                                     $avatar = $friend->avatar ? 'profil/'.$friend->avatar : '/images/defaultprofile.png';
                                 @endphp
-                                <div id='kanan' id data-id="{{ $friend->id }}" data-name="{{ $friend->dokterhewan->nama }}" data-avatar="{{ asset($avatar) }}" class="rooms w-full mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal  friends-right right h-36">
+                                <div data-id="{{ $friend->id }}" data-name="{{ $friend->dokterhewan->nama }}" data-avatar="{{ asset($avatar) }}" class="rooms w-full mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal friends kanan h-36">
                                     <div class="flex items-center px-5">
-                                        <img class="w-10 h-10 rounded-full object-cover mr-4" src="{{ asset($avatar) }}" alt="Avatar of Jonathan Reinink">
-                                        {{-- <span class="text-sm "> --}}
-                                        <span class="text-gray-900 leading-none ">{{ $friend->dokterhewan->nama }}</span>
-                                        {{-- </span> --}}
+                                        <img class="w-10 h-10 rounded-full object-cover mr-4" src="{{ asset($avatar) }}" alt="Avatar of {{ $friend->dokterhewan->nama }}">
+                                        <span class="text-gray-900 leading-none">{{ $friend->dokterhewan->nama }}</span>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
-                        
                     </section>
+
                     <section id="main-right" class="main-right hidden">
                         <!-- header -->
                         <div id="header-right" class="header-right ">
@@ -141,10 +138,10 @@
                 document.getElementById("type-area").value = ""; // Clear the input field after sending
             }
         }
-    
+
         // Add event listener to send button
         document.getElementById("send-button").addEventListener("click", handleSendMessage);
-    
+
         // Add event listener to input field to send message on pressing Enter
         document.getElementById("type-area").addEventListener("keydown", function(event) {
             if (event.key === "Enter") {
@@ -152,7 +149,7 @@
             }
         });
     </script>
-    
+
 
 
 

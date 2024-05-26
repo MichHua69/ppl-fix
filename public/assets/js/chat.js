@@ -8,20 +8,20 @@ $(document).on("click", "#back", function () {
     showHideChatBox(false);
 });
 
-$(document).on("click", ".friends-right", function () {
-    let id = $(this).attr("data-id");
-    let name = $(this).attr("data-name");
-    let avatar = $(this).attr("data-avatar");
-    // Set chat room properties
-    $(".friend-name").html(name);
-    $(".header-img").html(
-        `<img src="${avatar}" class="w-10 h-10 rounded-full object-cover"/>`
-    );
+// $(document).on("click", ".friends-right", function () {
+//     let id = $(this).attr("data-id");
+//     let name = $(this).attr("data-name");
+//     let avatar = $(this).attr("data-avatar");
+//     // Set chat room properties
+//     $(".friend-name").html(name);
+//     $(".header-img").html(
+//         `<img src="${avatar}" class="w-10 h-10 rounded-full object-cover"/>`
+//     );
 
-    createRoom(id, avatar);
-    console.log(id);
-    console.log(avatar);
-});
+//     createRoom(id, avatar);
+//     console.log(id);
+//     console.log(avatar);
+// });
 $(document).on("click", ".friends", function () {
     let id = $(this).attr("data-id");
     let name = $(this).attr("data-name");
@@ -35,52 +35,53 @@ $(document).on("click", ".friends", function () {
     createRoom(id, avatar);
     console.log(id);
     console.log(avatar);
+    refreshFriendList();
 });
+
+$(document).on("click", ".kanan", function () {});
 
 function refreshFriendList() {
     var loadUrl = document
         .getElementById("chat-list")
         .getAttribute("data-load-url");
     $.ajax({
-        url: loadUrl, // Ganti dengan URL yang sesuai
+        url: loadUrl,
         type: "GET",
         data: {},
         success: function (response) {
-            // Mengambil data dari respons
-            var user = response.user;
-            var aktor = response.aktor;
-            var photo = response.photo;
             var friendsWithId = response.friendsWithId;
 
-            // Mengganti konten daftar teman dengan data yang diperbarui
-            $("#chat-list").empty(); // Kosongkan daftar teman sebelum menambahkan yang baru
+            console.log("Response:", response);
+
+            $("#chat-list").empty();
             $.each(friendsWithId, function (index, friend) {
+                console.log("Friend:", friend);
+
                 var avatar = friend.avatar
                     ? "/profil/" + friend.avatar
                     : "/images/defaultprofile.png";
-                var friendHtml =
-                    '<div class="friends tes" data-id="' +
-                    friend.id +
-                    '" data-name="' +
-                    friend.dokterhewan.nama +
-                    '" data-avatar="' +
-                    avatar +
-                    '">';
+                var friendName = friend.nama_pengguna
+                    ? friend.nama_pengguna
+                    : "Unknown";
+                var friendHtml = `<div class="friends tes" data-id="${friend.id}" data-name="${friendName}" data-avatar="${avatar}">`;
                 friendHtml +=
                     '<div class="profile friends-photo border-2 border-white">';
-                friendHtml +=
-                    '<img src="' +
-                    avatar +
-                    '" class="w-10 h-10 rounded-full object-cover" alt="">';
+                friendHtml += `<img src="${avatar}" class="w-10 h-10 rounded-full object-cover" alt="">`;
                 friendHtml += "</div>";
                 friendHtml += '<div class="friends-credent">';
-                friendHtml +=
-                    '<span class="friends-name">' +
-                    friend.nama_pengguna +
-                    "</span>";
+                friendHtml += `<span class="friends-name">${friendName}</span>`;
                 friendHtml += "</div>";
                 friendHtml += "</div>";
-                $("#chat-list").append(friendHtml); // Tambahkan teman ke daftar teman
+                $("#chat-list").append(friendHtml);
+            });
+
+            // Attach click event to new elements
+            $(".friends.tes").on("click", function () {
+                var id = $(this).data("id");
+                var name = $(this).data("name");
+                var avatar = $(this).data("avatar");
+                createRoom(id, avatar);
+                console.log("Clicked friend ID:", id);
             });
         },
         error: function (xhr, status, error) {
@@ -89,54 +90,57 @@ function refreshFriendList() {
     });
 }
 
-// Mengatur event listener untuk item teman yang diklik
-$(document).on("click", "#kanan", function () {
-    refreshFriendList();
-});
-/*
-    handel send message function
- */
-function sendMessage(message, roomId) {
-    let url = document.getElementById("messsage-url").value;
-    let formData = new FormData();
-    formData.append("roomId", roomId);
-    // console.log(roomId);
-    formData.append("message", message);
+// function createRoom(friendId, avatar) {
+//     let url = document.getElementById("room-url").value;
+//     let formData = new FormData();
+//     formData.append("friend_id", friendId);
 
-    axios
-        .post(url, formData)
-        .then(function (res) {
-            // Komentari baris ini untuk menyembunyikan respons dari konsol
-            // console.log(res);
+//     // Keluar dari ruangan sebelumnya (jika ada)
+//     if (previousRoomId) {
+//         Echo.leave(`chat.${previousRoomId}`);
+//     }
 
-            // Menghapus pesan "Tidak Memiliki Pesan" jika ada
-            var emptyMessage = document.querySelector(
-                "#chat-area p[style='text-align:center;']"
-            );
-            if (emptyMessage) {
-                emptyMessage.remove();
-            }
+//     axios.post(url, formData).then((res) => {
+//         let room = res.data.data;
+//         let roomId = room.id;
+//         previousRoomId = roomId;
+//         loadMessage(roomId, friendId, avatar);
 
-            let html =
-                '<div id="your-chat" class="your-chat">\n' +
-                '    <p class="your-chat-balloon">' +
-                message +
-                "</p>\n" +
-                "</div>";
+//         Echo.join(`chat.${roomId}`)
+//             .here((users) => {
+//                 users.forEach((user) => {
+//                     console.log(user.nama_pengguna + " telah bergabung");
+//                 });
+//                 document.querySelector("#type-area").addEventListener("keydown", function (e) {
+//                     if (e.key === "Enter") {
+//                         let input = this.value;
+//                         if (input !== "") {
+//                             sendMessage(input, previousRoomId);
+//                             this.value = "";
+//                         }
+//                     }
+//                 });
+//             })
+//             .listen("SendMessage", (e) => {
+//                 if (e.userId == friendId) {
+//                     handelLeftMessage(e.message, avatar);
+//                 }
+//             })
+//             .joining((user) => {
+//                 console.log(user.nama_pengguna + " telah bergabung");
+//             })
+//             .leaving((user) => {
+//                 console.log(user.nama_pengguna + " telah meninggalkan");
+//             })
+//             .error((error) => {
+//                 console.error(error);
+//             });
 
-            var chatBody = document.querySelector("#chat-area");
-            chatBody.insertAdjacentHTML("beforeend", html);
-            chatBody.scrollTo({
-                left: 0,
-                top: chatBody.scrollHeight,
-                behavior: "smooth",
-            });
-        })
-        .catch(function (error) {
-            // Handle error
-            console.error("Error sending message:", error);
-        });
-}
+//         showHideChatBox(true);
+//     }).catch((error) => {
+//         console.error("Gagal membuat ruang:", error);
+//     });
+// }
 
 /*
     handel to left message from friend
