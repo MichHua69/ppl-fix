@@ -35,10 +35,7 @@ $(document).on("click", ".friends", function () {
     createRoom(id, avatar);
     console.log(id);
     console.log(avatar);
-    refreshFriendList();
 });
-
-$(document).on("click", ".kanan", function () {});
 
 function refreshFriendList() {
     var loadUrl = document
@@ -51,37 +48,37 @@ function refreshFriendList() {
         success: function (response) {
             var friendsWithId = response.friendsWithId;
 
+            // Tambahkan log untuk memeriksa respons
             console.log("Response:", response);
+
+            // Modifikasi setiap friend object untuk menambahkan alias dokterhewan.nama
+            friendsWithId = friendsWithId.map((friend) => {
+                return {
+                    ...friend,
+                    dokterhewan: {
+                        nama: friend.nama_pengguna,
+                    },
+                };
+            });
 
             $("#chat-list").empty();
             $.each(friendsWithId, function (index, friend) {
+                // Tambahkan log untuk memeriksa setiap friend object setelah modifikasi
                 console.log("Friend:", friend);
 
                 var avatar = friend.avatar
                     ? "/profil/" + friend.avatar
                     : "/images/defaultprofile.png";
-                var friendName = friend.nama_pengguna
-                    ? friend.nama_pengguna
-                    : "Unknown";
-                var friendHtml = `<div class="friends tes" data-id="${friend.id}" data-name="${friendName}" data-avatar="${avatar}">`;
+                var friendHtml = `<div class="friends tes" data-id="${friend.id}" data-name="${friend.dokterhewan.nama}" data-avatar="${avatar}">`;
                 friendHtml +=
                     '<div class="profile friends-photo border-2 border-white">';
                 friendHtml += `<img src="${avatar}" class="w-10 h-10 rounded-full object-cover" alt="">`;
                 friendHtml += "</div>";
                 friendHtml += '<div class="friends-credent">';
-                friendHtml += `<span class="friends-name">${friendName}</span>`;
+                friendHtml += `<span class="friends-name">${friend.dokterhewan.nama}</span>`;
                 friendHtml += "</div>";
                 friendHtml += "</div>";
                 $("#chat-list").append(friendHtml);
-            });
-
-            // Attach click event to new elements
-            $(".friends.tes").on("click", function () {
-                var id = $(this).data("id");
-                var name = $(this).data("name");
-                var avatar = $(this).data("avatar");
-                createRoom(id, avatar);
-                console.log("Clicked friend ID:", id);
             });
         },
         error: function (xhr, status, error) {
@@ -89,6 +86,11 @@ function refreshFriendList() {
         },
     });
 }
+
+// Mengatur event listener untuk item teman yang diklik
+$(document).on("click", ".kanan", function () {
+    refreshFriendList();
+});
 
 // function createRoom(friendId, avatar) {
 //     let url = document.getElementById("room-url").value;
