@@ -1,4 +1,4 @@
-<nav class="flex items-center justify-between p-6 lg:px-8 bg-secondary shadow-xl" aria-label="Global">
+<nav class="flex items-center justify-between p-6 lg:px-8 bg-secondary shadow-xl z-40" aria-label="Global">
     <div class="flex lg:flex-1">
       <a href="#" class="flex flex-row items-center gap-5 -m-1.5 p-1.5">
         <img class="h-8 w-auto" src="/images/logo-image.png" alt="">
@@ -35,7 +35,7 @@
             </div>
         </div>
       </div>
-      <div class="hs-dropdown relative inline-flex">
+      <div class="hs-dropdown relative inline-flex z-50">
         <button id="hs-dropdown-custom-trigger" type="button" class="hs-dropdown-toggle py-1 ps-3 pe-3 inline-flex items-center gap-x-4 text-sm font-semibold rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800">
           <span class="text-gray-600 font-medium truncate max-w-[7.5rem] dark:text-gray-400">
             {{$user->nama_pengguna}}

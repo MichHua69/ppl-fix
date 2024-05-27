@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\pengguna;
+use App\Models\Pengguna;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -34,7 +34,7 @@ class PenggunaSeeder extends Seeder
         ];
 
         foreach ($penggunaData as $data) {
-            pengguna::create([
+            Pengguna::create([
                 'nama_pengguna' => $data[0],
                 'email' => $data[1],
                 'password' => bcrypt($data[2]),

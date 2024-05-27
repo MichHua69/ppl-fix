@@ -41,7 +41,7 @@
     <div class="hs-dropdown relative inline-flex">
       <button id="hs-dropdown-custom-trigger" type="button" class="hs-dropdown-toggle py-1 ps-3 pe-3 inline-flex items-center gap-x-4 text-sm font-semibold rounded-full border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800">
         <span class="text-gray-600 font-medium truncate max-w-[7.5rem] dark:text-gray-400">
-          {{$user->nama_pengguna}}
+          {{$user->nama_pengguna ?? null}}
         </span>
         <img class="w-8 h-8 rounded-full object-cover" src="{{asset($photo)}}" alt="profil">
       </button>
@@ -50,7 +50,7 @@
         <div class="py-3 px-5 -m-2 bg-gray-100 rounded-t-lg dark:bg-gray-700">
           <p class="text-sm text-gray-500 dark:text-gray-400">Log in as</p>
           <p class="text-sm font-medium text-gray-800 dark:text-gray-300">
-            {{$user->email}}
+            {{$user->email ?? null}}
           </p>
         </div>
         <div class="py-2 first:pt-0 last:pb-0 mt-2">

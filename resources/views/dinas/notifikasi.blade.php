@@ -52,7 +52,7 @@
               <div class="-my-2 overflow-x-auto">
                   <div class="overflow-y-scroll h-[55vh] border border-gray-200 dark:border-gray-700 md:rounded-lg " style="scrollbar-width: none;">
                       <table class="w-full divide-y divide-gray-200 dark:divide-gray-700" >
-                          <thead class="bg-gray-50 dark:bg-gray-800" style="position: sticky; top: 0; z-index: 50;">
+                          <thead class="bg-gray-50 dark:bg-gray-800" style="position: sticky; top: 0; z-index: 10;">
                               <tr>
                                   <th scope="col" class="py-3.5 px-4 text-lg font-medium text-center w-1/5 p-2">
                                       <span>Judul Notifikasi</span>

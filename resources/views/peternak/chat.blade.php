@@ -68,13 +68,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-wrap justify-center overflow-y-scroll px-8 mt-2" style="scrollbar-width: none">
+                        <div class="justify-center overflow-y-scroll px-8 mt-2 h-full" style="scrollbar-width: none">
                             <!-- user lists for unrelated users -->
                             @foreach($friendsWithoutId as $friend)
                                 @php
                                     $avatar = $friend->avatar ? 'profil/'.$friend->avatar : '/images/defaultprofile.png';
                                 @endphp
-                                <div data-id="{{ $friend->id }}" data-name="{{ $friend->dokterhewan->nama }}" data-avatar="{{ asset($avatar) }}" class="rooms w-full mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal friends kanan h-36" style="grid-template-columns: none">
+                                <div data-id="{{ $friend->id }}" data-name="{{ $friend->dokterhewan->nama }}" data-avatar="{{ asset($avatar) }}" class="rooms w-full mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col leading-normal friends kanan h-36" style="grid-template-columns: none">
                                     <div class="flex items-center px-5 w-full">
                                         <img class="w-10 h-10 rounded-full object-cover mr-4" src="{{ asset($avatar) }}" alt="Avatar of {{ $friend->dokterhewan->nama }}">
                                         <span class="text-gray-900 leading-none">{{ $friend->dokterhewan->nama }}</span>
@@ -82,13 +82,27 @@
                                 </div>
                             @endforeach
                         </div>
+                        {{-- <div class="flex flex-wrap justify-center overflow-y-scroll px-8 mt-2" style="scrollbar-width: none">
+                            <!-- user lists for unrelated users -->
+                            @foreach($friendsWithoutId as $friend)
+                                @php
+                                    $avatar = $friend->avatar ? 'profil/'.$friend->avatar : '/images/defaultprofile.png';
+                                @endphp
+                                <div data-id="{{ $friend->id }}" data-name="{{ $friend->dokterhewan->nama }}" data-avatar="{{ asset($avatar) }}" class="rooms w-full mb-4 border border-gray-400 cursor-pointer bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col leading-normal friends kanan h-36" style="grid-template-columns: none">
+                                    <div class="flex items-center px-5 w-full">
+                                        <img class="w-10 h-10 rounded-full object-cover mr-4" src="{{ asset($avatar) }}" alt="Avatar of {{ $friend->dokterhewan->nama }}">
+                                        <span class="text-gray-900 leading-none">{{ $friend->dokterhewan->nama }}</span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div> --}}
                     </section>
 
                     <section id="main-right" class="main-right hidden">
                         <!-- header -->
                         <div id="header-right" class="header-right ">
                             <!-- profile pict -->
-                            <div id="back" class="cursor-pointer">Kembali</div>
+                            <div id="back" class="cursor-pointer"></div>
                             <div id="header-img" class="profile header-img friends-photo border-2 border-white">
                                 {{-- <img src="{{ asset("assets/images/ava2.jpg") }}" alt=""> --}}
                             </div>
@@ -150,7 +164,52 @@
         });
     </script>
 
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-dropdown');
+    const friends = document.querySelectorAll('.rooms');
 
+    searchInput.addEventListener('input', function() {
+        const query = searchInput.value.toLowerCase();
+
+        friends.forEach(friend => {
+            const name = friend.getAttribute('data-name').toLowerCase();
+            if (name.includes(query)) {
+                // friend.style.display = 'grid';
+                friend.classList.remove("hidden");
+            } else {
+                friend.classList.add("hidden");
+                // friend.style.display = 'none';
+            }
+        });
+    });
+});
+
+    </script> --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-dropdown');
+            const friends = document.querySelectorAll('.rooms');
+    
+            searchInput.addEventListener('input', function() {
+                const query = searchInput.value.toLowerCase();
+    
+                friends.forEach(friend => {
+                    const name = friend.getAttribute('data-name').toLowerCase();
+                    if (name.includes(query)) {
+                        // friend.classList.remove('hidden');
+                        friend.style.display = 'grid';
+
+                    } else {
+                        // friend.classList.add('hidden');
+                        friend.style.display = 'none';
+
+                    }
+                });
+            });
+        });
+    </script>
+    
 
 
 

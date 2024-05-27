@@ -13,7 +13,7 @@
 <body>
   <header class="absolute inset-x-0 top-0 z-50">
     @include ('dinas.navbar')
-    <p></p></p>
+    
   </header>
   <section class="h-full " >
     <div class="flex flex-col justify-center w-screen bg-cover bg-center h-screen m-xl bg-primary px-36 gap-10 relative">
