@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>Register</title>
+    @include('title')
     <style>
         body { font-family: Arial, sans-serif; }
         .modal { position: fixed; inset: 0; background: rgba(75, 85, 99, 0.75); display: flex; align-items: center; justify-content: center; z-index: 50; }

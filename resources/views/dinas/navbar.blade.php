@@ -76,7 +76,7 @@
       <h3 class="text-lg mb-4 font-bold text-center">Logout</h3>
       <p class="text-center">Apakah anda yakin untuk logout?</p>
       <div class="flex items-center justify-center mt-4">
-          <button type="button" class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4 w-1/3" id="batalLogout" onclick="closeModal()">Tidak</button>
+          <button type="button" class="bg-danger text-white py-2 px-4 rounded hover:bg-primary-light mr-4 w-1/3" id="batalLogout" onclick="closeModalLogout()">Tidak</button>
           <button type="button" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-light w-1/3" onclick="document.getElementById('formLogout').submit()">Ya</button>
       </div>
       <form id="formLogout" action="{{ route('logout') }}" method="POST" class="hidden">
@@ -90,7 +90,7 @@ function logout() {
   modalLogout.classList.remove('hidden');
 }
 
-function closeModal() {
+function closeModalLogout() {
   const modalLogout = document.getElementById('modalLogout');
   modalLogout.classList.add('hidden');
 }

@@ -7,7 +7,8 @@
   <link rel="icon" type="image/png" href="path/to/your/favicon.png">
   <link rel="apple-touch-icon" href="path/to/your/apple-touch-icon.png">
   @vite(['resources/css/app.css', 'resources/js/app.js'])
-  <title>Dashboard</title>
+  @include('title')
+
 </head>
 
 <body>
@@ -20,14 +21,14 @@
       <h1 class="text-5xl text-secondary mt-10">Sapi Sehat Jember : <br>Solusi Tepat untuk Peternakan Berkelanjutan!</h1>
       <p class="text-xl text-secondary">Kelola kesehatan ternak Anda dengan mudah dan dapatkan laporan riwayat kesehatan yang lengkap</p>
       <div class="flex gap-7">
-        <button onclick="location.href='/dinas/layanan'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
+        <button onclick="location.href='{{route('dinas.layanan')}}'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
           <img
               class="h-36"
               src="/images/layanan.png"
               alt="" />
           <p class="text-2xl">Layanan</p>
         </button>
-        <button onclick="location.href='/dinas/laporan'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
+        <button onclick="location.href='{{route('dinas.laporan')}}'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
           <img
               class="h-36"
               src="/images/laporan.png"
@@ -41,7 +42,7 @@
               alt="" />
           <p class="text-md">Informasi Program</p>
         </button>
-        <button onclick="location.href='/dinas/konsultasi'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
+        <button onclick="location.href='{{route('dinas.notifikasi')}}'" class="flex flex-col bg-secondary hover:bg-primary hover:text-secondary text-primary items-center justify-center font-bold rounded-xl relative bg-no-repeat w-[13rem] h-[13rem] ">
           <img
               class="h-36"
               src="/images/notifikasi.png"

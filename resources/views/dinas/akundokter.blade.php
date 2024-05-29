@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <title>Konsultasi</title>
+        @include('title')
     </head>
 
     <body>
@@ -28,7 +28,7 @@
               <div class="block">
                 <h2 class="text-5xl font-bold mb-8 grid grid-row-15 row-span-1">Data Akun Dokter Hewan</h2>
 
-                <div class="mx-auto w-full">
+                <div class="mx-auto w-full flex gap-4">
                     <div class="relative w-full">
                         <input type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-md text-gray-900 bg-gray-50 rounded-e-lg border-gray-300 border-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                             placeholder="Cari Dokter Hewan" required/>
@@ -42,13 +42,21 @@
                             <span class="sr-only">Search</span>
                         </button>
                     </div>
+                    <button type="button" class="inline-block rounded rounded-lg text-center py-2 text-xl font-bold uppercase leading-normal text-white shadow-dark-3 transition duration-150 ease-in-out bg-primary hover:bg-primary-light min-w-32"
+                    type="button"
+                    id="add-profile-button"
+                    onclick="window.location='{{route('dinas.tambahlayanan')}}'"
+                    data-twe-ripple-init
+                    data-twe-ripple-color="light">
+                    Tambah
+                    </button>
                 </div>
 
                 <div class="flex flex-col mt-6">
                   <div class="-my-2 overflow-x-auto">
                       <div class="overflow-y-scroll h-[55vh] border border-gray-200 dark:border-gray-700 md:rounded-lg" style="scrollbar-width: none;">
                           <table class="w-full divide-y divide-gray-200 dark:divide-gray-700 shadow-lg" >
-                              <thead class="bg-gray-50 dark:bg-gray-800" style="position: sticky; top: 0; z-index: 50;">
+                              <thead class="bg-gray-50 dark:bg-gray-800" style="position: sticky; top: 0; z-index: 20;">
                                   <tr>
                                       <th scope="col" class="py-3.5 px-4 text-lg font-medium text-center w-1/5 p-2">
                                           <span>Nama</span>

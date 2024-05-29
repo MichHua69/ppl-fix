@@ -35,7 +35,8 @@ class PeternakController extends Controller
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         $notifikasi = notifikasi::latest()->get();
 
-        return view('peternak.dashboard', compact('user','photo','notifikasi'));
+        $title = 'Dashboard';
+        return view('peternak.dashboard', compact('user','photo','notifikasi','title'));
     }
 
     public function profil() {
@@ -49,7 +50,8 @@ class PeternakController extends Controller
 
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
-        return view('peternak.profil',compact('user','aktor','photo','kecamatan','desa'));
+        $title = 'Profil';
+        return view('peternak.profil',compact('user','aktor','photo','kecamatan','desa', 'title'));
     }
 
     public function saveprofil(Request $request) {
@@ -62,7 +64,7 @@ class PeternakController extends Controller
             'kecamatan' => 'required',
             'desa' => 'required',
             'telepon' => 'required|string|max:20',
-            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$request->id_pengguna,
+            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$user->id,
             'password' => 'required|string|min:5',
             'file_input' => 'image'
             ],
@@ -170,7 +172,8 @@ class PeternakController extends Controller
         // Mengatur foto profil
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
-        return view('peternak.konsultasi', compact('user', 'aktor', 'photo', 'friendsWithId', 'friendsWithoutId'));
+        $title = 'Konsultasi';
+        return view('peternak.konsultasi', compact('user', 'aktor', 'photo', 'friendsWithId', 'friendsWithoutId', 'title'));
     }
 
     public function loadkiri(){
@@ -212,7 +215,8 @@ class PeternakController extends Controller
         $latestArticles = artikel::latest()->take(4)->get();
         $latestProgram = program::latest()->take(4)->get();
 
-        return view('peternak.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram'));
+        $title = 'Informasi Program';
+        return view('peternak.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram', 'title'));
     }
 
     public function artikel() {
@@ -225,7 +229,8 @@ class PeternakController extends Controller
         // Pisahkan artikel terbaru untuk dijadikan hero card
         $latestArticle = $artikel->shift();
 
-        return view('peternak.artikel', compact('user', 'photo', 'artikel','latestArticle'));
+        $title = 'Artikel';
+        return view('peternak.artikel', compact('user', 'photo', 'artikel','latestArticle', 'title'));
     }
     public function lihatartikel() {
         $user = Auth::user();
@@ -245,7 +250,8 @@ class PeternakController extends Controller
 
         }
 
-        return view('peternak.lihatartikel', compact('user', 'photo','artikel','penulis'));
+        $title = $artikel->judul_artikel;
+        return view('peternak.lihatartikel', compact('user', 'photo','artikel','penulis', 'title'));
     }
 
     public function program() {
@@ -255,7 +261,8 @@ class PeternakController extends Controller
         $program = program::latest()->get();
 
         $latestProgram = $program->shift();
-        return view('peternak.program', compact('user', 'photo','latestProgram','program'));
+        $title = 'Program';
+        return view('peternak.program', compact('user', 'photo','latestProgram','program', 'title'));
     }
 
     public function lihatprogram() {
@@ -274,7 +281,8 @@ class PeternakController extends Controller
 
         // dd($jadwalprogram);
 
-        return view('peternak.lihatprogram', compact('user', 'photo','program','jadwalprogram'));
+        $title = $program->nama_program;
+        return view('peternak.lihatprogram', compact('user', 'photo','program','jadwalprogram','title'));
     }
 
     public function layanan() {
@@ -284,7 +292,8 @@ class PeternakController extends Controller
         // dd($puskeswan);
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
-        return view ('peternak.layanan', compact('user', 'photo','puskeswan') );
+        $title = 'Layanan';
+        return view ('peternak.layanan', compact('user', 'photo','puskeswan','title') );
     }
 
     public function laporan() {
@@ -294,7 +303,8 @@ class PeternakController extends Controller
 
         // Pisahkan laporan terbaru untuk dijadikan hero card
         $latestlaporan = $laporan->shift();
-        return view('peternak.laporan', compact('user', 'photo','laporan','latestlaporan'));
+        $title = 'Laporan';
+        return view('peternak.laporan', compact('user', 'photo','laporan','latestlaporan', 'title'));
     }
 
     public function lihatlaporan() {
@@ -311,7 +321,8 @@ class PeternakController extends Controller
         if(!($laporan->id_peternak == $user->id) ){
             return redirect(route('peternak.laporan'));
         }
-        return view('peternak.lihatlaporan', compact('user', 'photo','laporan'));
+        $title = $laporan->judul_laporan;
+        return view('peternak.lihatlaporan', compact('user', 'photo','laporan', 'title'));
     }
 
     public function loadNotification() {

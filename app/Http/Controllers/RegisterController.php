@@ -16,8 +16,9 @@ class RegisterController extends Controller
     public function index() {
         $kecamatan = kecamatan::all();
         $desa = desa::all();
+        $title = 'Register';
 
-        return view('register', compact('kecamatan', 'desa'));
+        return view('register', compact('kecamatan', 'desa','title'));
     }
     public function getDesaByKecamatan(Request $request) {
         $desa = Wilayah::where('id_kecamatan', $request->id_kecamatan)->pluck('id_desa');
@@ -79,7 +80,7 @@ class RegisterController extends Controller
             'id_wilayah' => $wilayah->id,
         ]);
         // Create Pengguna
-        $pengguna = pengguna::create([
+        $pengguna = Pengguna::create([
             'nama_pengguna' => $request->nama_pengguna,
             'email' => $request->email,
             'password' => Hash::make($request->password),

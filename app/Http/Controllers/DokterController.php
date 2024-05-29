@@ -27,7 +27,8 @@ class DokterController extends Controller
     {
         $user = Auth::user();
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
-        return view('dokter.dashboard', compact('user','photo'));
+        $title = 'Dashboard';
+        return view('dokter.dashboard', compact('user','photo', 'title'));
     }
 
     public function profil() {
@@ -39,7 +40,8 @@ class DokterController extends Controller
 
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         
-        return view('dokter.profil',compact('user','aktor','photo','kecamatan','desa'));
+        $title = 'Profil';
+        return view('dokter.profil',compact('user','aktor','photo','kecamatan','desa', 'title'));
     }
 
     public function saveprofil(Request $request) {
@@ -48,7 +50,7 @@ class DokterController extends Controller
         $aktor = dokterhewan::with('pengguna', 'alamat.wilayah.kecamatan', 'alamat.wilayah.desa')->where('id_pengguna', $user->id)->first();
 
         $validator = Validator::make($request->all(),[
-            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$request->id_pengguna,
+            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$user->id,
             'password' => 'required|string|min:5',
             'file_input' => 'image'
             ],
@@ -128,7 +130,8 @@ class DokterController extends Controller
         $friendsWithId = Pengguna::where('id_role', 3)->whereIn('id', $relatedUsers)->whereNot("id", $user->id)->get();
 
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
-        return view('dokter.konsultasi',compact('user','friendsWithId','aktor','photo') );
+        $title = 'Konsultasi';
+        return view('dokter.konsultasi', compact('user','friendsWithId','aktor','photo', 'title'));
     }
 
     public function informasiprogram(){
@@ -140,14 +143,16 @@ class DokterController extends Controller
         $latestProgram = program::latest()->take(4)->get();
 
 
-        return view('dokter.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram'));
+        $title = 'Informasi Program';
+        return view('dokter.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram', 'title'));
     }
 
 
     public function tambahartikel() {
         $user = Auth::user();
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
-        return view('dokter.tambahartikel' , compact('user','photo'));
+        $title = 'Tambah Artikel';
+        return view('dokter.tambahartikel' , compact('user','photo', 'title'));
     }
 
     public function storetambahartikel(Request $request) {
@@ -195,7 +200,8 @@ class DokterController extends Controller
         // Pisahkan artikel terbaru untuk dijadikan hero card
         $latestArticle = $artikel->shift();
 
-        return view('dokter.artikel', compact('user', 'photo', 'artikel','latestArticle'));
+        $title = 'Artikel';
+        return view('dokter.artikel', compact('user', 'photo', 'artikel','latestArticle', 'title'));
     }
     public function lihatartikel() {
         $user = Auth::user();
@@ -215,7 +221,8 @@ class DokterController extends Controller
 
         }
 
-        return view('dokter.lihatartikel', compact('user', 'photo','artikel','penulis'));
+        $title = $artikel->judul_artikel;
+        return view('dokter.lihatartikel', compact('user', 'photo','artikel','penulis', 'title'));
     }
 
     public function editartikel() {
@@ -225,7 +232,8 @@ class DokterController extends Controller
         $id_artikel = request()->query('id');
         $artikel = Artikel::findOrFail($id_artikel);
 
-        return view('dokter.editartikel', compact('user', 'photo', 'artikel'));
+        $title = 'Edit Artikel '.$artikel->judul_artikel;
+        return view('dokter.editartikel', compact('user', 'photo', 'artikel', 'title'));
     }
 
     public function storeeditartikel(Request $request) {
@@ -278,7 +286,8 @@ class DokterController extends Controller
         $program = program::latest()->get();
 
         $latestProgram = $program->shift();
-        return view('dokter.program', compact('user', 'photo','latestProgram','program'));
+        $title = 'Program';
+        return view('dokter.program', compact('user', 'photo','latestProgram','program', 'title'));
     }
 
     public function lihatprogram() {
@@ -296,7 +305,8 @@ class DokterController extends Controller
 
         // dd($jadwalprogram);
 
-        return view('dokter.lihatprogram', compact('user', 'photo','program','jadwalprogram'));
+        $title = $program->nama_program;
+        return view('dokter.lihatprogram', compact('user', 'photo','program','jadwalprogram','title'));
     }
 
     public function laporan() {
@@ -307,14 +317,16 @@ class DokterController extends Controller
 
         // Pisahkan laporan terbaru untuk dijadikan hero card
         $latestlaporan = $laporan->shift();
-        return view('dokter.laporan', compact('user', 'photo','laporan','latestlaporan'));
+        $title = 'Laporan';
+        return view('dokter.laporan', compact('user', 'photo','laporan','latestlaporan', 'title'));
     }
     public function tambahlaporan() {
         $user = Auth::user();
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         $peternak = peternak::all();
         
-        return view('dokter.tambahlaporan', compact('user', 'photo', 'peternak'));
+        $title = 'Tambah Laporan';
+        return view('dokter.tambahlaporan', compact('user', 'photo', 'peternak', 'title'));
     }
     public function storetambahlaporan(Request $request) {
         $user = Auth::user();
@@ -357,7 +369,8 @@ class DokterController extends Controller
 
         $laporan = laporan::findOrFail($id_laporan);
 
-        return view('dokter.lihatlaporan', compact('user', 'photo','laporan'));
+        $title = $laporan->judul_laporan;
+        return view('dokter.lihatlaporan', compact('user', 'photo','laporan', 'title'));
     }
 
     public function editlaporan() {
@@ -369,7 +382,8 @@ class DokterController extends Controller
         $laporan = laporan::findOrFail($id_laporan);
 
 
-        return view('dokter.editlaporan', compact('user', 'photo','laporan','peternak'));
+        $title = 'Edit Laporan';
+        return view('dokter.editlaporan', compact('user', 'photo','laporan','peternak', 'title'));
     }
 
     public function storeeditlaporan(Request $request) {

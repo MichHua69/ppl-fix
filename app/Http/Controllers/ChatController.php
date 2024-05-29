@@ -15,7 +15,7 @@ class ChatController extends Controller
     {
 
         $user = Auth::user();
-        $data["friends"] = pengguna::whereNot("id", $user->id)->where("id_role", 2)->get();
+        $data["friends"] = Pengguna::whereNot("id", $user->id)->where("id_role", 2)->get();
 
         return view("chat", compact('data','user'));
     }

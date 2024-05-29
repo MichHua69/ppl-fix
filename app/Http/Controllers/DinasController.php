@@ -33,7 +33,8 @@ class DinasController extends Controller
         $user = Auth::user();
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         // $photo = 'profil/'.$user->avatar ?? '/images/defaultprofile.png';
-        return view('dinas.dashboard', compact('user','photo'));
+        $title = 'Dashboard';
+        return view('dinas.dashboard', compact('user','photo','title'));
     }
 
     public function profil() {
@@ -45,7 +46,8 @@ class DinasController extends Controller
         // dd($aktor->alamat->wilayah->kecamatan->id);
 
         $photo = 'profil/'.$user->avatar ?? '/images/defaultprofile.png';
-        return view('dinas.profil',compact('user','aktor','photo','kecamatan','desa'));
+        $title = 'Profil';
+        return view('dinas.profil',compact('user','aktor','photo','kecamatan','desa','title'));
     }
 
     public function saveprofil(Request $request) {
@@ -54,7 +56,7 @@ class DinasController extends Controller
         $aktor = dinaspeternakan::with('pengguna')->where('id_pengguna', $user->id)->first();
 
         $validator = Validator::make($request->all(),[
-            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$request->id_pengguna,
+            'nama_pengguna' => 'required|string|max:255|unique:pengguna,nama_pengguna,'.$user->id,
             'password' => 'required|string|min:5',
             'file_input' => 'image|mimes:jpeg,png,jpg,gif,svg'
             ],
@@ -124,8 +126,9 @@ class DinasController extends Controller
 
         $photo = 'profil/'.$user->avatar ?? '/images/defaultprofile.png';
 
-
-        return view ('dinas.buatakun', compact('user', 'photo','puskeswan') );
+        
+        $title = 'Buat Akun Dokter Hewan';
+        return view ('dinas.buatakun', compact('user', 'photo','puskeswan', 'title') );
     }
     public function buatakunstore(Request $request) {
 
@@ -177,7 +180,8 @@ class DinasController extends Controller
         $peternak = peternak::with('pengguna')->get();
         // dd($peternak);
         $photo = 'profil/'.$user->avatar ?? '/images/defaultprofile.png';
-        return view ('dinas.akunpeternak', compact('user', 'photo','peternak') );
+        $title = 'Lihat Akun Peternak';
+        return view ('dinas.akunpeternak', compact('user', 'photo','peternak', 'title') );
     }
 
 
@@ -190,7 +194,8 @@ class DinasController extends Controller
         $puskeswan = puskeswan::all();
         // dd($puskeswan);
 
-        return view ('dinas.akundokter', compact('user', 'photo','aktor','puskeswan') );
+        $title = 'Lihat Akun Dokter Hewan';
+        return view ('dinas.akundokter', compact('user', 'photo','aktor','puskeswan', 'title') );
     }
 
     public function validateEdit(Request $request)
@@ -306,14 +311,16 @@ class DinasController extends Controller
         $latestArticles = artikel::latest()->take(4)->get();
         $latestProgram = program::latest()->take(4)->get();
 
-        return view('dinas.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram'));
+        $title = 'Informasi Program';
+        return view('dinas.informasiprogram', compact('user', 'photo', 'latestArticles','latestProgram', 'title'));
     }
 
 
     public function tambahartikel() {
         $user = Auth::user();
         $photo = 'profil/'.$user->avatar ?? '/images/defaultprofile.png';
-        return view('dinas.tambahartikel' , compact('user','photo'));
+        $title = 'Tambah Artikel';
+        return view('dinas.tambahartikel' , compact('user','photo', 'title'));
     }
 
     public function storetambahartikel(Request $request) {
@@ -360,7 +367,8 @@ class DinasController extends Controller
         // Pisahkan artikel terbaru untuk dijadikan hero card
         $latestArticle = $artikel->shift();
 
-        return view('dinas.artikel', compact('user', 'photo', 'artikel','latestArticle'));
+        $title = 'Artikel';
+        return view('dinas.artikel', compact('user', 'photo', 'artikel', 'latestArticle', 'title'));
     }
 
     public function lihatartikel() {
@@ -380,7 +388,8 @@ class DinasController extends Controller
 
         }
 
-        return view('dinas.lihatartikel', compact('user', 'photo','artikel','penulis'));
+        $title = $artikel->judul_artikel;
+        return view('dinas.lihatartikel', compact('user', 'photo','artikel','penulis', 'title'));
     }
 
     public function editartikel() {
@@ -389,7 +398,8 @@ class DinasController extends Controller
         $id_artikel = request()->query('id');
         $artikel = Artikel::findOrFail($id_artikel);
 
-        return view('dinas.editartikel', compact('user', 'photo', 'artikel'));
+        $title = 'Edit Artikel: ' . $artikel->judul_artikel;
+        return view('dinas.editartikel', compact('user', 'photo', 'artikel', 'title'));
     }
 
     public function storeeditartikel(Request $request) {
@@ -440,7 +450,8 @@ class DinasController extends Controller
         $photo = 'profil/'.$user->avatar ?? '/images/defaultprofile.png';
         $puskeswan = puskeswan::all();
         $numTbodies = Session::get('numTbodies', 0);
-        return view('dinas.tambahprogram' , compact('user','photo','puskeswan','numTbodies'));
+        $title = 'Tambah Program';
+        return view('dinas.tambahprogram' , compact('user','photo','puskeswan','numTbodies','title'));
     }
 
     public function storetambahprogram(Request $request) {
@@ -507,7 +518,8 @@ class DinasController extends Controller
         $program = program::latest()->get();
 
         $latestProgram = $program->shift();
-        return view('dinas.program', compact('user', 'photo','latestProgram','program'));
+        $title = 'Program';
+        return view('dinas.program', compact('user', 'photo','latestProgram','program', 'title'));
     }
 
     public function lihatprogram() {
@@ -524,7 +536,8 @@ class DinasController extends Controller
 
         // dd($jadwalprogram);
 
-        return view('dinas.lihatprogram', compact('user', 'photo','program','jadwalprogram'));
+        $title = $program->nama_program;
+        return view('dinas.lihatprogram', compact('user', 'photo','program','jadwalprogram', 'title'));
     }
 
     public function editprogram() {
@@ -541,7 +554,8 @@ class DinasController extends Controller
         session()->flash('numTbodies', $numTbodies);
         $numTbodies = Session::get('numTbodies', 0);
 
-        return view('dinas.editprogram', compact('user', 'photo', 'program','puskeswan','jadwalprogram'));
+        $title = 'Edit Program '.$program->nama_program;
+        return view('dinas.editprogram', compact('user', 'photo', 'program','puskeswan','jadwalprogram', 'title'));
     }
 
     public function storeeditprogram(Request $request) {
@@ -620,7 +634,8 @@ class DinasController extends Controller
         $desa = desa::all();
 
 
-        return view ('dinas.layanan', compact('user', 'photo','puskeswan','kecamatan','desa') );
+        $title = 'Layanan';
+        return view ('dinas.layanan', compact('user', 'photo','puskeswan','kecamatan','desa', 'title') );
     }
 
     public function tambahlayanan() {
@@ -631,7 +646,8 @@ class DinasController extends Controller
 
         $photo = 'profil/'.$user->avatar ?? '/images/defaultprofile.png';
 
-        return view ('dinas.tambahlayanan', compact('user', 'photo','puskeswan','kecamatan','desa') );
+        $title = 'Tambah Layanan';
+        return view ('dinas.tambahlayanan', compact('user', 'photo','puskeswan','kecamatan','desa', 'title') );
     }
 
     public function storetambahlayanan(Request $request) {
@@ -744,7 +760,8 @@ class DinasController extends Controller
 
         // Pisahkan laporan terbaru untuk dijadikan hero card
         $latestlaporan = $laporan->shift();
-        return view('dinas.laporan', compact('user', 'photo','laporan','latestlaporan'));
+        $title = 'Laporan';
+        return view('dinas.laporan', compact('user', 'photo','laporan','latestlaporan', 'title'));
     }
 
     public function lihatlaporan() {
@@ -758,21 +775,24 @@ class DinasController extends Controller
         }
 
         $laporan = laporan::findOrFail($id_laporan);
-        
-        return view('dinas.lihatlaporan', compact('user', 'photo','laporan'));
+        dd($laporan);
+        $title = $laporan->judul_laporan;
+        return view('dinas.lihatlaporan', compact('user', 'photo','laporan', 'title'));
     }
 
     public function notifikasi() {
         $user = Auth::user();
         $photo = 'profil/'.$user->avatar ?? '/images/defaultprofile.png';
         $notifikasi = notifikasi::latest()->get();
-        return view ('dinas.notifikasi', compact('user', 'photo','notifikasi') );
+        $title = 'Notifikasi';
+        return view ('dinas.notifikasi', compact('user', 'photo','notifikasi', 'title') );
     }
     public function tambahnotifikasi() {
         $user = Auth::user();
         $photo = 'profil/'.$user->avatar ?? '/images/defaultprofile.png';
         $notifikasi = notifikasi::latest()->get();
-        return view ('dinas.tambahnotifikasi', compact('user', 'photo','notifikasi') );
+        $title = 'Tambah Notifikasi';
+        return view ('dinas.tambahnotifikasi', compact('user', 'photo','notifikasi', 'title') );
     }
 
     public function pusher(Request $request) {
