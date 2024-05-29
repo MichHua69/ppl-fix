@@ -20,7 +20,7 @@
             <h2 class="text-5xl font-bold mb-4 grid grid-row-15 row-span-1">Tambah PUSKESWAN</h2>
             <form action="{{route('dinas.storetambahlayanan')}}" method="post">
               @csrf
-              <div class="p-8">
+              <div class="py-8">
                 <div class="flex flex-col mb-4 w-full justify-between ">
                   <label class="basis-3/12 font-semibold text-xl" for="puskeswan">
                       Nama PUSKESWAN

@@ -86,7 +86,6 @@ $(document).on("click", ".kanan", function () {
     refreshFriendList();
 });
 
-
 // function createRoom(friendId, avatar) {
 //     let url = document.getElementById("room-url").value;
 //     let formData = new FormData();
@@ -299,5 +298,42 @@ function loadMessage(roomId, friendId, avatar) {
         })
         .catch(function (error) {
             console.error("Gagal memuat pesan:", error);
+        });
+}
+
+function sendMessage(message, roomId) {
+    let url = document.getElementById("messsage-url").value;
+    let formData = new FormData();
+    formData.append("roomId", roomId);
+    // console.log(roomId);
+    formData.append("message", message);
+    axios
+        .post(url, formData)
+        .then(function (res) {
+            // Komentari baris ini untuk menyembunyikan respons dari konsol
+            // console.log(res);
+            var emptyMessage = document.querySelector(
+                "#chat-area p[style='text-align:center;']"
+            );
+            if (emptyMessage) {
+                emptyMessage.remove();
+            }
+            let html =
+                '<div id="your-chat" class="your-chat">\n' +
+                '    <p class="your-chat-balloon">' +
+                message +
+                "</p>\n" +
+                "</div>";
+            var chatBody = document.querySelector("#chat-area");
+            chatBody.insertAdjacentHTML("beforeend", html);
+            chatBody.scrollTo({
+                left: 0,
+                top: chatBody.scrollHeight,
+                behavior: "smooth",
+            });
+        })
+        .catch(function (error) {
+            // Handle error
+            console.error("Error sending message:", error);
         });
 }

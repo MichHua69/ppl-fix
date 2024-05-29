@@ -40,7 +40,7 @@
         </button>
       </div>
         <img class="absolute h-full right-0" src="/images/vector.png" alt="">
-        <img class="absolute bottom-0 right-0" src="/images/sapi.png" alt="">        
+        <img class="absolute h-1/2 bottom-0 right-0" src="/images/sapi.png" alt="">        
     </div>
        
 
