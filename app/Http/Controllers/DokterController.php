@@ -39,7 +39,7 @@ class DokterController extends Controller
 
 
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
-        
+
         $title = 'Profil';
         return view('dokter.profil',compact('user','aktor','photo','kecamatan','desa', 'title'));
     }
@@ -66,9 +66,9 @@ class DokterController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
-    
+
         // Handle avatar upload
-        
+
         $aktor->pengguna->nama_pengguna = $request->nama_pengguna;
         $aktor->pengguna->password = Hash::make($request->password);
         $aktor->pengguna->save();
@@ -114,25 +114,42 @@ class DokterController extends Controller
     }
 
     public function konsultasi(Request $request)
-    {
+{
+    // Mendapatkan pengguna yang sedang masuk
+    $user = Auth::user();
 
-        $user = Auth::user();
+    // Mengambil data dokter hewan yang terkait dengan pengguna
+    $aktor = Dokterhewan::with('pengguna', 'alamat')->where('id_pengguna', $user->id)->first();
 
-        $aktor = dokterhewan::with('pengguna', 'alamat')->where('id_pengguna', $user->id)->first();
-        // dd($aktor);
-        // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
-        $relatedUsers = Percakapan::pluck('users')->unique()->map(function ($item) {
-            return explode(':', $item);
-        })->flatten()->unique();
+    // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
+    $relatedUsers = Percakapan::pluck('users')
+        ->unique()
+        ->map(function ($item) use ($user) {
+            // Memisahkan entri berdasarkan tanda titik dua (:)
+            $ids = explode(':', $item);
+            // Memeriksa apakah $user->id ada dalam entri
+            return in_array($user->id, $ids) ? $ids : null;
+        })
+        ->filter() // Menghapus entri yang tidak sesuai
+        ->flatten()
+        ->unique();
 
-        // $data["friends"] = pengguna::whereNot("id", $user->id)->get();
+    // Mengambil daftar teman yang memiliki id_role 3 dan terkait dengan percakapan, kecuali pengguna yang sedang masuk
+    $friendsWithId = Pengguna::where('id_role', 3)
+        ->whereIn('id', $relatedUsers)
+        ->whereNot('id', $user->id)
+        ->get();
 
-        $friendsWithId = Pengguna::where('id_role', 3)->whereIn('id', $relatedUsers)->whereNot("id", $user->id)->get();
+    // Menentukan foto profil pengguna, default ke 'defaultprofile.png' jika tidak ada avatar
+    $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
-        $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
-        $title = 'Konsultasi';
-        return view('dokter.konsultasi', compact('user','friendsWithId','aktor','photo', 'title'));
-    }
+    // Menentukan judul halaman
+    $title = 'Konsultasi';
+
+    // Mengirim data ke tampilan 'dokter.konsultasi'
+    return view('dokter.konsultasi', compact('user', 'friendsWithId', 'aktor', 'photo', 'title'));
+}
+
 
     public function informasiprogram(){
         $user = Auth::user();
@@ -293,7 +310,7 @@ class DokterController extends Controller
     public function lihatprogram() {
         $user = Auth::user();
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
-        
+
         $id_artikel = request()->query('id');
 
         if (!$id_artikel) {
@@ -324,7 +341,7 @@ class DokterController extends Controller
         $user = Auth::user();
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         $peternak = peternak::all();
-        
+
         $title = 'Tambah Laporan';
         return view('dokter.tambahlaporan', compact('user', 'photo', 'peternak', 'title'));
     }
@@ -360,7 +377,7 @@ class DokterController extends Controller
         $user = Auth::user();
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
 
-        
+
         $id_laporan = request()->query('id');
 
         if (!$id_laporan) {
@@ -398,11 +415,11 @@ class DokterController extends Controller
             'isi.required' => 'Isi Laporan wajib diisi',
             'peternak.required' => 'Peternak wajib diisi',
         ]);
-        
+
         if($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
         $laporan = Laporan::findOrFail($id_laporan);
         // Mengupdate laporan
         $laporan->judul_laporan = $request->judul;

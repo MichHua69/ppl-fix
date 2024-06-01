@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\desa;
-use App\Events\Notif;   
+use App\Events\Notif;
 use App\Models\pesan;
 use App\Models\artikel;
 use App\Models\laporan;
@@ -31,7 +31,7 @@ class PeternakController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
+
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
         $notifikasi = notifikasi::latest()->get();
 
@@ -87,20 +87,20 @@ class PeternakController extends Controller
                 'file_input' => ['image' => 'File harus berupa gambar.'],
                 'billing_same' => 'accepted',
             ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
-    
+
         // Handle avatar upload
         $wilayah = wilayah::where('id_kecamatan', intval($request->kecamatan))->where('id_desa', intval($request->desa))->first();
-    
+
         $aktor->alamat->jalan = $request->alamat;
         $aktor->alamat->id_wilayah = $wilayah->id;
         $aktor->telepon = $request->telepon;
         $aktor->pengguna->nama_pengguna = $request->nama_pengguna;
         $aktor->pengguna->password = Hash::make($request->password);
-        
+
         $aktor->alamat->save();
         $aktor->pengguna->save();
         $aktor->save();
@@ -157,9 +157,17 @@ class PeternakController extends Controller
         $aktor = Peternak::with('pengguna', 'alamat')->where('id_pengguna', $user->id)->first();
 
         // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
-        $relatedUsers = Percakapan::pluck('users')->unique()->map(function ($item) {
-            return explode(':', $item);
-        })->flatten()->unique();
+        $relatedUsers = Percakapan::pluck('users')
+        ->unique()
+        ->map(function ($item) use ($user) {
+            // Memisahkan entri berdasarkan tanda titik dua (:)
+            $ids = explode(':', $item);
+            // Memeriksa apakah $user->id ada dalam entri
+            return in_array($user->id, $ids) ? $ids : null;
+        })
+        ->filter() // Menghapus entri yang tidak sesuai
+        ->flatten()
+        ->unique();
 
         // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
         $friendsWithId = Pengguna::whereIn('id', $relatedUsers)->with('dokterhewan')->whereNot("id", $user->id)->get();
@@ -183,9 +191,17 @@ class PeternakController extends Controller
         $aktor = Peternak::with('pengguna', 'alamat')->where('id_pengguna', $user->id)->first();
 
         // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
-        $relatedUsers = Percakapan::pluck('users')->unique()->map(function ($item) {
-            return explode(':', $item);
-        })->flatten()->unique();
+        $relatedUsers = Percakapan::pluck('users')
+        ->unique()
+        ->map(function ($item) use ($user) {
+            // Memisahkan entri berdasarkan tanda titik dua (:)
+            $ids = explode(':', $item);
+            // Memeriksa apakah $user->id ada dalam entri
+            return in_array($user->id, $ids) ? $ids : null;
+        })
+        ->filter() // Menghapus entri yang tidak sesuai
+        ->flatten()
+        ->unique();
 
         // Mendapatkan daftar pengguna yang terkait dengan kolom "users" dalam tabel percakapan
         $friendsWithId = Pengguna::whereIn('id', $relatedUsers)->with('dokterhewan')->whereNot("id", $user->id)->get();
@@ -235,7 +251,7 @@ class PeternakController extends Controller
     public function lihatartikel() {
         $user = Auth::user();
         $photo = $user->avatar ? 'profil/'.$user->avatar : '/images/defaultprofile.png';
-        
+
         $id_artikel = request()->query('id');
 
         if (!$id_artikel) {
@@ -332,5 +348,5 @@ class PeternakController extends Controller
             'data' => $notifikasi,
         ]);
     }
-    
+
 }

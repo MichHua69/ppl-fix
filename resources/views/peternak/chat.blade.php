@@ -190,10 +190,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search-dropdown');
             const friends = document.querySelectorAll('.rooms');
-    
+
             searchInput.addEventListener('input', function() {
                 const query = searchInput.value.toLowerCase();
-    
+
                 friends.forEach(friend => {
                     const name = friend.getAttribute('data-name').toLowerCase();
                     if (name.includes(query)) {
@@ -209,7 +209,7 @@
             });
         });
     </script>
-    
+
 
 
 
